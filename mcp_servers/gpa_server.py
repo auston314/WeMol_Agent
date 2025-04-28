@@ -2,6 +2,7 @@ from mcp.server.fastmcp import FastMCP
 from starlette.applications import Starlette
 from starlette.routing import Mount
 import uvicorn
+import json
 
 # Create an MCP server with increased timeout
 mcp = FastMCP("gpa_server")
@@ -40,17 +41,21 @@ def check_student_gpa(student_name: str) -> any:
         return 0
 
 @mcp.tool()
-def off_school_request(off_type, start_date: str, end_date) -> any:
+def off_school_request(off_type: str, start_date: str, end_date: str) -> any:
     """Off school request with off type, start date and end date for the off_school.
     args:
        off_type: the off_school type (sick time, field trip or college visit).
-       start_date: the off school starting date. The date will be in mm-dd-yyyy format. For example 05-10-2025.
-       end_date: the off school ending date. The date should also be in mm-dd-yyyy format. 
+       start_date: the off school starting date. The date will be in yyyy-mm-dd format. For example 2025-05-10.
+       end_date: the off school ending date. The date should also be in yyyy-mm-dd format. 
     return:
-       a json string like {"off_type": "college visit", "start_date": "04-23-2025", "end_date": "04-26-2025"}
+       a json string like {"off_type": "college visit", "start_date": "2025-04-23", "end_date": "2025-04-26"}
     """
-    return {"off_type": off_type, "start_date": start_date, "end_date": end_date}
-
+    payload = {
+        "off_type": off_type,
+        "start_date": start_date,
+        "end_date": end_date
+    }
+    return "Here is your off school info: " + json.dumps(payload)
 
 # Mount the MCP SSE app at root
 app = Starlette(routes=[

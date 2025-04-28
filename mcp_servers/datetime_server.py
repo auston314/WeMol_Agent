@@ -10,7 +10,7 @@ mcp = FastMCP("time_date_server")
 @mcp.tool()
 def get_current_time():
     """Get the local date and time in ISO 8601 format."""
-    return datetime.now().isoformat()
+    return "The local time and date is " + datetime.now().isoformat()
 
 
 # Mount the MCP SSE app at root
