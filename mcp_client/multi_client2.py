@@ -1,20 +1,18 @@
 import asyncio
 import sys
-import yaml
-import argparse
 import json
+import argparse
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from contextlib import AsyncExitStack
 
-from mcp import ClientSession, Tool
-from mcp.client.sse import sse_client               # SSE transport for MCP
-from anthropic import Anthropic
-import httpx
-import openai
-from openai import AzureOpenAI, OpenAI
-from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv
+from anthropic import Anthropic
+from openai import OpenAI
+
+from mcp import ClientSession, Tool
+from mcp.client.sse import sse_client
+from mcp.client.stdio import stdio_client, StdioServerParameters
 
 load_dotenv()  # load environment variables from .env
 
@@ -35,70 +33,84 @@ class MultiServerMCPClient:
         self.all_tools: List[Dict[str, Any]] = []
         self.exit_stack = AsyncExitStack()
         self.connected: List[str] = []
-        self.claude_model0 = "claude-3-5-sonnet-20240620"
         self.claude_model = "claude-3-7-sonnet-latest"
 
         self.provider = provider.lower()
         if self.provider == "azure":
             if not azure_config:
                 raise ValueError("Azure provider requires azure_config")
-            # http_client = httpx.Client(verify=azure_config.get("verify", True))
-            # credential = DefaultAzureCredential()
-            # def azure_token_provider() -> str:
-            #     tok = credential.get_token("https://cognitiveservices.azure.com/.default")
-            #     return tok.token
-
-            # self.llm = AzureOpenAI(
-            #     api_version=azure_config["api_version"],
-            #     azure_endpoint=azure_config["azure_endpoint"],
-            #     azure_ad_token_provider=azure_token_provider,
-            #     http_client=http_client,
-            #     timeout=azure_config.get("timeout", 600),
-            #     max_retries=azure_config.get("max_retries", 5),
-            # )
-            # self.azure_model = azure_config.get("model")
             self.llm = OpenAI()
             self.azure_model = "gpt-4o"
-            # will be populated after connect_to_servers()
             self.all_functions: Optional[List[Dict[str, Any]]] = None
-
         else:
             self.llm = Anthropic()
 
-    async def connect_to_servers(self, server_urls: List[str]):
+    async def connect_to_servers(self, servers: Dict[str, Dict[str, Any]]):
+        """
+        servers: {
+          "<name>": {
+             // for SSE-only:
+             "url": "http://…/sse"
+             // or for STDIO:
+             "command": "/full/path/to/python",
+             "args": ["…","…"]
+          },
+          …
+        }
+        """
         print("🔗 Connecting to MCP servers:")
         aggregated: List[Tool] = []
 
-        for url in server_urls:
-            print(f"  • {url}")
+        for name, info in servers.items():
+            url = info.get("url")
+            print(f"  • {name}")
             try:
-                receive, send = await self.exit_stack.enter_async_context(
-                    sse_client(url=url)
-                )
+                if url:
+                    # —— SSE Mode —— (exactly as original)
+                    print(f"      SSE → {url}")
+                    receive, send = await self.exit_stack.enter_async_context(
+                        sse_client(url=url)
+                    )
+                else:
+                    # —— STDIO Mode ——
+                    cmd = info["command"]
+                    args = info.get("args", [])
+                    print(f"      STDIO → {cmd} {args}")
+                    params = StdioServerParameters(
+                        command=cmd,
+                        args=args,
+                        env=None
+                    )
+                    receive, send = await self.exit_stack.enter_async_context(
+                        stdio_client(params)
+                    )
+
+                # wrap into MCP session
                 session = await self.exit_stack.enter_async_context(
                     ClientSession(receive, send)
                 )
                 await session.initialize()
 
+                # discover and register tools
                 resp = await session.list_tools()
-                names = [t.name for t in resp.tools]
-                print(f"    → Tools: {names}")
+                tool_names = [t.name for t in resp.tools]
+                print(f"    → Tools on {name}: {tool_names}")
 
-                self.sessions[url] = session
-                self.connected.append(url)
+                self.sessions[name] = session
+                self.connected.append(name)
                 for t in resp.tools:
                     if t.name in self.tool_to_session:
                         print(f"    ⚠️ Overwriting tool {t.name}")
                     self.tool_to_session[t.name] = session
                     aggregated.append(t)
 
-            except Exception as e:
-                print(f"    ✖ Failed: {e}")
+            except Exception as exc:
+                print(f"    ✖ Failed to connect {name}: {exc}")
 
         if not self.sessions:
             raise ConnectionError("No MCP servers connected!")
 
-        # Prepare Anthropic tools payload
+        # Prepare Anthropic tools list
         self.all_tools = [
             {"name": t.name, "description": t.description, "input_schema": t.inputSchema}
             for t in aggregated
@@ -106,41 +118,38 @@ class MultiServerMCPClient:
         print(f"\n✅ Connected to {len(self.connected)} server(s).")
         print("   Available tools:", list(self.tool_to_session.keys()))
 
-        # Prepare OpenAI functions payload
+        # Prepare OpenAI function schemas
         if self.provider == "azure":
             self.all_functions = [
                 {
-                    "name": t["name"],
-                    "description": t["description"],
-                    "parameters": t["input_schema"],
+                    "type": "function",
+                    "function": {
+                        "name": tool.name,
+                        "description": tool.description,
+                        "parameters": tool.inputSchema,
+                    },
                 }
-                for t in self.all_tools
+                for tool in aggregated
             ]
 
     async def process_query(self, query: str) -> str:
         if not self.sessions:
             return "Error: no MCP servers connected."
 
-        messages: List[Dict[str, Any]] = [{"role": "user", "content": query}]
+        messages: List[Dict[str, Any]] = [{"role": "user", "content": query}, {"role": "user", "content": "Don't repeat the same tool calls multiple times if it is not necessary"}]
         output_parts: List[str] = []
         tool_log: List[Dict[str, Any]] = []
-        #print("Process query:", query)
-        # -------- Anthropic branch --------
+
+        # —— Anthropic branch —— 
         if self.provider == "anthropic":
             resp_raw = self.llm.messages.create(
                 model=self.claude_model,
                 max_tokens=1500,
                 messages=messages,
-                tools=(self.all_tools or None),
+                tools=self.all_tools or None,
+                temperature=0.0,
             )
             resp = LLMResponse(resp_raw.role, resp_raw.content, resp_raw.stop_reason)
-            #print("resp = ", resp)
-            if not resp.content:
-                raise ValueError("No response from Anthropic")
-            if resp.stop_reason == "function_call":
-                raise ValueError("Function call not supported in this branch")
-            #print("resp.content = ", resp.content)
-
             messages.append({"role": resp.role, "content": resp.content})
 
             while resp.stop_reason == "tool_use":
@@ -154,18 +163,13 @@ class MultiServerMCPClient:
                         if name in self.tool_to_session:
                             try:
                                 result = await self.tool_to_session[name].call_tool(name, args)
-                                text_out = "".join(getattr(c, "text", "") for c in (result.content or []))
-                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": text_out})
-                                tool_log.append({"tool": name, "input": args, "output": text_out})
+                                out = "".join(getattr(c, "text", "") for c in (result.content or []))
+                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": out})
+                                tool_log.append({"tool": name, "input": args, "output": out})
                             except Exception as e:
                                 err = f"Error: {e}"
                                 calls.append({"type": "tool_result", "tool_use_id": cid, "content": err, "is_error": True})
                                 tool_log.append({"tool": name, "input": args, "error": str(e)})
-                        else:
-                            err = f"Tool {name} not found"
-                            calls.append({"type": "tool_result", "tool_use_id": cid, "content": err, "is_error": True})
-                            tool_log.append({"tool": name, "input": args, "error": "not_found"})
-
                 if not calls:
                     break
 
@@ -174,13 +178,13 @@ class MultiServerMCPClient:
                     model=self.claude_model,
                     max_tokens=1500,
                     messages=messages,
-                    tools=(self.all_tools or None),
+                    tools=self.all_tools or None,
+                    temperature=0.0,
                 )
-                resp = LLMResponse(resp_raw.role, resp_raw.content, resp_raw.stop_reason)       
-                #print("resp = ", resp)
+                resp = LLMResponse(resp_raw.role, resp_raw.content, resp_raw.stop_reason)
                 messages.append({"role": resp.role, "content": resp.content})
 
-            for block in resp.content or []:
+            for block in (resp.content or []):
                 if block.type == "text":
                     output_parts.append(block.text)
 
@@ -193,160 +197,50 @@ class MultiServerMCPClient:
                 final += "\n-----------------"
             return final
 
-        # -------- Azure‐OpenAI branch with functions --------
+        # —— Azure‐OpenAI branch —— 
         else:
-            #print("OpenAI branch goes here ...............")
-            # Hardcoded for now
-            tools = [
-                {
-                    "type": "function",
-                    "function": {
-                        "name": "get_current_time",
-                        "description": "Get the local date and time in ISO 8601 format.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {},
-                        },
-                    },
-                },
-                {
-                    "type": "function",
-                    "function": {
-                        "name": "check_student_gpa",
-                        "description": "Check a student's GPA by student's name. Return 0 if not found.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "student_name": {
-                                     "type": "string",
-                                     "description": "The name of the student, eg. John Doe.",
-                                },
-                            },
-                        },
-                        "required": ["student_name"],
-                    },
-                },
-                {
-                    "type": "function",
-                    "function": {
-                        "name": "off_school_request",
-                        "description": "Off school request with off type, start date and end date for the off_school",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "off_type": {
-                                    "type": "string",
-                                    "description": "The type of off school, eg. sick time, field trip or college visit.",
-                                    "enum": ["sick time", "field trip", "college visit"],
-                                },
-                                "start_date": {
-                                    "type": "string", 
-                                    "description": "The start date of the off school, eg. 2025-04-27.",
-                                },
-                                "end_date": {
-                                    "type": "string",
-                                    "description": "The end date of the off school, eg. 2025-04-30.",
-                                },
-                            },
-                            "required": ["off_type","start_date", "end_date"],
-                        },
-                    },
-                },                 
-            ]   
-            azure_kwargs: Dict[str, Any] = {}
-            if self.azure_model:
-                azure_kwargs["deployment_id"] = self.azure_model
-
-            functions = self.all_functions or None
-
-            # print("model = ", self.azure_model)
-            # print("functions = ", functions)
-            # print("messages = ", messages)
-            model = "gpt-4o"
-            # print("all_functions = ", self.all_functions)
-            # print("all_tools = ", self.all_tools)
-            # initial request
+            tools = self.all_functions
             resp_raw = self.llm.chat.completions.create(
                 messages=messages,
-                model = model,
-                tools = tools,
+                model=self.azure_model,
+                tools=tools or None,
+                temperature = 0.0
             )
             msg = resp_raw.choices[0].message
-            #print("msg = ", msg)
             azure_resp = LLMResponse(msg.role, msg.content, resp_raw.choices[0].finish_reason)
 
             final_output = ""
-            while (azure_resp.stop_reason == "tool_calls"):
-                # Find the tools in the response
-                msg = resp_raw.choices[0].message
-                print("Tool calls found in the response", msg.tool_calls)
+            while azure_resp.stop_reason == "tool_calls":
                 calls: List[Dict[str, Any]] = []
-
-                for tool_call in msg.tool_calls:
-                    print("Tool call = ", tool_call)
-                    if tool_call.type == "function":
-                        name = tool_call.function.name
-                        args = json.loads(tool_call.function.arguments)
-                        print(f"    ▶ Function call: {name} {args!r}")
-                        cid = tool_call.id
+                for tc in msg.tool_calls:
+                    if tc.type == "function":
+                        name = tc.function.name
+                        args = json.loads(tc.function.arguments)
+                        cid = tc.id
+                        print(f"    ▶ Function call: {name}({args})")
                         if name in self.tool_to_session:
                             try:
                                 result = await self.tool_to_session[name].call_tool(name, args)
-                                print("result = ", result)
-                                text_out = "".join(getattr(c, "text", "") for c in (result.content or []))
-                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": text_out})
-                                tool_log.append({"tool": name, "input": args, "output": text_out})
-                                final_output += text_out + "\n"
+                                out = "".join(getattr(c, "text", "") for c in (result.content or []))
+                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": out})
+                                final_output += out + "\n"
                             except Exception as e:
-                                #print(f"Error calling tool {name}: {e}")
-                                text_out = f"Error: {e}"
-                        else:
-                            text_out = f"Tool {name} not found"
-
-                        tool_log.append({"tool": name, "input": args, "output": text_out})
+                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": f"Error: {e}"})
                 if not calls:
-                    #print("No calls found, break")
                     break
 
-                print("text_out = ", text_out)
-                print("Make final LLM call")
-                print("calls = ", calls)
-                if (calls):
-                    messages.append({"role": "assistant", "content": str(calls)})
-                print("messages = ", len(messages))
-                print("model = ", model)
-                print("messages = ", messages)
-                print("tools = ", tools)
-                #messages.append({"role": "user", "content": "Give me the final answer based on the provided context"})
-                try:
-                    resp_raw = self.llm.chat.completions.create(
-                        model=model,
-                        max_tokens=1500,
-                        messages=messages,
-                        tools=(tools or None),
-                    )
-                    print("resp_raw = ", resp_raw)
-                    msg = resp_raw.choices[0].message
-                    azure_resp = LLMResponse(msg.role, msg.content, resp_raw.choices[0].finish_reason)
-                    print("azure_resp = ", azure_resp)
-                    #azure_resp = LLMResponse(resp_raw.role, resp_raw.content, resp_raw.stop_reason)
-                    if(azure_resp.content):
-                        messages.append({"role": azure_resp.role, "content": azure_resp.content})
-                except Exception as e:
-                    print(f"Error calling LLM: {e}")
-                    break
-                #print("azure_resp = ", azure_resp)
+                messages.append({"role": "assistant", "content": str(calls)})
+                resp_raw = self.llm.chat.completions.create(
+                    messages=messages,
+                    model=self.azure_model,
+                    tools=tools or None,
+                    temperature=0.0
+                )
+                msg = resp_raw.choices[0].message
+                azure_resp = LLMResponse(msg.role, msg.content, resp_raw.choices[0].finish_reason)
+                if azure_resp.content:
+                    messages.append({"role": azure_resp.role, "content": azure_resp.content})
 
-            # output_parts.append(azure_resp.content)
-            # #print("output_parts = ", output_parts)
-            # final = "\n".join(output_parts)
-            # if tool_log:
-            #     final += "\n\n--- Tool Calls ---"
-            #     for tr in tool_log:
-            #         res = tr.get("output", f"Error: {tr.get('error')}")
-            #         final += f"\n• {tr['tool']}({tr['input']}) → {res}"
-            #     final += "\n-----------------"
-            print("final = ", final_output)
             return final_output
 
     async def chat_loop(self):
@@ -373,7 +267,7 @@ async def main():
     parser = argparse.ArgumentParser(description="Multi-Server MCP Client")
     parser.add_argument(
         "--config", "-c", type=Path, required=True,
-        help="YAML file listing MCP servers and (for Azure) LLM settings"
+        help="JSON file listing MCP servers (either `url` for SSE or `command`+`args` for STDIO)"
     )
     parser.add_argument(
         "--provider", "-p",
@@ -383,25 +277,15 @@ async def main():
     )
     args = parser.parse_args()
 
-    cfg = yaml.safe_load(args.config.read_text())
-    servers = cfg.get("mcp_servers", [])
+    cfg = json.loads(args.config.read_text())
+    servers = cfg.get("mcpServers", {})
     if not servers:
         print(f"No servers in {args.config}", file=sys.stderr)
         sys.exit(1)
 
-    azure_config = None
-    if args.provider == "azure":
-        azure_config = {"timeout": 600}
-        # azure_config = {
-        #     "azure_endpoint": cfg["azure_endpoint"],
-        #     "api_version": cfg["azure_api_version"],
-        #     "verify": cfg.get("azure_verify", True),
-        #     "model": cfg.get("azure_model"),
-        #     "timeout": cfg.get("azure_timeout", 600),
-        #     "max_retries": cfg.get("azure_max_retries", 5),
-        # }
-
+    azure_config = {"timeout": 600} if args.provider == "azure" else None
     client = MultiServerMCPClient(provider=args.provider, azure_config=azure_config)
+
     try:
         await client.connect_to_servers(servers)
         await client.chat_loop()
@@ -410,3 +294,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+

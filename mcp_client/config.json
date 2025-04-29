@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "time_date_server": {
+      "command": "/Users/chemxai/GenAI/mcp_servers/.venv/bin/python",
+      "args": [
+        "/Users/chemxai/GenAI/mcp_servers/time_server.py"
+      ]
+    },
+    "pto_server": {
+      "command": "/Users/chemxai/GenAI/mcp_servers/.venv/bin/python",
+      "args": [
+        "/Users/chemxai/GenAI/mcp_servers/pto_server.py"
+      ]
+    },
+    "gpa_server": {
+       "url": "http://localhost:3000/sse"
+    }
+  }
+}
