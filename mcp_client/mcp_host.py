@@ -16,17 +16,11 @@ from mcp.client.stdio import stdio_client, StdioServerParameters
 
 load_dotenv()  # load environment variables from .env
 
-class LLMResponse:
-    def __init__(self, role: str, content: Any, stop_reason: Optional[str] = None):
-        self.role = role
-        self.content = content
-        self.stop_reason = stop_reason
-
-class MultiServerMCPClient:
+class MCPHost:
     def __init__(
         self,
         provider: str,
-        azure_config: Optional[Dict[str, Any]] = None,
+        llm_config: Optional[Dict[str, Any]] = None,
     ):
         self.sessions: Dict[str, ClientSession] = {}
         self.tool_to_session: Dict[str, ClientSession] = {}
@@ -36,26 +30,30 @@ class MultiServerMCPClient:
         self.claude_model = "claude-3-7-sonnet-latest"
 
         self.provider = provider.lower()
-        if self.provider == "azure":
-            if not azure_config:
-                raise ValueError("Azure provider requires azure_config")
+        if self.provider == "openai":
+            if not llm_config:
+                raise ValueError("OpenAI provider requires llm_config")
             self.llm = OpenAI()
-            self.azure_model = "gpt-4o"
+            self.openai_model = "gpt-4o"
             self.all_functions: Optional[List[Dict[str, Any]]] = None
         else:
             self.llm = Anthropic()
 
-    async def connect_to_servers(self, servers: Dict[str, Dict[str, Any]]):
+    async def connect_mcp_servers(self, servers: Dict[str, Dict[str, Any]]):
         """
-        servers: {
-          "<name>": {
-             // for SSE-only:
-             "url": "http://…/sse"
-             // or for STDIO:
-             "command": "/full/path/to/python",
-             "args": ["…","…"]
-          },
-          …
+        MCP server configuration example:
+        {
+            "mcpServers": {
+                # server1: STDIO mode
+                "server1": {
+                    "command": "full_path_to_python",
+                    "args": ["full_path_to_mcp_server.py"]
+                },
+                # server2: SSE mode
+                "server2": {
+                    "url": "http://localhost:8001/sse"
+                }
+            }
         }
         """
         print("🔗 Connecting to MCP servers:")
@@ -119,8 +117,8 @@ class MultiServerMCPClient:
         print("   Available tools:", list(self.tool_to_session.keys()))
 
         # Prepare OpenAI function schemas
-        if self.provider == "azure":
-            self.all_functions = [
+        if self.provider == "openai":
+            self.all_tools = [
                 {
                     "type": "function",
                     "function": {
@@ -134,46 +132,15 @@ class MultiServerMCPClient:
 
     async def process_query(self, query: str) -> str:
         if not self.sessions:
-            return "Error: no MCP servers connected."
+            return "Error: No MCP servers connected."
 
-        messages: List[Dict[str, Any]] = [{"role": "user", "content": query}, {"role": "user", "content": "Don't repeat the same tool calls multiple times if it is not necessary"}]
+        messages: List[Dict[str, Any]] = [{"role": "user", "content": query}]
         output_parts: List[str] = []
         tool_log: List[Dict[str, Any]] = []
 
         # —— Anthropic branch —— 
         if self.provider == "anthropic":
-            resp_raw = self.llm.messages.create(
-                model=self.claude_model,
-                max_tokens=1500,
-                messages=messages,
-                tools=self.all_tools or None,
-                temperature=0.0,
-            )
-            resp = LLMResponse(resp_raw.role, resp_raw.content, resp_raw.stop_reason)
-            messages.append({"role": resp.role, "content": resp.content})
-
-            while resp.stop_reason == "tool_use":
-                calls: List[Dict[str, Any]] = []
-                for block in resp.content:
-                    if block.type == "text":
-                        output_parts.append(block.text)
-                    elif block.type == "tool_use":
-                        name, args, cid = block.name, block.input, block.id
-                        print(f"    ▶ Tool call: {name}({args})")
-                        if name in self.tool_to_session:
-                            try:
-                                result = await self.tool_to_session[name].call_tool(name, args)
-                                out = "".join(getattr(c, "text", "") for c in (result.content or []))
-                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": out})
-                                tool_log.append({"tool": name, "input": args, "output": out})
-                            except Exception as e:
-                                err = f"Error: {e}"
-                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": err, "is_error": True})
-                                tool_log.append({"tool": name, "input": args, "error": str(e)})
-                if not calls:
-                    break
-
-                messages.append({"role": "user", "content": calls})
+            try:
                 resp_raw = self.llm.messages.create(
                     model=self.claude_model,
                     max_tokens=1500,
@@ -181,65 +148,117 @@ class MultiServerMCPClient:
                     tools=self.all_tools or None,
                     temperature=0.0,
                 )
-                resp = LLMResponse(resp_raw.role, resp_raw.content, resp_raw.stop_reason)
-                messages.append({"role": resp.role, "content": resp.content})
+                messages.append({"role": resp_raw.role, "content": resp_raw.content})
 
-            for block in (resp.content or []):
-                if block.type == "text":
-                    output_parts.append(block.text)
+                while resp_raw.stop_reason == "tool_use":
+                    calls: List[Dict[str, Any]] = []
+                    for block in resp_raw.content:
+                        if block.type == "text":
+                            output_parts.append(block.text)
+                        elif block.type == "tool_use":
+                            name, args, cid = block.name, block.input, block.id
+                            print(f"    ▶ Tool call: {name}({args})")
+                            if name in self.tool_to_session:
+                                try:
+                                    result = await self.tool_to_session[name].call_tool(name, args)
+                                    out = "".join(getattr(c, "text", "") for c in (result.content or []))
+                                    calls.append({"type": "tool_result", "tool_use_id": cid, "content": out})
+                                    tool_log.append({"tool": name, "input": args, "output": out})
+                                except Exception as e:
+                                    err = f"Error: {e}"
+                                    calls.append({"type": "tool_result", "tool_use_id": cid, "content": err, "is_error": True})
+                                    tool_log.append({"tool": name, "input": args, "error": str(e)})
+                    if not calls:
+                        break
 
-            final = "\n".join(output_parts)
-            if tool_log:
-                final += "\n\n--- Tool Calls ---"
-                for tr in tool_log:
-                    res = tr.get("output", f"Error: {tr.get('error')}")
-                    final += f"\n• {tr['tool']}({tr['input']}) → {res}"
-                final += "\n-----------------"
-            return final
+                    messages.append({"role": "user", "content": calls})
+                    resp_raw = self.llm.messages.create(
+                        model=self.claude_model,
+                        max_tokens=1500,
+                        messages=messages,
+                        tools=self.all_tools or None,
+                        temperature=0.0,
+                    )
+                    messages.append({"role": resp_raw.role, "content": resp_raw.content})
+                for block in (resp_raw.content or []):
+                    if block.type == "text":
+                        output_parts.append(block.text)
+                final = "\n".join(output_parts)
+                if tool_log:
+                    final += "\n\n--- Tool Calls ---"
+                    for tr in tool_log:
+                        res = tr.get("output", f"Error: {tr.get('error')}")
+                        final += f"\n• {tr['tool']}({tr['input']}) → {res}"
+                    final += "\n-----------------"
+                return final
 
-        # —— Azure‐OpenAI branch —— 
+            except Exception as e:
+                return f"Error: {e}"
+
+        # —— OpenAI branch —— 
         else:
-            tools = self.all_functions
-            resp_raw = self.llm.chat.completions.create(
+            tools = self.all_tools
+            response = self.llm.chat.completions.create(
                 messages=messages,
-                model=self.azure_model,
+                model=self.openai_model,
                 tools=tools or None,
                 temperature = 0.0
             )
-            msg = resp_raw.choices[0].message
-            azure_resp = LLMResponse(msg.role, msg.content, resp_raw.choices[0].finish_reason)
-
+            stop_reason = response.choices[0].finish_reason
+            msg = response.choices[0].message
+            messages.append(msg.model_dump())
             final_output = ""
-            while azure_resp.stop_reason == "tool_calls":
+            tc_count = 0
+            if (response.choices[0].message.content):
+                final_output += response.choices[0].message.content
+            
+            while stop_reason == "tool_calls":
                 calls: List[Dict[str, Any]] = []
+                tc_count = 0
                 for tc in msg.tool_calls:
                     if tc.type == "function":
                         name = tc.function.name
-                        args = json.loads(tc.function.arguments)
+                        #args = json.loads(tc.function.arguments)
+                        args = eval(tc.function.arguments)
                         cid = tc.id
                         print(f"    ▶ Function call: {name}({args})")
                         if name in self.tool_to_session:
                             try:
                                 result = await self.tool_to_session[name].call_tool(name, args)
-                                out = "".join(getattr(c, "text", "") for c in (result.content or []))
-                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": out})
-                                final_output += out + "\n"
+                                tc_count += 1
+                                tc_message = {
+                                    "tool_call_id": cid,
+                                    "role": "tool",
+                                    "name": name,
+                                    "content": result.content[0].text
+                                }
+                                messages.append(tc_message)
+                                if final_output != "":
+                                    final_output += "<br>\n" + tc_message["content"]
+                                else:
+                                    final_output += tc_message["content"]
+
                             except Exception as e:
-                                calls.append({"type": "tool_result", "tool_use_id": cid, "content": f"Error: {e}"})
-                if not calls:
+                                print(f"Error {e}")
+       
+                if tc_count == 0:
+                    break
+                
+                # Prepare for the response based on the tool calls
+                response = self.llm.chat.completions.create(
+                    messages=messages,
+                    model=self.openai_model,
+                    tools=tools or None,
+                )
+                stop_reason = response.choices[0].finish_reason
+                msg = response.choices[0].message
+                messages.append(msg.model_dump())
+
+                if stop_reason == "stop":
                     break
 
-                messages.append({"role": "assistant", "content": str(calls)})
-                resp_raw = self.llm.chat.completions.create(
-                    messages=messages,
-                    model=self.azure_model,
-                    tools=tools or None,
-                    temperature=0.0
-                )
-                msg = resp_raw.choices[0].message
-                azure_resp = LLMResponse(msg.role, msg.content, resp_raw.choices[0].finish_reason)
-                if azure_resp.content:
-                    messages.append({"role": azure_resp.role, "content": azure_resp.content})
+            if (tc_count > 0 and response.choices[0].message.content):
+                final_output += "<br>\n" + response.choices[0].message.content
 
             return final_output
 
@@ -264,14 +283,14 @@ class MultiServerMCPClient:
         await self.exit_stack.aclose()
 
 async def main():
-    parser = argparse.ArgumentParser(description="Multi-Server MCP Client")
+    parser = argparse.ArgumentParser(description="Multi-Server MCP Host")
     parser.add_argument(
         "--config", "-c", type=Path, required=True,
         help="JSON file listing MCP servers (either `url` for SSE or `command`+`args` for STDIO)"
     )
     parser.add_argument(
         "--provider", "-p",
-        choices=["anthropic", "azure"],
+        choices=["anthropic", "openai"],
         default="anthropic",
         help="Which LLM backend to use"
     )
@@ -283,11 +302,11 @@ async def main():
         print(f"No servers in {args.config}", file=sys.stderr)
         sys.exit(1)
 
-    azure_config = {"timeout": 600} if args.provider == "azure" else None
-    client = MultiServerMCPClient(provider=args.provider, azure_config=azure_config)
+    llm_config = {"timeout": 600} if args.provider == "openai" else None
+    client = MCPHost(provider=args.provider, llm_config=llm_config)
 
     try:
-        await client.connect_to_servers(servers)
+        await client.connect_mcp_servers(servers)
         await client.chat_loop()
     finally:
         await client.cleanup()
