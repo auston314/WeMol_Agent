@@ -32,8 +32,8 @@ def get_student_record(full_name: str):
     """Retrieve a student's record by full name."""
     for record in STUDENT_RECORDS:
         if record["full_name"].lower() == full_name.lower():
-            return record
+            return f"Here is the student record of {full_name} {record}"
     return f"No student record can be found for the name: {full_name}"
 
 if __name__ == "__main__":
-    mcp.run_stdio()
+    mcp.run()

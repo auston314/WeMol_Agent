@@ -11,34 +11,28 @@ mcp = FastMCP("gpa_server")
 @mcp.tool()
 def check_student_gpa(student_name: str) -> any:
     """Check a student's GPA by student's name. Return 0 if not found."""
-    gpa_dict = {"John Lee": 3.7, "Jenny Lin": 3.8, "Bob Johnson": 4.0, "Robert Brown": 3.5, "Amy Smith": 3.6}
+    gpa_dict = {"John Smith": 3.7, "Jenny Lin": 3.8, "Bob Johnson": 4.0, "Robert Brown": 3.5, "Amy Smith": 3.6}
+    print("Student name = ", student_name)
     try:
         # Add robust error handling
         if not isinstance(student_name, str):
             return "No student name is provided"
         if student_name in gpa_dict:
-            return gpa_dict[student_name]
+            print(f"{student_name}'s GPA: {gpa_dict[student_name]}")
+            return f"{student_name}'s GPA: {gpa_dict[student_name]}"
         else:
             # check if the first name is in the dictionary
             first_name = student_name.split()[0]
             for name in gpa_dict.keys():
                 if name.startswith(first_name):
-                    return gpa_dict[name]
+                    print(f"{student_name}'s GPA: {gpa_dict[name]}")
+                    return f"{student_name}'s GPA: {gpa_dict[name]}"
         # If not found, return 0
-        return "Could not find the student in the dictionary"
-    except KeyError:
-        # Return 0 on any error
-        return "Could not find the student in the dictionary"
-    except TypeError:
-        # Return 0 on any error
-        return "Could not find the student in the dictionary"
-    except ValueError:
-        # Return 0 on any error
         return "Could not find the student in the dictionary"
 
     except Exception as e:
         # Return 0 on any error
-        return 0
+        return "Error in GPA service"
 
 @mcp.tool()
 def off_school_request(off_type: str, start_date: str, end_date: str) -> any:
