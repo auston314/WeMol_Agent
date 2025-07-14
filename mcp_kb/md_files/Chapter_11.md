@@ -50,7 +50,7 @@ Visit this virtual lab (http://openstaxcollege.org/I/16Phetsugar) to view simula
 
 Water is used so often as a solvent that the word solution has come to imply an aqueous solution to many people. However, almost any gas, liquid, or solid can act as a solvent. Many alloys are solid solutions of one metal dissolved in another; for example, US five-cent coins contain nickel dissolved in copper. Air is a gaseous solution, a homogeneous mixture of nitrogen, oxygen, and several other gases. Oxygen (a gas), alcohol (a liquid), and sugar (a solid) all dissolve in water (a liquid) to form liquid solutions. Table 11.1 gives examples of several different solutions and the phases of the solutes and solvents.
 
-**Different Types of Solutions**
+Table 11.1 **Different Types of Solutions**
 
 | Solution | Solute | Solvent |
 | :--: | :--: | :--: |
@@ -61,7 +61,7 @@ Water is used so often as a solvent that the word solution has come to imply an 
 | saltwater | $\mathrm{NaCl}(\mathrm{s})$ | $\mathrm{H}_{2} \mathrm{O}(l)$ |
 | brass | $\mathrm{Zn}(\mathrm{s})$ | $\mathrm{Cu}(\mathrm{s})$ |
 
-Table 11.1
+
 
 Solutions exhibit these defining traits:
 
@@ -88,6 +88,7 @@ When containers of helium and argon are connected, the gases spontaneously mix d
 1. If bubbles of gas are observed within the liquid, the mixture is not homogeneous and, thus, not a solution.
 
 (Figure 11.3). The formation of this solution clearly involves an increase in matter dispersal, since the helium and argon atoms occupy a volume twice as large as that which each occupied before mixing.
+
 ![Image](Chapter_11_images/img-2.jpeg)
 
 Figure 11.3 Samples of helium and argon spontaneously mix to give a solution.
@@ -123,6 +124,7 @@ By the end of this module, you will be able to:
 When some substances are dissolved in water, they undergo either a physical or a chemical change that yields ions in solution. These substances constitute an important class of compounds called electrolytes. Substances that do not yield ions when dissolved are called nonelectrolytes. If the physical or chemical process that generates the ions is essentially $100 \%$ efficient (all of the dissolved compound yields ions), then the substance is known as a strong electrolyte. If only a relatively small fraction of the dissolved substance undergoes the ion-producing process, it is called a weak electrolyte.
 
 Substances may be identified as strong, weak, or nonelectrolytes by measuring the electrical conductance of an aqueous solution containing the substance. To conduct electricity, a substance must contain freely mobile, charged species. Most familiar is the conduction of electricity through metallic wires, in which case the mobile, charged entities are electrons. Solutions may also conduct electricity if they contain dissolved ions, with conductivity increasing as ion concentration increases. Applying a voltage to electrodes immersed in a solution permits assessment of the relative concentration of dissolved ions, either quantitatively, by measuring the electrical current flow, or qualitatively, by observing the brightness of a light bulb included in the circuit (Figure 11.6).
+
 ![Image](Chapter_11_images/img-5.jpeg)
 
 Figure 11.6 Solutions of nonelectrolytes such as ethanol do not contain dissolved ions and cannot conduct electricity. Solutions of electrolytes contain ions that permit the passage of electricity. The conductivity of an electrolyte solution is related to the strength of the electrolyte.
@@ -151,6 +153,7 @@ In some cases, solutions prepared from covalent compounds conduct electricity be
 molecules. This gas contains no ions. However, an aqueous solution of HCl is a very good conductor, indicating that an appreciable concentration of ions exists within the solution.
 
 Because HCl is an acid, its molecules react with water, transferring $\mathrm{H}^{+}$ions to form hydronium ions $\left(\mathrm{H}_{3} \mathrm{O}^{+}\right)$and chloride ions $\left(\mathrm{Cl}^{-}\right)$:
+
 ![Image](Chapter_11_images/img-7.jpeg)
 
 This reaction is essentially $100 \%$ complete for HCl (i.e., it is a strong acid and, consequently, a strong electrolyte). Likewise, weak acids and bases that only react partially generate relatively low concentrations of ions when dissolved in water and are classified as weak electrolytes. The reader may wish to review the discussion of strong and weak acids provided in the earlier chapter of this text on reaction classes and stoichiometry.
@@ -184,6 +187,7 @@ Watch this impressive video (http://openstaxcollege.org//16NaAcetate) showing th
 As for any solution, the solubility of a gas in a liquid is affected by the intermolecular attractive forces between solute and solvent species. Unlike solid and liquid solutes, however, there is no solute-solute intermolecular attraction to overcome when a gaseous solute dissolves in a liquid solvent (see Figure 11.4) since the atoms or molecules comprising a gas are far separated and experience negligible interactions. Consequently, solute-solvent interactions are the sole energetic factor affecting solubility. For example, the water solubility of oxygen is approximately three times greater than that of helium (there are greater dispersion forces between water and the larger oxygen molecules) but 100 times less than the solubility of chloromethane, $\mathrm{CHCl}_{3}$ (polar chloromethane molecules experience dipole-dipole attraction to polar water molecules). Likewise note the solubility of oxygen in hexane, $\mathrm{C}_{6} \mathrm{H}_{14}$, is approximately 20 times greater than it is in water because greater dispersion forces exist between oxygen and the larger hexane molecules.
 
 Temperature is another factor affecting solubility, with gas solubility typically decreasing as temperature increases (Figure 11.8). This inverse relation between temperature and dissolved gas concentration is responsible for one of the major impacts of thermal pollution in natural waters.
+
 ![Image](Chapter_11_images/img-8.jpeg)
 
 Figure 11.8 The solubilities of these gases in water decrease as the temperature increases. All solubilities were measured with a constant pressure of $101.3 \mathrm{kPa}(1 \mathrm{~atm})$ of gas above the solutions.
@@ -195,6 +199,7 @@ When the temperature of a river, lake, or stream is raised, the solubility of ox
 Figure 11.9 (a) The small bubbles of air in this glass of chilled water formed when the water warmed to room temperature and the solubility of its dissolved air decreased. (b) The decreased solubility of oxygen in natural waters subjected to thermal pollution can result in large-scale fish kills. (credit a: modification of work by Liz West; credit b: modification of work by U.S. Fish and Wildlife Service)
 
 The solubility of a gaseous solute is also affected by the partial pressure of solute in the gas to which the solution is exposed. Gas solubility increases as the pressure of the gas increases. Carbonated beverages provide a nice illustration of this relationship. The carbonation process involves exposing the beverage to a relatively high pressure of carbon dioxide gas and then sealing the beverage container, thus saturating the beverage with $\mathrm{CO}_{2}$ at this pressure. When the beverage container is opened, a familiar hiss is heard as the carbon dioxide gas pressure is released, and some of the dissolved carbon dioxide is typically seen leaving solution in the form of small bubbles (Figure 11.10). At this point, the beverage is supersaturated with carbon dioxide and, with time, the dissolved carbon dioxide concentration will decrease to its equilibrium value and the beverage will become "flat."
+
 ![Image](Chapter_11_images/img-10.jpeg)
 
 Figure 11.10 Opening the bottle of carbonated beverage reduces the pressure of the gaseous carbon dioxide above the beverage. The solubility of $\mathrm{CO}_{2}$ is thus lowered, and some dissolved carbon dioxide may be seen leaving the solution as small gas bubbles. (credit: modification of work by Derrick Coetzee)
@@ -293,6 +298,7 @@ As the diver ascends to the surface of the water, the ambient pressure decreases
 Figure 11.11 (a) US Navy divers undergo training in a recompression chamber. (b) Divers receive hyperbaric oxygen therapy.
 
 Deviations from Henry's law are observed when a chemical reaction takes place between the gaseous solute and the solvent. Thus, for example, the solubility of ammonia in water increases more rapidly with increasing pressure than predicted by the law because ammonia, being a base, reacts to some extent with water to form ammonium ions and hydroxide ions.
+
 ![Image](Chapter_11_images/img-12.jpeg)
 
 Gases can form supersaturated solutions. If a solution of a gas in a liquid is prepared either at low temperature or under pressure (or both), then as the solution warms or as the gas pressure is reduced, the solution may become supersaturated. In 1986, more than 1700 people in Cameroon were killed when a cloud of gas, almost certainly carbon dioxide, bubbled from Lake Nyos (Figure 11.12), a deep lake in a volcanic crater. The water at the bottom of Lake Nyos is saturated with carbon dioxide by volcanic activity beneath the lake. It is believed that the lake underwent a turnover due to gradual heating from below the lake, and the warmer, less-dense water saturated with carbon dioxide reached the surface. Consequently, tremendous quantities of dissolved $\mathrm{CO}_{2}$ were released, and the colorless gas, which is denser than air, flowed down the valley below the lake and suffocated humans and animals living in the valley.
@@ -332,6 +338,7 @@ The dependence of solubility on temperature for a number of solids in water is s
 Figure 11.16 This graph shows how the solubility of several solids changes with temperature.
 
 The temperature dependence of solubility can be exploited to prepare supersaturated solutions of certain compounds. A solution may be saturated with the compound at an elevated temperature (where the solute is more soluble) and subsequently cooled to a lower temperature without precipitating the solute. The resultant solution contains solute at a concentration greater than its equilibrium solubility at the lower temperature (i.e., it is supersaturated) and is relatively stable. Precipitation of the excess solute can be initiated by adding a seed crystal (see the video in the Link to Learning earlier in this module) or by mechanically agitating the solution. Some hand warmers, such as the one pictured in Figure 11.17, take advantage of this behavior.
+
 ![Image](Chapter_11_images/img-18.jpeg)
 
 Figure 11.17 This hand warmer produces heat when the sodium acetate in a supersaturated solution precipitates. Precipitation of the solute is initiated by a mechanical shockwave generated when the flexible metal disk within the solution is "clicked." (credit: modification of work by "Velela"/Wikimedia Commons)
@@ -615,7 +622,7 @@ where $K_{\mathrm{b}}$ is the boiling point elevation constant, or the ebulliosc
 
 Boiling point elevation constants are characteristic properties that depend on the identity of the solvent. Values of $K_{\mathrm{b}}$ for several solvents are listed in Table 11.2.
 
-**Boiling Point Elevation and Freezing Point Depression Constants for Several Solvents**
+Table 11.2 **Boiling Point Elevation and Freezing Point Depression Constants for Several Solvents**
 
 | Solvent | Boiling Point $\left({ }^{\circ} \mathrm{C}\right.$ at 1 atm$)$ | $K_{\mathrm{b}}\left({ }^{\circ} \mathrm{Cm}^{-1}\right)$ | Freezing Point $\left({ }^{\circ} \mathrm{C}\right.$ at 1 atm$)$ | $K_{\mathrm{f}}\left({ }^{\circ} \mathrm{Cm}^{-1}\right)$ |
 | :--: | :--: | :--: | :--: | :--: |
@@ -625,7 +632,7 @@ Boiling point elevation constants are characteristic properties that depend on t
 | chloroform | 61.26 | 3.63 | -63.5 | 4.68 |
 | nitrobenzene | 210.9 | 5.24 | 5.67 | 8.1 |
 
-Table 11.2
+
 
 The extent to which the vapor pressure of a solvent is lowered and the boiling point is elevated depends on the total number of solute particles present in a given amount of solvent, not on the mass or size or chemical identities of the particles. A $1 m$ aqueous solution of sucrose ( $342 \mathrm{~g} / \mathrm{mol}$ ) and a $1 m$ aqueous solution of ethylene glycol ( $62 \mathrm{~g} / \mathrm{mol}$ ) will exhibit the same boiling point because each solution has one mole of solute particles (molecules) per kilogram of solvent.
 
@@ -638,6 +645,7 @@ Assuming ideal solution behavior, what is the boiling point of a 0.33 m solution
 **Solution**
 
 Use the equation relating boiling point elevation to solute molality to solve this problem in two steps.
+
 ![Image](Chapter_11_images/img-22.jpeg)
 
 Step 1. Calculate the change in boiling point.
@@ -666,6 +674,7 @@ Find the boiling point of a solution of 92.1 g of iodine, $\mathrm{I}_{2}$, in 8
 **Solution** 
 
 A four-step approach to solving this problem is outlined below.
+
 ![Image](Chapter_11_images/img-23.jpeg)
 
 Step 1. Convert from grams to moles of $\mathrm{I}_{2}$ using the molar mass of $\mathrm{I}_{2}$ in the unit conversion factor. Result: 0.363 mol
@@ -685,6 +694,7 @@ Answer: $100.12^{\circ} \mathrm{C}$
 #### Freezing Point Depression
 
 Solutions freeze at lower temperatures than pure liquids. This phenomenon is exploited in "de-icing" schemes that use salt (Figure 11.21), calcium chloride, or urea to melt ice on roads and sidewalks, and in the use of ethylene glycol as an "antifreeze" in automobile radiators. Seawater freezes at a lower temperature than fresh water, and so the Arctic and Antarctic oceans remain unfrozen even at temperatures below $0^{\circ} \mathrm{C}$ (as do the body fluids of fish and other cold-blooded sea animals that live in these oceans).
+
 ![Image](Chapter_11_images/img-24.jpeg)
 
 Figure 11.21 Rock salt $(\mathrm{NaCl})$, calcium chloride $\left(\mathrm{CaCl}_{2}\right)$, or a mixture of the two are used to melt ice. (credit: modification of work by Eddie Welker)
@@ -706,6 +716,7 @@ Assuming ideal solution behavior, what is the freezing point of the 0.33 m solut
 **Solution**
 
 Use the equation relating freezing point depression to solute molality to solve this problem in two steps.
+
 ![Image](Chapter_11_images/img-25.jpeg)
 
 Step 1. Calculate the change in freezing point.
@@ -740,6 +751,7 @@ Figure 11.22 Freezing point depression is exploited to remove ice from (a) roadw
 #### Phase Diagram for a Solution 
 
 The colligative effects on vapor pressure, boiling point, and freezing point described in the previous section are conveniently summarized by comparing the phase diagrams for a pure liquid and a solution derived from that liquid (Figure 11.23).
+
 ![Image](Chapter_11_images/img-27.jpeg)
 
 Figure 11.23 Phase diagrams for a pure solvent (solid curves) and a solution formed by dissolving nonvolatile solute in the solvent (dashed curves).
@@ -753,6 +765,7 @@ the solution's boiling point is observed at a higher temperature than that for t
 A number of natural and synthetic materials exhibit selective permeation, meaning that only molecules or ions of a certain size, shape, polarity, charge, and so forth, are capable of passing through (permeating) the material. Biological cell membranes provide elegant examples of selective permeation in nature, while dialysis tubing used to remove metabolic wastes from blood is a more simplistic technological example. Regardless of how they may be fabricated, these materials are generally referred to as semipermeable membranes.
 
 Consider the apparatus illustrated in Figure 11.24, in which samples of pure solvent and a solution are separated by a membrane that only solvent molecules may permeate. Solvent molecules will diffuse across the membrane in both directions. Since the concentration of solvent is greater in the pure solvent than the solution, these molecules will diffuse from the solvent side of the membrane to the solution side at a faster rate than they will in the reverse direction. The result is a net transfer of solvent molecules from the pure solvent to the solution. Diffusion-driven transfer of solvent molecules through a semipermeable membrane is a process known as osmosis.
+
 ![Image](Chapter_11_images/img-28.jpeg)
 
 Figure 11.24 (a) A solution and pure solvent are initially separated by an osmotic membrane. (b) Net transfer of solvent molecules to the solution occurs until its osmotic pressure yields equal rates of transfer in both directions.
@@ -823,6 +836,7 @@ A solution of 4.00 g of a nonelectrolyte dissolved in 55.0 g of benzene is found
 **Solution**
 
 Solve this problem using the following steps.
+
 ![Image](Chapter_11_images/img-32.jpeg)
 
 Step 1. Determine the change in freezing point from the observed freezing point and the freezing
@@ -869,6 +883,7 @@ A 0.500 L sample of an aqueous solution containing 10.0 g of hemoglobin has an o
 **Solution**
 
 Here is one set of steps that can be used to solve the problem:
+
 ![Image](Chapter_11_images/img-33.jpeg)
 
 Step 1. Convert the osmotic pressure to atmospheres, then determine the molar concentration from the osmotic pressure.
@@ -926,7 +941,7 @@ $$
 
 Values for measured van't Hoff factors for several solutes, along with predicted values assuming complete dissociation, are shown in Table 11.3.
 
-**Predicated and Measured van't Hoff Factors for Several 0.050 m Aqueous Solutions**
+Table 11.3 **Predicated and Measured van't Hoff Factors for Several 0.050 m Aqueous Solutions**
 
 | Formula unit | Classification | Dissolution products | $f$ (predicted) | $f$ (measured) |
 | :--: | :--: | :--: | :--: | :--: |
@@ -937,9 +952,10 @@ Values for measured van't Hoff factors for several solutes, along with predicted
 | $\mathrm{MgCl}_{2}$ | Strong electrolyte | $\mathrm{Mg}^{2+}, 2 \mathrm{Cl}^{-}$ | 3 | 2.7 |
 | $\mathrm{FeCl}_{3}$ | Strong electrolyte | $\mathrm{Fe}^{3+}, 3 \mathrm{Cl}^{-}$ | 4 | 3.4 |
 
-Table 11.3
+
 
 In 1923, the chemists Peter Debye and Erich Hückel proposed a theory to explain the apparent incomplete ionization of strong electrolytes. They suggested that although interionic attraction in an aqueous solution is very greatly reduced by solvation of the ions and the insulating action of the polar solvent, it is not completely nullified. The residual attractions prevent the ions from behaving as totally independent particles (Figure 11.28). In some cases, a positive and negative ion may actually touch, giving a solvated unit called an ion pair. Thus, the activity, or the effective concentration, of any particular kind of ion is less than that indicated by the actual concentration. Ions become more and more widely separated the more dilute the solution, and the residual interionic attractions become less and less. Thus, in extremely dilute solutions, the effective concentrations of the ions (their activities) are essentially equal to the actual concentrations. Note that the van't Hoff factors for the electrolytes in Table 11.3 are for 0.05 m solutions, at which concentration the value of $i$ for NaCl is 1.9 , as opposed to an ideal value of 2 .
+
 ![Image](Chapter_11_images/img-34.jpeg)
 
 Figure 11.28 Dissociation of ionic compounds in water is not always complete due to the formation of ion pairs.
@@ -997,7 +1013,7 @@ The term "colloid"-from the Greek words kolla, meaning "glue," and eidos, meanin
 
 Analogous to the identification of solution components as "solute" and "solvent," the components of a colloid are likewise classified according to their relative amounts. The particulate component typically present in a relatively minor amount is called the dispersed phase and the substance or solution throughout which the particulate is dispersed is called the dispersion medium. Colloids may involve virtually any combination of physical states (gas in liquid, liquid in solid, solid in gas, etc.), as illustrated by the examples of colloidal systems given in Table 11.4.
 
-**Examples of Colloidal Systems**
+Table 11.4 **Examples of Colloidal Systems**
 
 | Dispersed Phase | Dispersion Medium | Common Examples | Name |
 | :--: | :--: | :--: | :--: |
@@ -1010,7 +1026,7 @@ Analogous to the identification of solution components as "solute" and "solvent,
 | gas | liquid | foams, whipped cream, beaten egg whites | foam |
 | gas | solid | pumice, floating soaps | - |
 
-Table 11.4
+
 
 #### Preparation of Colloidal Systems 
 
@@ -1042,11 +1058,13 @@ Some gold sols prepared in 1857 are still intact (the particles have not coalesc
 Pioneers made soap by boiling fats with a strongly basic solution made by leaching potassium carbonate, $\mathrm{K}_{2} \mathrm{CO}_{3}$, from wood ashes with hot water. Animal fats contain polyesters of fatty acids (long-chain carboxylic acids). When animal fats are treated with a base like potassium carbonate or sodium hydroxide, glycerol and salts of fatty acids such as palmitic, oleic, and stearic acid are formed. The salts of fatty acids are called soaps. The sodium salt of stearic acid, sodium stearate, has the formula $\mathrm{C}_{17} \mathrm{H}_{35} \mathrm{CO}_{2} \mathrm{Na}$ and contains an uncharged nonpolar hydrocarbon chain, the
 
 $\mathrm{C}_{17} \mathrm{H}_{35}$ — unit, and an ionic carboxylate group, the $-\mathrm{CO}_{2}{ }^{-}$unit (Figure 11.31).
+
 ![Image](Chapter_11_images/img-38.jpeg)
 
 Figure 11.31 Soaps contain a nonpolar hydrocarbon end (blue) and an ionic end (red). The ionic end is a carboxylate group. The length of the hydrocarbon end can vary from soap to soap.
 
 Detergents (soap substitutes) also contain nonpolar hydrocarbon chains, such as $\mathrm{C}_{12} \mathrm{H}_{25}$ —, and an ionic group, such as a sulfate- $\mathrm{OSO}_{3}{ }^{-}$, or a sulfonate $-\mathrm{SO}_{3}{ }^{-}$(Figure 11.32). Soaps form insoluble calcium and magnesium compounds in hard water; detergents form water-soluble products-a definite advantage for detergents.
+
 ![Image](Chapter_11_images/img-39.jpeg)
 
 Figure 11.32 Detergents contain a nonpolar hydrocarbon end (blue) and an ionic end (red). The ionic end can be either a sulfate or a sulfonate. The length of the hydrocarbon end can vary from detergent to detergent.
@@ -1063,6 +1081,7 @@ Figure 11.33 This diagrammatic cross section of an emulsified drop of oil in wat
 The blowout of the Deepwater Horizon oil drilling rig on April 20, 2010, in the Gulf of Mexico near Mississippi began the largest marine oil spill in the history of the petroleum industry. In the 87 days following the blowout, an estimated 4.9 million barrels ( 210 million gallons) of oil flowed from the ruptured well 5000 feet below the water's surface. The well was finally declared sealed on September 19, 2010.
 
 Crude oil is immiscible with and less dense than water, so the spilled oil rose to the surface of the water. Floating booms, skimmer ships, and controlled burns were used to remove oil from the water's surface in an attempt to protect beaches and wetlands along the Gulf coast. In addition to removal of the oil, attempts were also made to lessen its environmental impact by rendering it "soluble" (in the loose sense of the term) and thus allowing it to be diluted to hopefully less harmful levels by the vast volume of ocean water. This approach used 1.84 million gallons of the oil dispersant Corexit 9527, most of which was injected underwater at the site of the leak, with small amounts being sprayed on top of the spill. Corexit 9527 contains 2-butoxyethanol $\left(\mathrm{C}_{6} \mathrm{H}_{14} \mathrm{O}_{2}\right)$, an amphiphilic molecule whose polar and nonpolar ends are useful for emulsifying oil into small droplets, increasing the surface area of the oil and making it more available to marine bacteria for digestion (Figure 11.34). While this approach avoids many of the immediate hazards that bulk oil poses to marine and coastal ecosystems, it introduces the possibility of long-term effects resulting from the introduction of the complex and potential toxic components of petroleum into the ocean's food chain. A number of organizations are involved in monitoring the extended impact of this oil spill, including the National Oceanic and Atmospheric Administration (visit this website (http://openstaxcollege.org///16gulfspill) for additional details).
+
 ![Image](Chapter_11_images/img-41.jpeg)
 
 Figure 11.34 (a) This NASA satellite image shows the oil slick from the Deepwater Horizon spill. (b) A US Air Force plane sprays Corexit, a dispersant. (c) The molecular structure of 2-butoxyethanol is shown. (credit a: modification of work by "NASA, FT2, demis.nl"/Wikimedia Commons; credit b: modification of work by "NASA/MODIS Rapid Response Team"/Wikimedia Commons)
@@ -1080,9 +1099,12 @@ methods used to clean up the smoke from a variety of industrial processes. The p
 **Frederick Gardner Cottrell**
 
 ![Image](Chapter_11_images/img-42.jpeg)
-(a)
+
+
+
 ![Image](Chapter_11_images/img-43.jpeg)
-(b)
+
+b)
 
 Figure 11.35 (a) Frederick Cottrell developed (b) the electrostatic precipitator, a device designed to curb air pollution by removing colloidal particles from air. (credit b: modification of work by "SpLot"/Wikimedia Commons)
 
@@ -1222,9 +1244,13 @@ Colloids are mixtures in which one or more substances are dispersed as relativel
 10. Explain why solutions of HBr in benzene (a nonpolar solvent) are nonconductive, while solutions in water (a polar solvent) are conductive.
 11. Consider the solutions presented:
 (a) Which of the following sketches best represents the ions in a solution of $\mathrm{Fe}\left(\mathrm{NO}_{3}\right)_{3}(a q)$ ?
+
 ![Image](Chapter_11_images/img-46.jpeg)
+
 (b) Write a balanced chemical equation showing the products of the dissolution of $\mathrm{Fe}\left(\mathrm{NO}_{3}\right)_{3}$.
+
 12. Compare the processes that occur when methanol $\left(\mathrm{CH}_{3} \mathrm{OH}\right)$, hydrogen chloride $(\mathrm{HCl})$, and sodium hydroxide $(\mathrm{NaOH})$ dissolve in water. Write equations and prepare sketches showing the form in which each of these compounds is present in its respective solution.
+
 13. What is the expected electrical conductivity of the following solutions?
 (a) $\mathrm{NaOH}(a q)$
 (b) $\mathrm{HCl}(a q)$

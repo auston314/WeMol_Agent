@@ -1,4 +1,4 @@
-## Chapter 10 -Liquids and Solids
+# Chapter 10 -Liquids and Solids
 
 ![Image](Chapter_10_images/img-0.jpeg)
 
@@ -33,11 +33,13 @@ Consider these two aspects of the molecular-level environments in solid, liquid,
 - Particles in a solid vibrate about fixed positions and do not generally move in relation to one another; in a liquid, they move past each other but remain in essentially constant contact; in a gas, they move independently of one another except when they collide.
 
 The differences in the properties of a solid, liquid, or gas reflect the strengths of the attractive forces between the atoms, molecules, or ions that make up each phase. The phase in which a substance exists depends on the relative extents of its intermolecular forces (IMFs) and the kinetic energies (KE) of its molecules. IMFs are the various forces of attraction that may exist between the atoms and molecules of a substance due to electrostatic phenomena, as will be detailed in this module. These forces serve to hold particles close together, whereas the particles' KE provides the energy required to overcome the attractive forces and thus increase the distance between particles. Figure 10.2 illustrates how changes in physical state may be induced by changing the temperature, hence, the average KE, of a given substance.
+
 ![Image](Chapter_10_images/img-1.jpeg)
 
 Figure 10.2 Transitions between solid, liquid, and gaseous states of a substance occur when conditions of temperature or pressure favor the associated changes in intermolecular forces. (Note: The space between particles in the gas phase is much greater than shown.)
 
 As an example of the processes depicted in this figure, consider a sample of water. When gaseous water is cooled sufficiently, the attractions between $\mathrm{H}_{2} \mathrm{O}$ molecules will be capable of holding them together when they come into contact with each other; the gas condenses, forming liquid $\mathrm{H}_{2} \mathrm{O}$. For example, liquid water forms on the outside of a cold glass as the water vapor in the air is cooled by the cold glass, as seen in Figure 10.3.
+
 ![Image](Chapter_10_images/img-2.jpeg)
 
 Figure 10.3 Condensation forms when water vapor in the air is cooled enough to form liquid water, such as (a) on the outside of a cold beverage glass or (b) in the form of fog. (credit a: modification of work by Jenny Downing; credit b: modification of work by Cory Zanker)
@@ -56,6 +58,7 @@ Access this interactive simulation (http://openstaxcollege.org/I/16phetvisual) o
 #### Forces between Molecules
 
 Under appropriate conditions, the attractions between all gas molecules will cause them to form liquids or solids. This is due to intermolecular forces, not intramolecular forces. Intramolecular forces are those within the molecule that keep the molecule together, for example, the bonds between the atoms. Intermolecular forces are the attractions between molecules, which determine many of the physical properties of a substance. Figure 10.5 illustrates these different molecular forces. The strengths of these attractive forces vary widely, though usually the IMFs between small molecules are weak compared to the intramolecular forces that bond atoms together within a molecule. For example, to overcome the IMFs in one mole of liquid HCl and convert it into gaseous HCl requires only about 17 kilojoules. However, to break the covalent bonds between the hydrogen and chlorine atoms in one mole of HCl requires about 25 times more energy- 430 kilojoules.
+
 ![Image](Chapter_10_images/img-4.jpeg)
 
 Figure 10.5 Intramolecular forces keep a molecule intact. Intermolecular forces hold multiple molecules together and determine many of a substance's properties.
@@ -67,13 +70,14 @@ All of the attractive forces between neutral atoms and molecules are known as va
 One of the three van der Waals forces is present in all condensed phases, regardless of the nature of the atoms or molecules composing the substance. This attractive force is called the London dispersion force in honor of Germanborn American physicist Fritz London who, in 1928, first explained it. This force is often referred to as simply the dispersion force. Because the electrons of an atom or molecule are in constant motion (or, alternatively, the electron's location is subject to quantum-mechanical variability), at any moment in time, an atom or molecule can develop a temporary, instantaneous dipole if its electrons are distributed asymmetrically. The presence of this dipole can, in turn, distort the electrons of a neighboring atom or molecule, producing an induced dipole. These two rapidly
 
 fluctuating, temporary dipoles thus result in a relatively weak electrostatic attraction between the species-a so-called dispersion force like that illustrated in Figure 10.6.
+
 ![Image](Chapter_10_images/img-5.jpeg)
 
 Figure 10.6 Dispersion forces result from the formation of temporary dipoles, as illustrated here for two nonpolar diatomic molecules.
 
 Dispersion forces that develop between atoms in different molecules can attract the two molecules to each other. The forces are relatively weak, however, and become significant only when the molecules are very close. Larger and heavier atoms and molecules exhibit stronger dispersion forces than do smaller and lighter atoms and molecules. $\mathrm{F}_{2}$ and $\mathrm{Cl}_{2}$ are gases at room temperature (reflecting weaker attractive forces); $\mathrm{Br}_{2}$ is a liquid, and $\mathrm{I}_{2}$ is a solid (reflecting stronger attractive forces). Trends in observed melting and boiling points for the halogens clearly demonstrate this effect, as seen in Table 10.1.
 
-**Melting and Boiling Points of the Halogens**
+Table 10.1 **Melting and Boiling Points of the Halogens**
 
 | Halogen | Molar Mass | Atomic Radius | Melting Point | Boiling Point |
 | :--: | :--: | :--: | :--: | :--: |
@@ -83,7 +87,7 @@ Dispersion forces that develop between atoms in different molecules can attract 
 | iodine, $\mathrm{I}_{2}$ | $254 \mathrm{~g} / \mathrm{mol}$ | 133 pm | 387 K | 457 K |
 | astatine, $\mathrm{At}_{2}$ | $420 \mathrm{~g} / \mathrm{mol}$ | 150 pm | 575 K | 610 K |
 
-Table 10.1
+
 
 The increase in melting and boiling points with increasing atomic/molecular size may be rationalized by considering how the strength of dispersion forces is affected by the electronic structure of the atoms or molecules in the substance. In a larger atom, the valence electrons are, on average, farther from the nuclei than in a smaller atom. Thus, they are less tightly held and can more easily form the temporary dipoles that produce the attraction. The measure of how easy or difficult it is for another electrostatic charge (for example, a nearby ion or polar molecule) to distort a molecule's charge distribution (its electron cloud) is known as polarizability. A molecule that has a charge cloud that is easily distorted is said to be very polarizable and will have large dispersion forces; one with a charge cloud that is difficult to distort is not very polarizable and will have small dispersion forces.
 
@@ -111,6 +115,7 @@ Answer: $\mathrm{C}_{2} \mathrm{H}_{6}<\mathrm{C}_{3} \mathrm{H}_{8}<\mathrm{C}_
 The shapes of molecules also affect the magnitudes of the dispersion forces between them. For example, boiling
 
 points for the isomers $n$-pentane, isopentane, and neopentane (shown in Figure 10.7) are $36^{\circ} \mathrm{C}, 27^{\circ} \mathrm{C}$, and 9.5 ${ }^{\circ} \mathrm{C}$, respectively. Even though these compounds are composed of molecules with the same chemical formula, $\mathrm{C}_{5} \mathrm{H}_{12}$, the difference in boiling points suggests that dispersion forces in the liquid phase are different, being greatest for $n$-pentane and least for neopentane. The elongated shape of $n$-pentane provides a greater surface area available for contact between molecules, resulting in correspondingly stronger dispersion forces. The more compact shape of isopentane offers a smaller surface area available for intermolecular contact and, therefore, weaker dispersion forces. Neopentane molecules are the most compact of the three, offering the least available surface area for intermolecular contact and, hence, the weakest dispersion forces. This behavior is analogous to the connections that may be formed between strips of VELCRO brand fasteners: the greater the area of the strip's contact, the stronger the connection.
+
 ![Image](Chapter_10_images/img-7.jpeg)
 
 Figure 10.7 The strength of the dispersion forces increases with the contact area between molecules, as demonstrated by the boiling points of these pentane isomers.
@@ -124,6 +129,7 @@ Geckos' toes are covered with hundreds of thousands of tiny hairs known as setae
 
 spatulae is large enough to support many times the gecko's weight.
 In 2014, two scientists developed a model to explain how geckos can rapidly transition from "sticky" to "nonsticky." Alex Greaney and Congcong Hu at Oregon State University described how geckos can achieve this by changing the angle between their spatulae and the surface. Geckos' feet, which are normally nonsticky, become sticky when a small shear force is applied. By curling and uncurling their toes, geckos can alternate between sticking and unsticking from a surface, and thus easily move across it. Further investigations may eventually lead to the development of better adhesives and other applications.
+
 ![Image](Chapter_10_images/img-8.jpeg)
 
 Figure 10.8 Geckos' toes contain large numbers of tiny hairs (setae), which branch into many triangular tips (spatulae). Geckos adhere to surfaces because of van der Waals attractions between the surface and a gecko's millions of spatulae. By changing how the spatulae contact the surface, geckos can turn their stickiness "on" and "off." (credit photo: modification of work by "JC*+A!"/Flickr)
@@ -162,6 +168,7 @@ Answer: ICl. ICl and $\mathrm{Br}_{2}$ have similar masses ( $\sim 160 \mathrm{a
 Nitrosyl fluoride (ONF, molecular mass 49 amu ) is a gas at room temperature. Water ( $\mathrm{H}_{2} \mathrm{O}$, molecular mass 18 amu ) is a liquid, even though it has a lower molecular mass. We clearly cannot attribute this difference between the two compounds to dispersion forces. Both molecules have about the same shape and ONF is the heavier and larger molecule. It is, therefore, expected to experience more significant dispersion forces. Additionally, we cannot attribute this difference in boiling points to differences in the dipole moments of the molecules. Both molecules are polar and exhibit comparable dipole moments. The large difference between the boiling points is due to a particularly strong dipole-dipole attraction that may occur when a molecule contains a hydrogen atom bonded to a fluorine, oxygen, or nitrogen atom (the three most electronegative elements). The very large difference in electronegativity
 
 between the H atom (2.1) and the atom to which it is bonded ( 4.0 for an F atom, 3.5 for an O atom, or 3.0 for a N atom), combined with the very small size of a H atom and the relatively small sizes of $\mathrm{F}, \mathrm{O}$, or N atoms, leads to highly concentrated partial charges with these atoms. Molecules with F-H, O-H, or N-H moieties are very strongly attracted to similar moieties in nearby molecules, a particularly strong type of dipole-dipole attraction called hydrogen bonding. Examples of hydrogen bonds include $\mathrm{HF} \cdots \mathrm{HF}, \mathrm{H}_{2} \mathrm{O} \cdots \mathrm{HOH}$, and $\mathrm{H}_{3} \mathrm{~N} \cdots \mathrm{HNH}_{2}$, in which the hydrogen bonds are denoted by dots. Figure 10.10 illustrates hydrogen bonding between water molecules.
+
 ![Image](Chapter_10_images/img-10.jpeg)
 
 Figure 10.10 Water molecules participate in multiple hydrogen-bonding interactions with nearby water molecules.
@@ -201,6 +208,7 @@ Answer: The melting point and boiling point for methylamine are predicted to be 
 **Hydrogen Bonding and DNA**
 
 Deoxyribonucleic acid (DNA) is found in every living organism and contains the genetic information that determines the organism's characteristics, provides the blueprint for making the proteins necessary for life, and serves as a template to pass this information on to the organism's offspring. A DNA molecule consists of two (anti-)parallel chains of repeating nucleotides, which form its well-known double helical structure, as shown in Figure 10.13.
+
 ![Image](Chapter_10_images/img-13.jpeg)
 
 Figure 10.13 Two separate DNA molecules form a double-stranded helix in which the molecules are held together via hydrogen bonding. (credit: modification of work by Jerome Walker, Dennis Myts)
@@ -229,7 +237,7 @@ Figure 10.15 (a) Honey and (b) motor oil are examples of liquids with high visco
 
 The IMFs between the molecules of a liquid, the size and shape of the molecules, and the temperature determine how easily a liquid flows. As Table 10.2 shows, the more structurally complex are the molecules in a liquid and the stronger the IMFs between them, the more difficult it is for them to move past each other and the greater is the viscosity of the liquid. As the temperature increases, the molecules move more rapidly and their kinetic energies are better able to overcome the forces that hold them together; thus, the viscosity of the liquid decreases.
 
-**Viscosities of Common Substances at $25^{\circ} \mathrm{C}$**
+Table 10.2 **Viscosities of Common Substances at $25^{\circ} \mathrm{C}$**
 
 | Substance | Formula | Viscosity (mPa$\cdot$s) |
 | :--: | :--: | :--: |
@@ -241,7 +249,7 @@ The IMFs between the molecules of a liquid, the size and shape of the molecules,
 | honey | variable | $\sim 2,000-10,000$ |
 | motor oil | variable | $\sim 50-500$ |
 
-Table 10.2
+
 
 The various IMFs between identical molecules of a substance are examples of cohesive forces. The molecules within a liquid are surrounded by other molecules and are attracted equally in all directions by the cohesive forces within the liquid. However, the molecules on the surface of a liquid are attracted only by about one-half as many molecules. Because of the unbalanced molecular attractions on the surface molecules, liquids contract to form a shape that minimizes the number of molecules on the surface-that is, the shape with the minimum surface area. A small drop of liquid tends to assume a spherical shape, as shown in Figure 10.16, because in a sphere, the ratio of surface area to volume is at a minimum. Larger drops are more greatly affected by gravity, air resistance, surface interactions, and so on, and as a result, are less spherical.
 
@@ -251,7 +259,7 @@ Figure 10.16 Attractive forces result in a spherical water drop that minimizes s
 
 Surface tension is defined as the energy required to increase the surface area of a liquid, or the force required to increase the length of a liquid surface by a given amount. This property results from the cohesive forces between molecules at the surface of a liquid, and it causes the surface of a liquid to behave like a stretched rubber membrane. Surface tensions of several liquids are presented in Table 10.3. Among common liquids, water exhibits a distinctly high surface tension due to strong hydrogen bonding between its molecules. As a result of this high surface tension, the surface of water represents a relatively "tough skin" that can withstand considerable force without breaking. A steel needle carefully placed on water will float. Some insects, like the one shown in Figure 10.17, even though they are denser than water, move on its surface because they are supported by the surface tension.
 
-**Surface Tensions of Common Substances at $25^{\circ} \mathrm{C}$**
+Table 10.3 **Surface Tensions of Common Substances at $25^{\circ} \mathrm{C}$**
 
 | Substance | Formula | Surface Tension (mN/m) |
 | :--: | :--: | :--: |
@@ -261,12 +269,14 @@ Surface tension is defined as the energy required to increase the surface area o
 | octane | $\mathrm{C}_{8} \mathrm{H}_{18}$ | 21.14 |
 | ethylene glycol | $\mathrm{CH}_{2}(\mathrm{OH}) \mathrm{CH}_{2}(\mathrm{OH})$ | 47.99 |
 
-Table 10.3
+
+
 ![Image](Chapter_10_images/img-17.jpeg)
 
 Figure 10.17 Surface tension (right) prevents this insect, a "water strider," from sinking into the water.
 
 The IMFs of attraction between two different molecules are called adhesive forces. Consider what happens when water comes into contact with some surface. If the adhesive forces between water molecules and the molecules of the surface are weak compared to the cohesive forces between the water molecules, the water does not "wet" the surface. For example, water does not wet waxed surfaces or many plastics such as polyethylene. Water forms drops on these surfaces because the cohesive forces within the drops are greater than the adhesive forces between the water and the plastic. Water spreads out on glass because the adhesive force between water and glass is greater than the cohesive forces within the water. When water is confined in a glass tube, its meniscus (surface) has a concave shape because the water wets the glass and creeps up the side of the tube. On the other hand, the cohesive forces between mercury atoms are much greater than the adhesive forces between mercury and glass. Mercury therefore does not wet glass, and it forms a convex meniscus when confined in a tube because the cohesive forces within the mercury tend to draw it into a drop (Figure 10.18).
+
 ![Image](Chapter_10_images/img-18.jpeg)
 
 Figure 10.18 Differences in the relative strengths of cohesive and adhesive forces result in different meniscus shapes for mercury (left) and water (right) in glass tubes. (credit: Mark Ott)
@@ -319,6 +329,7 @@ Answer: diameter $=0.36 \mathrm{~mm}$
 **Biomedical Applications of Capillary Action**
 
 Many medical tests require drawing a small amount of blood, for example to determine the amount of glucose in someone with diabetes or the hematocrit level in an athlete. This procedure can be easily done because of capillary action, the ability of a liquid to flow up a small tube against gravity, as shown in Figure 10.21. When your finger is pricked, a drop of blood forms and holds together due to surface tension-the unbalanced intermolecular attractions at the surface of the drop. Then, when the open end of a narrow-diameter glass tube touches the drop of blood, the adhesive forces between the molecules in the blood and those at the glass surface draw the blood up the tube. How far the blood goes up the tube depends on the diameter of the tube (and the type of fluid). A small tube has a relatively large surface area for a given volume of blood, which results in larger (relative) attractive forces, allowing the blood to be drawn farther up the tube. The liquid itself is held together by its own cohesive forces. When the weight of the liquid in the tube generates a downward force equal to the upward force associated with capillary action, the liquid stops rising.
+
 ![Image](Chapter_10_images/img-21.jpeg)
 
 Figure 10.21 Blood is collected for medical analysis by capillary action, which draws blood into a small diameter glass tube. (credit: modification of work by Centers for Disease Control and Prevention)
@@ -338,6 +349,7 @@ We witness and utilize changes of physical state, or phase transitions, in a gre
 When a liquid vaporizes in a closed container, gas molecules cannot escape. As these gas phase molecules move randomly about, they will occasionally collide with the surface of the condensed phase, and in some cases, these collisions will result in the molecules re-entering the condensed phase. The change from the gas phase to the liquid is called condensation. When the rate of condensation becomes equal to the rate of vaporization, neither the amount of the liquid nor the amount of the vapor in the container changes. The vapor in the container is then said to be in equilibrium with the liquid. Keep in mind that this is not a static situation, as molecules are continually exchanged between the condensed and gaseous phases. Such is an example of a dynamic equilibrium, the status of a system in
 
 which reciprocal processes (for example, vaporization and condensation) occur at equal rates. The pressure exerted by the vapor in equilibrium with a liquid in a closed container at a given temperature is called the liquid's vapor pressure (or equilibrium vapor pressure). The area of the surface of the liquid in contact with a vapor and the size of the vessel have no effect on the vapor pressure, although they do affect the time required for the equilibrium to be reached. We can measure the vapor pressure of a liquid by placing a sample in a closed container, like that illustrated in Figure 10.22, and using a manometer to measure the increase in pressure that is due to the vapor in equilibrium with the condensed phase.
+
 ![Image](Chapter_10_images/img-22.jpeg)
 
 Figure 10.22 In a closed container, dynamic equilibrium is reached when (a) the rate of molecules escaping from the liquid to become the gas (b) increases and eventually (c) equals the rate of gas molecules entering the liquid. When this equilibrium is reached, the vapor pressure of the gas is constant, although the vaporization and condensation processes continue.
@@ -349,6 +361,7 @@ The chemical identities of the molecules in a liquid determine the types (and st
 **Explaining Vapor Pressure in Terms of IMFs**
 
 Given the shown structural formulas for these four compounds, explain their relative vapor pressures in terms of types and extents of IMFs:
+
 ![Image](Chapter_10_images/img-23.jpeg)
 
 **Solution**
@@ -372,6 +385,7 @@ $$
 $$
 
 As temperature increases, the vapor pressure of a liquid also increases due to the increased average KE of its molecules. Recall that at any given temperature, the molecules of a substance experience a range of kinetic energies, with a certain fraction of molecules having a sufficient energy to overcome IMF and escape the liquid (vaporize). At a higher temperature, a greater fraction of molecules have enough energy to escape from the liquid, as shown in Figure 10.23. The escape of more molecules per unit of time and the greater average speed of the molecules that escape both contribute to the higher vapor pressure.
+
 ![Image](Chapter_10_images/img-24.jpeg)
 
 Kinetic energy
@@ -570,8 +584,9 @@ $$
 $$
 
 Consider the extent to which intermolecular attractions must be overcome to achieve a given phase transition. Converting a solid into a liquid requires that these attractions be only partially overcome; transition to the gaseous state requires that they be completely overcome. As a result, the enthalpy of fusion for a substance is less than its enthalpy of vaporization. This same logic can be used to derive an approximate relation between the enthalpies of all phase changes for a given substance. Though not an entirely accurate description, sublimation may be conveniently modeled as a sequential two-step process of melting followed by vaporization in order to apply Hess's Law. Viewed in this manner, the enthalpy of sublimation for a substance may be estimated as the sum of its enthalpies of fusion and
-
 vaporization, as illustrated in Figure 10.28. For example:
+
+
 ![Image](Chapter_10_images/img-29.jpeg)
 
 Figure 10.28 For a given substance, the sum of its enthalpy of fusion and enthalpy of vaporization is approximately equal to its enthalpy of sublimation.
@@ -657,6 +672,7 @@ We can use the phase diagram to identify the physical state of a sample of water
 The curve BC in Figure 10.31 is the plot of vapor pressure versus temperature as described in the previous module of this chapter. This "liquid-vapor" curve separates the liquid and gaseous regions of the phase diagram and provides the boiling point for water at any pressure. For example, at 1 atm , the boiling point is $100^{\circ} \mathrm{C}$. Notice that the liquidvapor curve terminates at a temperature of $374^{\circ} \mathrm{C}$ and a pressure of 218 atm , indicating that water cannot exist as a liquid above this temperature, regardless of the pressure. The physical properties of water under these conditions are intermediate between those of its liquid and gaseous phases. This unique state of matter is called a supercritical fluid, a topic that will be described in the next section of this module.
 
 The solid-vapor curve, labeled AB in Figure 10.31, indicates the temperatures and pressures at which ice and water vapor are in equilibrium. These temperature-pressure data pairs correspond to the sublimation, or deposition, points for water. If we could zoom in on the solid-gas line in Figure 10.31, we would see that ice has a vapor pressure of about 0.20 kPa at $-10^{\circ} \mathrm{C}$. Thus, if we place a frozen sample in a vacuum with a pressure less than 0.20 kPa , ice will sublime. This is the basis for the "freeze-drying" process often used to preserve foods, such as the ice cream shown in Figure 10.32.
+
 ![Image](Chapter_10_images/img-33.jpeg)
 
 Figure 10.32 Freeze-dried foods, like this ice cream, are dehydrated by sublimation at pressures below the triple point for water. (credit: "Iwao"/Flickr)
@@ -690,9 +706,9 @@ Using the phase diagram for water, we can determine that the state of water at e
 What phase changes can water undergo as the temperature changes if the pressure is held at 0.3 kPa ? If the pressure is held at 50 kPa ?
 
 Answer: At 0.3 kPa : $\mathrm{s} \longrightarrow \mathrm{g}$ at $-58^{\circ} \mathrm{C}$. At $50 \mathrm{kPa}: \mathrm{s} \longrightarrow 1$ at $0^{\circ} \mathrm{C}, 1 \longrightarrow \mathrm{~g}$ at $78^{\circ} \mathrm{C}$
-Consider the phase diagram for carbon dioxide shown in Figure 10.34 as another example. The solid-liquid curve exhibits a positive slope, indicating that the melting point for $\mathrm{CO}_{2}$ increases with pressure as it does for most substances (water being a notable exception as described previously). Notice that the triple point is well above 1 atm , indicating that carbon dioxide cannot exist as a liquid under ambient pressure conditions. Instead, cooling gaseous carbon dioxide at 1 atm results in its deposition into the solid state. Likewise, solid carbon dioxide does not melt at 1 atm pressure but instead sublimes to yield gaseous $\mathrm{CO}_{2}$. Finally, notice that the critical point for carbon dioxide is
+Consider the phase diagram for carbon dioxide shown in Figure 10.34 as another example. The solid-liquid curve exhibits a positive slope, indicating that the melting point for $\mathrm{CO}_{2}$ increases with pressure as it does for most substances (water being a notable exception as described previously). Notice that the triple point is well above 1 atm , indicating that carbon dioxide cannot exist as a liquid under ambient pressure conditions. Instead, cooling gaseous carbon dioxide at 1 atm results in its deposition into the solid state. Likewise, solid carbon dioxide does not melt at 1 atm pressure but instead sublimes to yield gaseous $\mathrm{CO}_{2}$. Finally, notice that the critical point for carbon dioxide is observed at a relatively modest temperature and pressure in comparison to water.
 
-observed at a relatively modest temperature and pressure in comparison to water.
+
 ![Image](Chapter_10_images/img-35.jpeg)
 
 Figure 10.34 A phase diagram for carbon dioxide is shown. The pressure axis is plotted on a logarithmic scale to accommodate the large range of values.
@@ -769,9 +785,9 @@ Answer: The critical temperature of ammonia is 405.5 K , which is higher than ro
 
 Coffee is the world's second most widely traded commodity, following only petroleum. Across the globe, people love coffee's aroma and taste. Many of us also depend on one component of coffee-caffeine-to help us get going in the morning or stay alert in the afternoon. But late in the day, coffee's stimulant effect can keep you from sleeping, so you may choose to drink decaffeinated coffee in the evening.
 Since the early 1900s, many methods have been used to decaffeinate coffee. All have advantages and disadvantages, and all depend on the physical and chemical properties of caffeine. Because caffeine is a somewhat polar molecule, it dissolves well in water, a polar liquid. However, since many of the other 400-plus compounds that contribute to coffee's taste and aroma also dissolve in $\mathrm{H}_{2} \mathrm{O}$, hot water decaffeination processes can also remove some of these compounds, adversely affecting the smell and taste of the decaffeinated coffee. Dichloromethane $\left(\mathrm{CH}_{2} \mathrm{Cl}_{2}\right)$ and ethyl acetate $\left(\mathrm{CH}_{3} \mathrm{CO}_{2} \mathrm{C}_{2} \mathrm{H}_{5}\right)$ have similar polarity to caffeine, and are therefore very effective solvents for caffeine extraction, but both also remove some flavor and aroma components, and their use requires long extraction and cleanup times. Because both of these solvents are toxic, health concerns have been raised regarding the effect of residual solvent remaining in the decaffeinated coffee.
-Supercritical fluid extraction using carbon dioxide is now being widely used as a more effective and environmentally friendly decaffeination method (Figure 10.36). At temperatures above 304.2 K and pressures above $7376 \mathrm{kPa}, \mathrm{CO}_{2}$ is a supercritical fluid, with properties of both gas and liquid. Like a gas, it penetrates deep into the coffee beans; like a liquid, it effectively dissolves certain substances. Supercritical carbon dioxide extraction of steamed coffee beans removes 97-99\% of the caffeine, leaving coffee's flavor and aroma
+Supercritical fluid extraction using carbon dioxide is now being widely used as a more effective and environmentally friendly decaffeination method (Figure 10.36). At temperatures above 304.2 K and pressures above $7376 \mathrm{kPa}, \mathrm{CO}_{2}$ is a supercritical fluid, with properties of both gas and liquid. Like a gas, it penetrates deep into the coffee beans; like a liquid, it effectively dissolves certain substances. Supercritical carbon dioxide extraction of steamed coffee beans removes 97-99\% of the caffeine, leaving coffee's flavor and aroma compounds intact. Because $\mathrm{CO}_{2}$ is a gas under standard conditions, its removal from the extracted coffee beans is easily accomplished, as is the recovery of the caffeine from the extract. The caffeine recovered from coffee beans via this process is a valuable product that can be used subsequently as an additive to other foods or drugs.
 
-compounds intact. Because $\mathrm{CO}_{2}$ is a gas under standard conditions, its removal from the extracted coffee beans is easily accomplished, as is the recovery of the caffeine from the extract. The caffeine recovered from coffee beans via this process is a valuable product that can be used subsequently as an additive to other foods or drugs.
+
 ![Image](Chapter_10_images/img-37.jpeg)
 
 Figure 10.36 (a) Caffeine molecules have both polar and nonpolar regions, making it soluble in solvents of varying polarities. (b) The schematic shows a typical decaffeination process involving supercritical carbon dioxide.
@@ -808,6 +824,8 @@ Figure 10.39 Sodium chloride is an ionic solid.
 #### Metallic Solids 
 
 Metallic solids such as crystals of copper, aluminum, and iron are formed by metal atoms Figure 10.40. The structure of metallic crystals is often described as a uniform distribution of atomic nuclei within a "sea" of delocalized electrons. The atoms within such a metallic solid are held together by a unique force known as metallic bonding that gives rise to many useful and varied bulk properties. All exhibit high thermal and electrical conductivity, metallic luster, and malleability. Many are very hard and quite strong. Because of their malleability (the ability to deform under pressure or hammering), they do not shatter and, therefore, make useful construction materials. The melting points of the metals vary widely. Mercury is a liquid at room temperature, and the alkali metals melt below $200^{\circ} \mathrm{C}$. Several post-transition metals also have low melting points, whereas the transition metals melt at temperatures above $1000^{\circ} \mathrm{C}$. These differences reflect differences in strengths of metallic bonding among the metals.
+
+
 ![Image](Chapter_10_images/img-41.jpeg)
 
 Figure 10.40 Copper is a metallic solid.
@@ -823,6 +841,7 @@ Figure 10.41 A covalent crystal contains a three-dimensional network of covalent
 #### Molecular Solid 
 
 Molecular solids, such as ice, sucrose (table sugar), and iodine, as shown in Figure 10.42, are composed of neutral molecules. The strengths of the attractive forces between the units present in different crystals vary widely, as indicated by the melting points of the crystals. Small symmetrical molecules (nonpolar molecules), such as $\mathrm{H}_{2}$, $\mathrm{N}_{2}, \mathrm{O}_{2}$, and $\mathrm{F}_{2}$, have weak attractive forces and form molecular solids with very low melting points (below -200 ${ }^{\circ} \mathrm{C}$ ). Substances consisting of larger, nonpolar molecules have larger attractive forces and melt at higher temperatures. Molecular solids composed of molecules with permanent dipole moments (polar molecules) melt at still higher temperatures. Examples include ice (melting point, $0^{\circ} \mathrm{C}$ ) and table sugar (melting point, $185^{\circ} \mathrm{C}$ ).
+
 ![Image](Chapter_10_images/img-43.jpeg)
 
 Figure 10.42 Carbon dioxide $\left(\mathrm{CO}_{2}\right)$ consists of small, nonpolar molecules and forms a molecular solid with a melting point of $-78^{\circ} \mathrm{C}$. lodine $\left(\mathrm{I}_{2}\right)$ consists of larger, nonpolar molecules and forms a molecular solid that melts at $114^{\circ} \mathrm{C}$.
@@ -833,7 +852,7 @@ A crystalline solid, like those listed in Table 10.4, has a precise melting temp
 
 the crystal all have the same strength and all require the same amount of energy to be broken. The gradual softening of an amorphous material differs dramatically from the distinct melting of a crystalline solid. This results from the structural nonequivalence of the molecules in the amorphous solid. Some forces are weaker than others, and when an amorphous material is heated, the weakest intermolecular attractions break first. As the temperature is increased further, the stronger attractions are broken. Thus amorphous materials soften over a range of temperatures.
 
-**Types of Crystalline Solids and Their Properties**
+Table 10.4 **Types of Crystalline Solids and Their Properties**
 
 | Type of <br> Solid | Type of <br> Particles | Type of <br> Attractions | Properties | Examples |
 | :--: | :--: | :--: | :--: | :--: |
@@ -842,7 +861,7 @@ the crystal all have the same strength and all require the same amount of energy
 | covalent <br> network | atoms of <br> electronegative <br> elements | covalent <br> bonds | very hard, not conductive, very high melting <br> points | C <br> (diamond), <br> $\mathrm{SiO}_{2}, \mathrm{SiC}$ |
 | molecular | molecules (or <br> atoms) | IMFs | variable hardness, variable brittleness, not <br> conductive, low melting points | $\mathrm{H}_{2} \mathrm{O}, \mathrm{CO}_{2}$, <br> $\mathrm{I}_{2}$, <br> $\mathrm{C}_{12} \mathrm{H}_{22} \mathrm{O}_{11}$ |
 
-Table 10.4
+
 
 #### How Sciences Interconnect 
 
@@ -891,6 +910,7 @@ The structure of a crystalline solid, whether a metal or not, is best described 
 Figure 10.46 A unit cell shows the locations of lattice points repeating in all directions.
 
 Let us begin our investigation of crystal lattice structure and unit cells with the most straightforward structure and the most basic unit cell. To visualize this, imagine taking a large number of identical spheres, such as tennis balls, and arranging them uniformly in a container. The simplest way to do this would be to make layers in which the spheres in one layer are directly above those in the layer below, as illustrated in Figure 10.47. This arrangement is called simple cubic structure, and the unit cell is called the simple cubic unit cell or primitive cubic unit cell.
+
 ![Image](Chapter_10_images/img-48.jpeg)
 
 Figure 10.47 When metal atoms are arranged with spheres in one layer directly above or below spheres in another layer, the lattice structure is called simple cubic. Note that the spheres are in contact.
@@ -902,9 +922,11 @@ In a simple cubic structure, the spheres are not packed as closely as they could
 Figure 10.48 An atom in a simple cubic lattice structure contacts six other atoms, so it has a coordination number of six.
 
 In a simple cubic lattice, the unit cell that repeats in all directions is a cube defined by the centers of eight atoms, as shown in Figure 10.49. Atoms at adjacent corners of this unit cell contact each other, so the edge length of this cell is equal to two atomic radii, or one atomic diameter. A cubic unit cell contains only the parts of these atoms that are within it. Since an atom at a corner of a simple cubic unit cell is contained by a total of eight unit cells, only one-eighth of that atom is within a specific unit cell. And since each simple cubic unit cell has one atom at each of its eight "corners," there is $8 \times \frac{1}{8}=1$ atom within one simple cubic unit cell.
+
 ![Image](Chapter_10_images/img-50.jpeg)
 
 Simple cubic lattice cell
+
 ![Image](Chapter_10_images/img-51.jpeg)
 
 8 corners
@@ -963,6 +985,7 @@ Most metal crystals are one of the four major types of unit cells. For now, we w
 Figure 10.50 Cubic unit cells of metals show (in the upper figures) the locations of lattice points and (in the lower figures) metal atoms located in the unit cell.
 
 Some metals crystallize in an arrangement that has a cubic unit cell with atoms at all of the corners and an atom in the center, as shown in Figure 10.51. This is called a body-centered cubic (BCC) solid. Atoms in the corners of a BCC unit cell do not contact each other but contact the atom in the center. A BCC unit cell contains two atoms: one-eighth of an atom at each of the eight corners $\left(8 \times \frac{1}{8}=1\right.$ atom from the corners) plus one atom from the center. Any atom in this structure touches four atoms in the layer above it and four atoms in the layer below it. Thus, an atom in a BCC structure has a coordination number of eight.
+
 ![Image](Chapter_10_images/img-54.jpeg)
 
 Figure 10.51 In a body-centered cubic structure, atoms in a specific layer do not touch each other. Each atom touches four atoms in the layer above it and four atoms in the layer below it.
@@ -971,17 +994,21 @@ Atoms in BCC arrangements are much more efficiently packed than in a simple cubi
 
 (Elements or compounds that crystallize with the same structure are said to be isomorphous.)
 Many other metals, such as aluminum, copper, and lead, crystallize in an arrangement that has a cubic unit cell with atoms at all of the corners and at the centers of each face, as illustrated in Figure 10.52. This arrangement is called a face-centered cubic (FCC) solid. A FCC unit cell contains four atoms: one-eighth of an atom at each of the eight corners $\left(8 \times \frac{1}{8}=1\right.$ atom from the corners) and one-half of an atom on each of the six faces $\left(6 \times \frac{1}{2}=3\right.$ atoms from the faces). The atoms at the corners touch the atoms in the centers of the adjacent faces along the face diagonals of the cube. Because the atoms are on identical lattice points, they have identical environments.
+
 ![Image](Chapter_10_images/img-55.jpeg)
 
 Figure 10.52 A face-centered cubic solid has atoms at the corners and, as the name implies, at the centers of the faces of its unit cells.
 
 Atoms in an FCC arrangement are packed as closely together as possible, with atoms occupying $74 \%$ of the volume. This structure is also called cubic closest packing (CCP). In CCP, there are three repeating layers of hexagonally arranged atoms. Each atom contacts six atoms in its own layer, three in the layer above, and three in the layer below. In this arrangement, each atom touches 12 near neighbors, and therefore has a coordination number of 12 . The fact that FCC and CCP arrangements are equivalent may not be immediately obvious, but why they are actually the same structure is illustrated in Figure 10.53.
+
 ![Image](Chapter_10_images/img-56.jpeg)
 
 Side view
+
 ![Image](Chapter_10_images/img-57.jpeg)
 
 Top view
+
 ![Image](Chapter_10_images/img-58.jpeg)
 
 Rotated view
@@ -990,6 +1017,7 @@ Cubic closest packed structure
 Figure 10.53 A CCP arrangement consists of three repeating layers (ABCABC...) of hexagonally arranged atoms. Atoms in a CCP structure have a coordination number of 12 because they contact six atoms in their layer, plus three atoms in the layer above and three atoms in the layer below. By rotating our perspective, we can see that a CCP structure has a unit cell with a face containing an atom from layer $A$ at one corner, atoms from layer $B$ across a diagonal (at two corners and in the middle of the face), and an atom from layer $C$ at the remaining corner. This is the same as a face-centered cubic arrangement.
 
 Because closer packing maximizes the overall attractions between atoms and minimizes the total intermolecular energy, the atoms in most metals pack in this manner. We find two types of closest packing in simple metallic crystalline structures: CCP, which we have already encountered, and hexagonal closest packing (HCP) shown in Figure 10.54. Both consist of repeating layers of hexagonally arranged atoms. In both types, a second layer (B) is placed on the first layer (A) so that each atom in the second layer is in contact with three atoms in the first layer. The third layer is positioned in one of two ways. In HCP, atoms in the third layer are directly above atoms in the first layer (i.e., the third layer is also type A), and the stacking consists of alternating type A and type B close-packed layers (i.e., $\mathrm{ABABAB} \cdots$ ). In CCP, atoms in the third layer are not above atoms in either of the first two layers (i.e., the third layer is type C), and the stacking consists of alternating type A, type B, and type C close-packed layers (i.e., $\mathrm{ABCABCABC} \cdots$ ). About two-thirds of all metals crystallize in closest-packed arrays with coordination numbers of 12. Metals that crystallize in an HCP structure include $\mathrm{Cd}, \mathrm{Co}, \mathrm{Li}, \mathrm{Mg}, \mathrm{Na}$, and Zn , and metals that crystallize in a CCP structure include $\mathrm{Ag}, \mathrm{Al}, \mathrm{Ca}, \mathrm{Cu}, \mathrm{Ni}, \mathrm{Pb}$, and Pt .
+
 ![Image](Chapter_10_images/img-59.jpeg)
 
 Figure 10.54 In both types of closest packing, atoms are packed as compactly as possible. Hexagonal closest packing consists of two alternating layers (ABABAB...). Cubic closest packing consists of three alternating layers (ABCABCABC...).
@@ -1045,15 +1073,7 @@ Figure 10.55 A unit cell is defined by the lengths of its three axes ( $a, b$, a
 
 There are seven different lattice systems, some of which have more than one type of lattice, for a total of fourteen different unit cells, which have the shapes shown in Figure 10.56.
 
-| System/Axes/Angles | Unit Cells |  |  |
-| :--: | :--: | :--: | :--: |
-| Cubic <br> $a=b=c$ <br> $\alpha=\beta=\gamma=90^{\circ}$ | Simple | Face-centered | Body-centered |
-| $\begin{gathered} \text { Tetragonal } \\ a=b \neq c \\ \alpha=\beta=\gamma=90^{\circ} \end{gathered}$ | Simple | Body-centered |  |
-| Orthorhombic $a \neq b \neq c$ $\alpha=\beta=\gamma=90^{\circ}$ | ![Image](Chapter_10_images/img-62.jpeg) | Base-centered | Face-centered |
-| Monoclinic $a \neq b \neq c$ $\alpha=\gamma=90^{\circ} ; \beta \neq 90^{\circ}$ | Simple | Base-centered |  |
-| Triclinic $a \neq b \neq c$ $\alpha \neq \beta \neq \gamma \neq 90^{\circ}$ | ![Image](Chapter_10_images/img-64.jpeg) |  |
-| Hexagonal $a=b \neq c$ $\alpha=\beta=90^{\circ} ; \gamma=120^{\circ}$ | ![Image](Chapter_10_images/img-65.jpeg) |  |  |
-| Rhombohedral $a=b=c$ $\alpha=\beta=\gamma \neq 90^{\circ}$ | ![Image](Chapter_10_images/img-66.jpeg) |  |  |
+![Image](Chapter_10_images/img-83.png)
 
 Figure 10.56 There are seven different lattice systems and 14 different unit cells.
 
@@ -1065,6 +1085,8 @@ ions into a crystal structure is more complex than the packing of metal atoms th
 Most monatomic ions behave as charged spheres, and their attraction for ions of opposite charge is the same in every direction. Consequently, stable structures for ionic compounds result (1) when ions of one charge are surrounded by as many ions as possible of the opposite charge and (2) when the cations and anions are in contact with each other. Structures are determined by two principal factors: the relative sizes of the ions and the ratio of the numbers of positive and negative ions in the compound.
 
 In simple ionic structures, we usually find the anions, which are normally larger than the cations, arranged in a closest-packed array. (As seen previously, additional electrons attracted to the same nucleus make anions larger and fewer electrons attracted to the same nucleus make cations smaller when compared to the atoms from which they are formed.) The smaller cations commonly occupy one of two types of holes (or interstices) remaining between the anions. The smaller of the holes is found between three anions in one plane and one anion in an adjacent plane. The four anions surrounding this hole are arranged at the corners of a tetrahedron, so the hole is called a tetrahedral hole. The larger type of hole is found at the center of six anions (three in one layer and three in an adjacent layer) located at the corners of an octahedron; this is called an octahedral hole. Figure 10.57 illustrates both of these types of holes.
+
+
 ![Image](Chapter_10_images/img-67.jpeg)
 
 Figure 10.57 Cations may occupy two types of holes between anions: octahedral holes or tetrahedral holes.
@@ -1119,6 +1141,8 @@ Different types of ionic compounds often crystallize in the same structure when 
 Many ionic compounds crystallize with cubic unit cells, and we will use these compounds to describe the general features of ionic structures.
 
 When an ionic compound is composed of cations and anions of similar size in a 1:1 ratio, it typically forms a simple cubic structure. Cesium chloride, CsCl , (illustrated in Figure 10.59) is an example of this, with $\mathrm{Cs}^{+}$and $\mathrm{Cl}^{-}$having radii of 174 pm and 181 pm , respectively. We can think of this as chloride ions forming a simple cubic unit cell, with a cesium ion in the center; or as cesium ions forming a unit cell with a chloride ion in the center; or as simple cubic unit cells formed by $\mathrm{Cs}^{+}$ions overlapping unit cells formed by $\mathrm{Cl}^{-}$ions. Cesium ions and chloride ions touch along the body diagonals of the unit cells. One cesium ion and one chloride ion are present per unit cell, giving the 1:1 stoichiometry required by the formula for cesium chloride. Note that there is no lattice point in the center of the cell, and CsCl is not a BCC structure because a cesium ion is not identical to a chloride ion.
+
+
 ![Image](Chapter_10_images/img-69.jpeg)
 
 Figure 10.59 Ionic compounds with similar-sized cations and anions, such as CsCl, usually form a simple cubic structure. They can be described by unit cells with either cations at the corners or anions at the corners.
@@ -1126,12 +1150,16 @@ Figure 10.59 Ionic compounds with similar-sized cations and anions, such as CsCl
 We have said that the location of lattice points is arbitrary. This is illustrated by an alternate description of the CsCl structure in which the lattice points are located in the centers of the cesium ions. In this description, the cesium ions are located on the lattice points at the corners of the cell, and the chloride ion is located at the center of the cell. The two unit cells are different, but they describe identical structures.
 
 When an ionic compound is composed of a 1:1 ratio of cations and anions that differ significantly in size, it typically crystallizes with an FCC unit cell, like that shown in Figure 10.60. Sodium chloride, NaCl , is an example of this, with $\mathrm{Na}^{+}$and $\mathrm{Cl}^{-}$having radii of 102 pm and 181 pm , respectively. We can think of this as chloride ions forming an FCC cell, with sodium ions located in the octahedral holes in the middle of the cell edges and in the center of the cell. The sodium and chloride ions touch each other along the cell edges. The unit cell contains four sodium ions and four chloride ions, giving the 1:1 stoichiometry required by the formula, NaCl .
+
+
 ![Image](Chapter_10_images/img-70.jpeg)
 
 Face-centered simple cubic structure
 Figure 10.60 Ionic compounds with anions that are much larger than cations, such as NaCl , usually form an FCC structure. They can be described by FCC unit cells with cations in the octahedral holes.
 
 The cubic form of zinc sulfide, zinc blende, also crystallizes in an FCC unit cell, as illustrated in Figure 10.61. This structure contains sulfide ions on the lattice points of an FCC lattice. (The arrangement of sulfide ions is identical to the arrangement of chloride ions in sodium chloride.) The radius of a zinc ion is only about $40 \%$ of the radius of a sulfide ion, so these small $\mathrm{Zn}^{2+}$ ions are located in alternating tetrahedral holes, that is, in one half of the tetrahedral holes. There are four zinc ions and four sulfide ions in the unit cell, giving the empirical formula ZnS .
+
+
 ![Image](Chapter_10_images/img-71.jpeg)
 
 ZnS face-centered unit cell
@@ -1152,13 +1180,14 @@ If we know the edge length of a unit cell of an ionic compound and the position 
 
 **Calculation of Ionic Radii**
 
-The edge length of the unit cell of $\mathrm{LiCl}(\mathrm{NaCl}$-like structure, FCC) is 0.514 nm or $5.14 \AA$. Assuming that the lithium ion is small enough so that the chloride ions are in contact, as in Figure 10.60, calculate the ionic radius for the chloride ion.
+The edge length of the unit cell of $\mathrm{LiCl}(\mathrm{NaCl}$-like structure, FCC) is 0.514 nm or $5.14 \text{ Å}$. Assuming that the lithium ion is small enough so that the chloride ions are in contact, as in Figure 10.60, calculate the ionic radius for the chloride ion.
 
-Note: The length unit angstrom, $\AA$, is often used to represent atomic-scale dimensions and is equivalent to $10^{-10} \mathrm{~m}$.
+Note: The length unit angstrom, $\text{ Å}$, is often used to represent atomic-scale dimensions and is equivalent to $10^{-10} \mathrm{~m}$.
 
 **Solution**
 
 On the face of a LiCl unit cell, chloride ions contact each other across the diagonal of the face:
+
 ![Image](Chapter_10_images/img-73.jpeg)
 
 Drawing a right triangle on the face of the unit cell, we see that the length of the diagonal is equal to four chloride radii (one radius from each corner chloride and one diameter-which equals two radii-from the chloride ion in the center of the face), so $d=4 r$. From the Pythagorean theorem, we have:
@@ -1176,21 +1205,22 @@ $$
 Solving this gives:
 
 $$
-r=\sqrt{\frac{(0.514 \mathrm{~nm})^{2}+(0.514 \mathrm{~nm})^{2}}{16}}=0.182 \mathrm{~nm}(1.82 \AA) \text { for a } \mathrm{Cl}^{-} \text {radius. }
+r=\sqrt{\frac{(0.514 \mathrm{~nm})^{2}+(0.514 \mathrm{~nm})^{2}}{16}}=0.182 \mathrm{~nm}(1.82 \text{ Å}) \text { for a } \mathrm{Cl}^{-} \text {radius. }
 $$
 
 **Check Your Learning** 
 
-The edge length of the unit cell of $\mathrm{KCl}(\mathrm{NaCl}$-like structure, FCC) is $6.28 \AA$. Assuming anion-cation contact along the cell edge, calculate the radius of the potassium ion. The radius of the chloride ion is $1.82 \AA$.
+The edge length of the unit cell of $\mathrm{KCl}(\mathrm{NaCl}$-like structure, FCC) is $6.28 \text{ Å}$. Assuming anion-cation contact along the cell edge, calculate the radius of the potassium ion. The radius of the chloride ion is $1.82 \text{ Å}$.
 
-Answer: The radius of the potassium ion is $1.33 \AA$.
+Answer: The radius of the potassium ion is $1.33 \text{ Å}$.
 It is important to realize that values for ionic radii calculated from the edge lengths of unit cells depend on numerous assumptions, such as a perfect spherical shape for ions, which are approximations at best. Hence, such calculated values are themselves approximate and comparisons cannot be pushed too far. Nevertheless, this method has proved useful for calculating ionic radii from experimental measurements such as X-ray crystallographic determinations.
 
 #### X-Ray Crystallography
 
-The size of the unit cell and the arrangement of atoms in a crystal may be determined from measurements of the diffraction of X-rays by the crystal, termed X-ray crystallography. Diffraction is the change in the direction of travel experienced by an electromagnetic wave when it encounters a physical barrier whose dimensions are comparable to those of the wavelength of the light. X-rays are electromagnetic radiation with wavelengths about as long as the distance between neighboring atoms in crystals (on the order of a few $\AA$ ).
+The size of the unit cell and the arrangement of atoms in a crystal may be determined from measurements of the diffraction of X-rays by the crystal, termed X-ray crystallography. Diffraction is the change in the direction of travel experienced by an electromagnetic wave when it encounters a physical barrier whose dimensions are comparable to those of the wavelength of the light. X-rays are electromagnetic radiation with wavelengths about as long as the distance between neighboring atoms in crystals (on the order of a few $\text{ Å}$ ).
 
 When a beam of monochromatic X-rays strikes a crystal, its rays are scattered in all directions by the atoms within the crystal. When scattered waves traveling in the same direction encounter one another, they undergo interference, a process by which the waves combine to yield either an increase or a decrease in amplitude (intensity) depending upon the extent to which the combining waves' maxima are separated (see Figure 10.63).
+
 ![Image](Chapter_10_images/img-74.jpeg)
 
 Figure 10.63 Light waves occupying the same space experience interference, combining to yield waves of greater (a) or lesser (b) intensity, depending upon the separation of their maxima and minima.
@@ -1241,6 +1271,7 @@ Answer: $21.9^{\circ}$
 The discovery of the structure of DNA in 1953 by Francis Crick and James Watson is one of the great achievements in the history of science. They were awarded the 1962 Nobel Prize in Physiology or Medicine, along with Maurice Wilkins, who provided experimental proof of DNA's structure. British chemist Rosalind Franklin made invaluable contributions to this monumental achievement through her work in measuring X-ray diffraction images of DNA. Early in her career, Franklin's research on the structure of coals proved helpful to the British war effort. After shifting her focus to biological systems in the early 1950s, Franklin and doctoral student Raymond Gosling discovered that DNA consists of two forms: a long, thin fiber formed when wet (type "B") and a short, wide fiber formed when dried (type "A"). Her X-ray diffraction images of DNA (Figure 10.66) provided the crucial information that allowed Watson and Crick to confirm that DNA forms a double helix, and
 
 to determine details of its size and structure. Franklin also conducted pioneering research on viruses and the RNA that contains their genetic information, uncovering new information that radically changed the body of knowledge in the field. After developing ovarian cancer, Franklin continued to work until her death in 1958 at age 37. Among many posthumous recognitions of her work, the Chicago Medical School of Finch University of Health Sciences changed its name to the Rosalind Franklin University of Medicine and Science in 2004, and adopted an image of her famous X-ray diffraction image of DNA as its official university logo.
+
 ![Image](Chapter_10_images/img-77.jpeg)
 
 Figure 10.66 This illustration shows an X-ray diffraction image similar to the one Franklin found in her research. (credit: National Institutes of Health)
@@ -1356,33 +1387,48 @@ The structures of crystalline metals and simple ionic compounds can be described
 (a) Select the Solid, Liquid, Gas tab. Explore by selecting different substances, heating and cooling the systems, and changing the state. What similarities do you notice between the four substances for each phase (solid, liquid, gas)? What differences do you notice?
 (b) For each substance, select each of the states and record the given temperatures. How do the given temperatures for each state correlate with the strengths of their intermolecular attractions? Explain.
 (c) Select the Interaction Potential tab, and use the default neon atoms. Move the Ne atom on the right and observe how the potential energy changes. Select the Total Force button, and move the Ne atom as before. When is the total force on each atom attractive and large enough to matter? Then select the Component Forces button, and move the Ne atom. When do the attractive (van der Waals) and repulsive (electron overlap) forces balance? How does this relate to the potential energy versus the distance between atoms graph? Explain.
+
 7. Define the following and give an example of each:
 (a) dispersion force
 (b) dipole-dipole attraction
 (c) hydrogen bond
+
 8. The types of intermolecular forces in a substance are identical whether it is a solid, a liquid, or a gas. Why then does a substance change phase from a gas to a liquid or to a solid?
+
 9. Why do the boiling points of the noble gases increase in the order $\mathrm{He}<\mathrm{Ne}<\mathrm{Ar}<\mathrm{Kr}<\mathrm{Xe}$ ?
+
 10. Neon and HF have approximately the same molecular masses.
 (a) Explain why the boiling points of Neon and HF differ.
 (b) Compare the change in the boiling points of $\mathrm{Ne}, \mathrm{Ar}, \mathrm{Kr}$, and Xe with the change of the boiling points of $\mathrm{HF}, \mathrm{HCl}$, HBr , and HI , and explain the difference between the changes with increasing atomic or molecular mass.
+
 11. Arrange each of the following sets of compounds in order of increasing boiling point temperature:
 (a) $\mathrm{HCl}, \mathrm{H}_{2} \mathrm{O}, \mathrm{SiH}_{4}$
 (b) $\mathrm{F}_{2}, \mathrm{Cl}_{2}, \mathrm{Br}_{2}$
 (c) $\mathrm{CH}_{4}, \mathrm{C}_{2} \mathrm{H}_{6}, \mathrm{C}_{3} \mathrm{H}_{8}$
 (d) $\mathrm{O}_{2}, \mathrm{NO}, \mathrm{N}_{2}$
+
 12. The molecular mass of butanol, $\mathrm{C}_{4} \mathrm{H}_{9} \mathrm{OH}$, is 74.14 ; that of ethylene glycol, $\mathrm{CH}_{2}(\mathrm{OH}) \mathrm{CH}_{2} \mathrm{OH}$, is 62.08 , yet their boiling points are $117.2^{\circ} \mathrm{C}$ and $174^{\circ} \mathrm{C}$, respectively. Explain the reason for the difference.
+
 13. On the basis of intermolecular attractions, explain the differences in the boiling points of $n$-butane $\left(-1^{\circ} \mathrm{C}\right)$ and chloroethane $\left(12^{\circ} \mathrm{C}\right)$, which have similar molar masses.
+
 14. On the basis of dipole moments and/or hydrogen bonding, explain in a qualitative way the differences in the boiling points of acetone $\left(56.2^{\circ} \mathrm{C}\right)$ and 1-propanol $\left(97.4^{\circ} \mathrm{C}\right)$, which have similar molar masses.
+
 15. The melting point of $\mathrm{H}_{2} \mathrm{O}(s)$ is $0^{\circ} \mathrm{C}$. Would you expect the melting point of $\mathrm{H}_{2} \mathrm{~S}(s)$ to be $-85^{\circ} \mathrm{C}, 0^{\circ} \mathrm{C}$, or 185 ${ }^{\circ} \mathrm{C}$ ? Explain your answer.
+
 16. Silane $\left(\mathrm{SiH}_{4}\right)$, phosphine $\left(\mathrm{PH}_{3}\right)$, and hydrogen sulfide $\left(\mathrm{H}_{2} \mathrm{~S}\right)$ melt at $-185^{\circ} \mathrm{C},-133^{\circ} \mathrm{C}$, and $-85^{\circ} \mathrm{C}$, respectively. What does this suggest about the polar character and intermolecular attractions of the three compounds?
+
 17. Explain why a hydrogen bond between two water molecules is weaker than a hydrogen bond between two hydrogen fluoride molecules.
 
 18. Under certain conditions, molecules of acetic acid, $\mathrm{CH}_{3} \mathrm{COOH}$, form "dimers," pairs of acetic acid molecules held together by strong intermolecular attractions:
+
 ![Image](Chapter_10_images/img-78.jpeg)
 
 Draw a dimer of acetic acid, showing how two $\mathrm{CH}_{3} \mathrm{COOH}$ molecules are held together, and stating the type of IMF that is responsible.
+
 19. Proteins are chains of amino acids that can form in a variety of arrangements, one of which is a helix. What kind of IMF is responsible for holding the protein strand in this shape? On the protein image, show the locations of the IMFs that hold the protein together:
+
 ![Image](Chapter_10_images/img-79.jpeg)
+
 20. The density of liquid $\mathrm{NH}_{3}$ is $0.64 \mathrm{~g} / \mathrm{mL}$; the density of gaseous $\mathrm{NH}_{3}$ at STP is $0.0007 \mathrm{~g} / \mathrm{mL}$. Explain the difference between the densities of these two phases.
 21. Identify the intermolecular forces present in the following solids:
 (a) $\mathrm{CH}_{3} \mathrm{CH}_{2} \mathrm{OH}$
@@ -1394,24 +1440,24 @@ Draw a dimer of acetic acid, showing how two $\mathrm{CH}_{3} \mathrm{COOH}$ mol
 22. The test tubes shown here contain equal amounts of the specified motor oils. Identical metal spheres were dropped at the same time into each of the tubes, and a brief moment later, the spheres had fallen to the heights indicated in the illustration.
 
 Rank the motor oils in order of increasing viscosity, and explain your reasoning:
+
 ![Image](Chapter_10_images/img-80.jpeg)
 
 23. Although steel is denser than water, a steel needle or paper clip placed carefully lengthwise on the surface of still water can be made to float. Explain at a molecular level how this is possible.
+
 ![Image](Chapter_10_images/img-81.jpeg)
 
 Figure 10.67 (credit: Cory Zanker)
+
 24. The surface tension and viscosity values for diethyl ether, acetone, ethanol, and ethylene glycol are shown here.
 
-| Compound | Molecule | Surface Tension <br> $(\mathrm{mN} / \mathrm{m})$ | Viscosity <br> $(\mathrm{mPa} \mathrm{s})$ |
-| :--: | :--: | :--: | :--: |
-| diethyl ether <br> $\mathrm{C}_{2} \mathrm{H}_{5} \mathrm{OC}_{2} \mathrm{H}_{5}$ |  | 17 | 0.22 |
-| acetone <br> $\mathrm{CH}_{3} \mathrm{COCH}_{3}$ |  | 23 | 0.31 |
-| ethanol <br> $\mathrm{C}_{2} \mathrm{H}_{5} \mathrm{OH}$ |  | 22 | 1.07 |
-| ethylene glycol <br> $\mathrm{CH}_{2}(\mathrm{OH}) \mathrm{CH}_{2}(\mathrm{OH})$ |  | 48 | 16.1 |
+![Image](Chapter_10_images/img-84.png)
 
 (a) Explain their differences in viscosity in terms of the size and shape of their molecules and their IMFs.
 (b) Explain their differences in surface tension in terms of the size and shape of their molecules and their IMFs:
+
 25. You may have heard someone use the figure of speech "slower than molasses in winter" to describe a process that occurs slowly. Explain why this is an apt idiom, using concepts of molecular size and shape, molecular interactions, and the effect of changing temperature.
+
 26. It is often recommended that you let your car engine run idle to warm up before driving, especially on cold winter days. While the benefit of prolonged idling is dubious, it is certainly true that a warm engine is more fuel efficient than a cold one. Explain the reason for this.
 
 27. The surface tension and viscosity of water at several different temperatures are given in this table.
@@ -1491,7 +1537,9 @@ Figure 10.67 (credit: Cory Zanker)
 62. Is it possible to liquefy nitrogen at room temperature (about $25^{\circ} \mathrm{C}$ )? Is it possible to liquefy sulfur dioxide at room temperature? Explain your answers.
 
 63. Elemental carbon has one gas phase, one liquid phase, and two different solid phases, as shown in the phase diagram:
+
 ![Image](Chapter_10_images/img-82.jpeg)
+
 (a) On the phase diagram, label the gas and liquid regions.
 (b) Graphite is the most stable phase of carbon at normal conditions. On the phase diagram, label the graphite phase.
 (c) If graphite at normal conditions is heated to 2500 K while the pressure is increased to $10^{10} \mathrm{~Pa}$, it is converted into diamond. Label the diamond phase.
@@ -1574,14 +1622,14 @@ Substance A is malleable, ductile, conducts electricity well, and has a melting 
 78. What is the coordination number of an aluminum atom in the face-centered cubic structure of aluminum?
 79. Cobalt metal crystallizes in a hexagonal closest packed structure. What is the coordination number of a cobalt atom?
 80. Nickel metal crystallizes in a cubic closest packed structure. What is the coordination number of a nickel atom?
-81. Tungsten crystallizes in a body-centered cubic unit cell with an edge length of $3.165 \AA$.
+81. Tungsten crystallizes in a body-centered cubic unit cell with an edge length of $3.165 \text{ Å}$.
 (a) What is the atomic radius of tungsten in this structure?
 (b) Calculate the density of tungsten.
-82. Platinum (atomic radius $=1.38 \AA$ ) crystallizes in a cubic closely packed structure. Calculate the edge length of the face-centered cubic unit cell and the density of platinum.
-83. Barium crystallizes in a body-centered cubic unit cell with an edge length of $5.025 \AA$
+82. Platinum (atomic radius $=1.38 \text{ Å}$ ) crystallizes in a cubic closely packed structure. Calculate the edge length of the face-centered cubic unit cell and the density of platinum.
+83. Barium crystallizes in a body-centered cubic unit cell with an edge length of $5.025 \text{ Å}$
 (a) What is the atomic radius of barium in this structure?
 (b) Calculate the density of barium.
-84. Aluminum (atomic radius $=1.43 \AA$ ) crystallizes in a cubic closely packed structure. Calculate the edge length of the face-centered cubic unit cell and the density of aluminum.
+84. Aluminum (atomic radius $=1.43 \text{ Å}$ ) crystallizes in a cubic closely packed structure. Calculate the edge length of the face-centered cubic unit cell and the density of aluminum.
 
 85. The density of aluminum is $2.7 \mathrm{~g} / \mathrm{cm}^{3}$; that of silicon is $2.3 \mathrm{~g} / \mathrm{cm}^{3}$. Explain why Si has the lower density even though it has heavier atoms.
 86. The free space in a metal may be found by subtracting the volume of the atoms in a unit cell from the volume of the cell. Calculate the percentage of free space in each of the three cubic lattices if all atoms in each are of equal size and touch their nearest neighbors. Which of these structures represents the most efficient packing? That is, which packs with the least amount of unused space?
@@ -1596,10 +1644,10 @@ Substance A is malleable, ductile, conducts electricity well, and has a melting 
 95. As minerals were formed from the molten magma, different ions occupied the same cites in the crystals. Lithium often occurs along with magnesium in minerals despite the difference in the charge on their ions. Suggest an explanation.
 96. Rubidium iodide crystallizes with a cubic unit cell that contains iodide ions at the corners and a rubidium ion in the center. What is the formula of the compound?
 97. One of the various manganese oxides crystallizes with a cubic unit cell that contains manganese ions at the corners and in the center. Oxide ions are located at the center of each edge of the unit cell. What is the formula of the compound?
-98. NaH crystallizes with the same crystal structure as NaCl . The edge length of the cubic unit cell of NaH is 4.880 $\AA$.
-(a) Calculate the ionic radius of $\mathrm{H}^{-}$. (The ionic radius of $\mathrm{Li}^{+}$is $0.0 .95 \AA$.)
+98. NaH crystallizes with the same crystal structure as NaCl . The edge length of the cubic unit cell of NaH is 4.880 $\text{ Å}$.
+(a) Calculate the ionic radius of $\mathrm{H}^{-}$. (The ionic radius of $\mathrm{Li}^{+}$is $0.0 .95 \text{ Å}$.)
 (b) Calculate the density of NaH .
-99. Thallium(I) iodide crystallizes with the same structure as CsCl . The edge length of the unit cell of TlI is $4.20 \AA$. Calculate the ionic radius of $\mathrm{Tl}^{+}$. (The ionic radius of $\mathrm{I}^{-}$is $2.16 \AA$.)
+99. Thallium(I) iodide crystallizes with the same structure as CsCl . The edge length of the unit cell of TlI is $4.20 \text{ Å}$. Calculate the ionic radius of $\mathrm{Tl}^{+}$. (The ionic radius of $\mathrm{I}^{-}$is $2.16 \text{ Å}$.)
 100. A cubic unit cell contains manganese ions at the corners and fluoride ions at the center of each edge.
 (a) What is the empirical formula of this compound? Explain your answer.
 (b) What is the coordination number of the $\mathrm{Mn}^{3+}$ ion?
@@ -1609,5 +1657,5 @@ Substance A is malleable, ductile, conducts electricity well, and has a melting 
 101. What is the spacing between crystal planes that diffract $X$-rays with a wavelength of 1.541 nm at an angle $\theta$ of $15.55^{\circ}$ (first order reflection)?
 102. A diffractometer using X-rays with a wavelength of 0.2287 nm produced first order diffraction peak for a crystal angle $\theta=16.21^{\circ}$. Determine the spacing between the diffracting planes in this crystal.
 103. A metal with spacing between planes equal to 0.4164 nm diffracts $X$-rays with a wavelength of 0.2879 nm . What is the diffraction angle for the first order diffraction peak?
-104. Gold crystallizes in a face-centered cubic unit cell. The second-order reflection $(\mathrm{n}=2)$ of X-rays for the planes that make up the tops and bottoms of the unit cells is at $\theta=22.20^{\circ}$. The wavelength of the X-rays is $1.54 \AA$. What is the density of metallic gold?
-105. When an electron in an excited molybdenum atom falls from the L to the K shell, an X-ray is emitted. These X-rays are diffracted at an angle of $7.75^{\circ}$ by planes with a separation of $2.64 \AA$. What is the difference in energy between the K shell and the L shell in molybdenum assuming a first order diffraction?
+104. Gold crystallizes in a face-centered cubic unit cell. The second-order reflection $(\mathrm{n}=2)$ of X-rays for the planes that make up the tops and bottoms of the unit cells is at $\theta=22.20^{\circ}$. The wavelength of the X-rays is $1.54 \text{ Å}$. What is the density of metallic gold?
+105. When an electron in an excited molybdenum atom falls from the L to the K shell, an X-ray is emitted. These X-rays are diffracted at an angle of $7.75^{\circ}$ by planes with a separation of $2.64 \text{ Å}$. What is the difference in energy between the K shell and the L shell in molybdenum assuming a first order diffraction?
