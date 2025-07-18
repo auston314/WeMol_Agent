@@ -1,6 +1,4 @@
-## Appendix I 
-
-### Ionization Constants Of Weak Bases
+## Appendix I - Ionization Constants Of Weak Bases
 
 Table 11 **Ionization Constants of Weak Bases**
 

@@ -1,16 +1,16 @@
-# Chapter 15 - Equilibria of Other Reaction Classes
+## Chapter 15 - Equilibria of Other Reaction Classes
 
 ![Image](Chapter_15_images/img-0.jpeg)
 
 Figure 15.1 The mineral fluorite $\left(\mathrm{CaF}_{2}\right)$ is formed when dissolved calcium and fluoride ions precipitate from groundwater within the Earth's crust. Note that pure fluorite is colorless, and that the color in this sample is due to the presence of other metal ions in the crystal.
 
-## Chapter Outline
+**Chapter Outline**
 
 15.1 Precipitation and Dissolution
 15.2 Lewis Acids and Bases
 15.3 Coupled Equilibria
 
-### Introduction
+**Introduction**
 
 The mineral fluorite, $\mathrm{CaF}_{2}$ Figure 15.1, is commonly used as a semiprecious stone in many types of jewelry because of its striking appearance. Deposits of fluorite are formed through a process called hydrothermal precipitation in which calcium and fluoride ions dissolved in groundwater combine to produce insoluble $\mathrm{CaF}_{2}$ in response to some change in solution conditions. For example, a decrease in temperature may trigger fluorite precipitation if its solubility is exceeded at the lower temperature. Because fluoride ion is a weak base, its solubility is also affected by solution pH , and so geologic or other processes that change groundwater pH will also affect the precipitation of fluorite. This chapter extends the equilibrium discussion of other chapters by addressing some additional reaction classes (including precipitation) and systems involving coupled equilibrium reactions.
 

@@ -4,14 +4,14 @@
 
 Figure 3.1 The water in a swimming pool is a complex mixture of substances whose relative amounts must be carefully maintained to ensure the health and comfort of people using the pool. (credit: modification of work by Vic Brincat)
 
-### Chapter Outline
+**Chapter Outline**
 
 3.1 Formula Mass and the Mole Concept
 3.2 Determining Empirical and Molecular Formulas
 3.3 Molarity
 3.4 Other Units for Solution Concentrations
 
-### Introduction
+**Introduction**
 
 Swimming pools have long been a popular means of recreation, exercise, and physical therapy. Since it is impractical to refill large pools with fresh water on a frequent basis, pool water is regularly treated with chemicals to prevent the growth of harmful bacteria and algae. Proper pool maintenance requires regular additions of various chemical compounds in carefully measured amounts. For example, the relative amount of calcium ion, $\mathrm{Ca}^{2+}$, in the water should be maintained within certain limits to prevent eye irritation and avoid damage to the pool bed and plumbing. To maintain proper calcium levels, calcium cations are added to the water in the form of an ionic compound that also contains anions; thus, it is necessary to know both the relative amount of $\mathrm{Ca}^{2+}$ in the compound and the volume of water in the pool in order to achieve the proper calcium level. Quantitative aspects of the composition of substances (such as the calcium-containing compound) and mixtures (such as the pool water) are the subject of this chapter.
 

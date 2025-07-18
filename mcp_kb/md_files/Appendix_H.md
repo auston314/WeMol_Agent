@@ -1,6 +1,4 @@
-## Appendix H 
-
-### Ionization Constants Of Weak Acids
+## Appendix H - Ionization Constants Of Weak Acids
 
 Table H1 **Ionization Constants of Weak Acids**
 

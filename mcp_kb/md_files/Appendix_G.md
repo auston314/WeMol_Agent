@@ -1,4 +1,4 @@
-## Appendix G 
+## Appendix G - Standard Thermodynamic Properties For Selected Substances
 
 Table G1 **Standard Thermodynamic Properties For Selected Substances**
 

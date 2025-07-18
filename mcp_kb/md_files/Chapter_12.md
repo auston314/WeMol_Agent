@@ -1,12 +1,10 @@
-# Chapter 12 
-
-## Kinetics
+## Chapter 12 - Kinetics
 
 ![Image](Chapter_12_images/img-0.jpeg)
 
 Figure 12.1 An agama lizard basks in the sun. As its body warms, the chemical reactions of its metabolism speed up.
 
-## Chapter Outline
+**Chapter Outline**
 
 12.1 Chemical Reaction Rates
 12.2 Factors Affecting Reaction Rates
@@ -16,7 +14,7 @@ Figure 12.1 An agama lizard basks in the sun. As its body warms, the chemical re
 12.6 Reaction Mechanisms
 12.7 Catalysis
 
-### Introduction
+**Introduction**
 
 The lizard in the photograph is not simply enjoying the sunshine or working on its tan. The heat from the sun's rays is critical to the lizard's survival. A warm lizard can move faster than a cold one because the chemical reactions that allow its muscles to move occur more rapidly at higher temperatures. A cold lizard is a slower lizard and an easier meal for predators.
 
@@ -56,13 +54,7 @@ $$
 
 This mathematical representation of the change in species concentration over time is the rate expression for the reaction. The brackets indicate molar concentrations, and the symbol delta ( $\Delta$ ) indicates "change in." Thus, $\left[\mathrm{H}_{2} \mathrm{O}_{2}\right]_{t_{1}}$ represents the molar concentration of hydrogen peroxide at some time $t_{1}$; likewise, $\left[\mathrm{H}_{2} \mathrm{O}_{2}\right]_{t_{2}}$ represents the molar concentration of hydrogen peroxide at a later time $t_{2}$; and $\Delta\left[\mathrm{H}_{2} \mathrm{O}_{2}\right]$ represents the change in molar concentration of hydrogen peroxide during the time interval $\Delta t$ (that is, $t_{2}-t_{1}$ ). Since the reactant concentration decreases as the reaction proceeds, $\Delta\left[\mathrm{H}_{2} \mathrm{O}_{2}\right]$ is a negative quantity. Reaction rates are, by convention, positive quantities, and so this negative change in concentration is multiplied by -1 . Figure 12.2 provides an example of data collected during the decomposition of $\mathrm{H}_{2} \mathrm{O}_{2}$.
 
-| Time (h) | $\left[\mathrm{H}_{2} \mathrm{O}_{2}\right]\left(\mathrm{mol} \mathrm{L}^{-1}\right)$ | $\Delta\left[\mathrm{H}_{2} \mathrm{O}_{2}\right]\left(\mathrm{mol} \mathrm{L}^{-1}\right)$ | $\Delta t(\mathrm{~h})$ | Rate of Decomposition, $\left(\mathrm{mol} \mathrm{L}^{-1} \mathrm{~h}^{-1}\right)$ |
-| :--: | :--: | :--: | :--: | :--: |
-| 0.00 | 1.000 | $-0.500$ | 6.00 | 0.0833 |
-| 6.00 | 0.500 | $-0.250$ | 6.00 | 0.0417 |
-| 12.00 | 0.250 | $-0.125$ | 6.00 | 0.0208 |
-| 18.00 | 0.125 | $-0.062$ | 6.00 | 0.010 |
-| 24.00 | 0.0625 |  |  |  |
+![Image](Chapter_12_images/img-43.png)
 
 Figure 12.2 The rate of decomposition of $\mathrm{H}_{2} \mathrm{O}_{2}$ in an aqueous solution decreases as the concentration of $\mathrm{H}_{2} \mathrm{O}_{2}$ decreases.
 
@@ -258,6 +250,7 @@ The rate of a reaction depends on the nature of the participating substances. Re
 #### The Physical States of the Reactants
 
 A chemical reaction between two or more substances requires intimate contact between the reactants. When reactants are in different physical states, or phases (solid, liquid, gaseous, dissolved), the reaction takes place only at the interface between the phases. Consider the heterogeneous reaction between a solid phase and either a liquid or gaseous phase. Compared with the reaction rate for large solid particles, the rate for smaller particles will be greater because the surface area in contact with the other reactant phase is greater. For example, large pieces of iron react more slowly with acids than they do with finely divided iron powder (Figure 12.6). Large pieces of wood smolder, smaller pieces burn rapidly, and saw dust burns explosively.
+
 ![Image](Chapter_12_images/img-4.jpeg)
 
 Figure 12.6 (a) Iron powder reacts rapidly with dilute hydrochloric acid and produces bubbles of hydrogen gas: $2 \mathrm{Fe}(s)+6 \mathrm{HCl}(a q) \longrightarrow 2 \mathrm{FeCl}_{3}(a q)+3 \mathrm{H}_{2}(g)$. (b) An iron nail reacts more slowly because the surface area exposed to the acid is much less.
@@ -285,6 +278,7 @@ $$
 $$
 
 In a polluted atmosphere where the concentration of sulfur dioxide is high, calcium carbonate deteriorates more rapidly than in less polluted air. Similarly, phosphorus burns much more rapidly in an atmosphere of pure oxygen than in air, which is only about $20 \%$ oxygen.
+
 ![Image](Chapter_12_images/img-5.jpeg)
 
 Figure 12.7 Statues made from carbonate compounds such as limestone and marble typically weather slowly over time due to the actions of water, and thermal expansion and contraction. However, pollutants like sulfur dioxide can accelerate weathering. As the concentration of air pollutants increases, deterioration of limestone occurs more rapidly. (credit: James P Fisher III)
@@ -416,6 +410,7 @@ A common experimental approach to the determination of rate laws is the method o
 **Determining a Rate Law from Initial Rates**
 
 Ozone in the upper atmosphere is depleted when it reacts with nitrogen oxides. The rates of the reactions of nitrogen oxides with ozone are important factors in deciding how significant these reactions are in the formation of the ozone hole over Antarctica (Figure 12.8). One such reaction is the combination of nitric oxide, NO, with ozone, $\mathrm{O}_{3}$ :
+
 ![Image](Chapter_12_images/img-6.jpeg)
 
 Figure 12.8 A contour map showing stratospheric ozone concentration and the "ozone hole" that occurs over Antarctica during its spring months. (credit: modification of work by NASA)
@@ -476,9 +471,6 @@ Determine the rate law and the rate constant for the reaction from the following
 | :--: | :--: | :--: |
 | 1 | $1.75 \times 10^{-3}$ | $2.06 \times 10^{-11}$ |
 | 2 | $3.50 \times 10^{-3}$ | $8.24 \times 10^{-11}$ |
-
-| Trial | $\left[\mathrm{CH}_{3} \mathrm{CHO}\right]\left(\mathrm{mol} / \mathrm{L}\right)$ | $-\frac{\Delta\left[\mathrm{CH}_{3} \mathrm{CHO}\right]}{\Delta t}\left(\mathrm{~mol} \mathrm{~L}^{-1} \mathrm{~s}^{-1}\right)$ |
-| :--: | :--: | :--: |
 | 3 | $7.00 \times 10^{-3}$ | $3.30 \times 10^{-10}$ |
 
 Answer: $\quad$ rate $=k\left[\mathrm{CH}_{3} \mathrm{CHO}\right]^{2}$ with $k=6.73 \times 10^{-6} \mathrm{~L} / \mathrm{mol} / \mathrm{s}$
@@ -647,7 +639,7 @@ It is important to note that rate laws are determined by experiment only and are
 
 The units for a rate constant will vary as appropriate to accommodate the overall order of the reaction. The unit of the rate constant for the second-order reaction described in Example 12.4 was determined to be $\mathrm{L} \mathrm{mol}^{-1} \mathrm{~s}^{-1}$. For the third-order reaction described in Example 12.5, the unit for $k$ was derived to be $\mathrm{L}^{2} \mathrm{~mol}^{-2} \mathrm{~s}^{-1}$. Dimensional analysis requires the rate constant unit for a reaction whose overall order is $x$ to be $\mathrm{L}^{x-1} \mathrm{~mol}^{1-x} \mathrm{~s}^{-1}$. Table 12.1 summarizes the rate constant units for common reaction orders.
 
-**Rate Constant Units for Common Reaction Orders**
+Table 12.1 **Rate Constant Units for Common Reaction Orders**
 
 | Overall Reaction Order $(\mathrm{x})$ | Rate Constant Unit $\left(\mathrm{L}^{\mathrm{x}-1} \mathrm{~mol}^{\mathrm{x}-x} \mathrm{~s}^{-1}\right)$ |
 | :--: | :--: |
@@ -656,7 +648,7 @@ The units for a rate constant will vary as appropriate to accommodate the overal
 | 2 (second) | $\mathrm{L} \mathrm{mol}^{-1} \mathrm{~s}^{-1}$ |
 | 3 (third) | $\mathrm{L}^{2} \mathrm{~mol}^{-2} \mathrm{~s}^{-1}$ |
 
-Table 12.1
+
 
 Note that the units in this table were derived using specific units for concentration ( $\mathrm{mol} / \mathrm{L}$ ) and time (s), though any valid units for these two properties may be used.
 
@@ -896,6 +888,7 @@ In order to distinguish a first-order reaction from a second-order reaction, pre
 | 6200 | 481 | -6.175 |
 
 The plots are shown in Figure 12.10, which clearly shows the plot of $\ln \left[\mathrm{C}_{4} \mathrm{H}_{6}\right]_{t}$ versus $t$ is not linear, therefore the reaction is not first order. The plot of $\frac{1}{\left[\mathrm{C}_{4} \mathrm{H}_{6}\right]_{t}}$ versus $t$ is linear, indicating that the reaction is second order.
+
 ![Image](Chapter_12_images/img-9.jpeg)
 
 Figure 12.10 These two graphs show first- and second-order plots for the dimerization of $\mathrm{C}_{4} \mathrm{H}_{6}$. The linear trend in the second-order plot (right) indicates that the reaction follows second-order kinetics.
@@ -917,12 +910,10 @@ Do the following data fit a second-order rate law?
 | 3 | 15 | 0.465 |
 | 4 | 20 | 0.370 |
 | 5 | 25 | 0.308 |
-
-| Trial | Time (s) | $[A](\mathrm{M})$ |
-| :--: | :--: | :--: |
 | 6 | 35 | 0.230 |
 
 Answer: Yes. The plot of $\frac{1}{[A]_{t}}$ vs. $t$ is linear:
+
 ![Image](Chapter_12_images/img-10.jpeg)
 
 #### Zero-Order Reactions 
@@ -967,6 +958,7 @@ $$
 The zero-order plot in Figure 12.11 shows an initial ammonia concentration of $0.0028 \mathrm{~mol} \mathrm{~L}^{-1}$ decreasing linearly with time for 1000 s . Assuming no change in this zero-order behavior, at what time (min) will the concentration reach $0.0001 \mathrm{~mol} \mathrm{~L}^{-1}$ ?
 
 Answer: 35 min
+
 ![Image](Chapter_12_images/img-11.jpeg)
 
 Figure 12.11 The decomposition of $\mathrm{NH}_{3}$ on a tungsten $(\mathrm{W})$ surface is a zero-order reaction, whereas on a quartz $\left(\mathrm{SiO}_{2}\right)$ surface, the reaction is first order.
@@ -1007,6 +999,7 @@ This equation describes an expected inverse relation between the half-life of th
 **Calculation of a First-order Rate Constant using Half-Life**
 
 Calculate the rate constant for the first-order decomposition of hydrogen peroxide in water at $40^{\circ} \mathrm{C}$, using the data given in Figure 12.12.
+
 ![Image](Chapter_12_images/img-12.jpeg)
 
 Figure 12.12 The decomposition of $\mathrm{H}_{2} \mathrm{O}_{2}\left(2 \mathrm{H}_{2} \mathrm{O}_{2} \longrightarrow 2 \mathrm{H}_{2} \mathrm{O}+\mathrm{O}_{2}\right)$ at $40^{\circ} \mathrm{C}$ is illustrated. The intensity of the color symbolizes the concentration of $\mathrm{H}_{2} \mathrm{O}_{2}$ at the indicated times; $\mathrm{H}_{2} \mathrm{O}_{2}$ is actually colorless.
@@ -1089,7 +1082,7 @@ As for all reaction orders, the half-life for a zero-order reaction is inversely
 
 Equations for both differential and integrated rate laws and the corresponding half-lives for zero-, first-, and secondorder reactions are summarized in Table 12.2.
 
-**Summary of Rate Laws for Zero-, First-, and Second-Order Reactions** 
+Table 12.2 **Summary of Rate Laws for Zero-, First-, and Second-Order Reactions** 
 
 |  | Zero-Order | First-Order | Second-Order |
 | :--: | :--: | :--: | :--: |
@@ -1100,7 +1093,7 @@ Equations for both differential and integrated rate laws and the corresponding h
 | relationship between slope of linear plot <br> and rate constant | $k=-$ slope | $k=-$ slope | $k=$ slope |
 | half-life | $t_{1 / 2}=\frac{[A]_{0}}{2 k}$ | $t_{1 / 2}=\frac{0.693}{k}$ | $t_{1 / 2}=\frac{1}{[A]_{0} k}$ |
 
-Table 12.2
+
 
 #### Example 12.12
 
@@ -1346,6 +1339,7 @@ $$
 $$
 
 illustrates a unimolecular elementary reaction that occurs as one part of a two-step reaction mechanism as described above. However, some unimolecular reactions may be the only step of a single-step reaction mechanism. (In other words, an "overall" reaction may also be an elementary reaction in some cases.) For example, the gas-phase decomposition of cyclobutane, $\mathrm{C}_{4} \mathrm{H}_{8}$, to ethylene, $\mathrm{C}_{2} \mathrm{H}_{4}$, is represented by the following chemical equation:
+
 ![Image](Chapter_12_images/img-17.jpeg)
 
 This equation represents the overall reaction observed, and it might also represent a legitimate unimolecular elementary reaction. The rate law predicted from this equation, assuming it is an elementary reaction, turns out to be the same as the rate law derived experimentally for the overall reaction, namely, one showing first-order behavior:
@@ -1421,6 +1415,7 @@ $$
 #### Relating Reaction Mechanisms to Rate Laws
 
 It's often the case that one step in a multistep reaction mechanism is significantly slower than the others. Because a reaction cannot proceed faster than its slowest step, this step will limit the rate at which the overall reaction occurs. The slowest step is therefore called the rate-limiting step (or rate-determining step) of the reaction Figure 12.18.
+
 ![Image](Chapter_12_images/img-19.jpeg)
 
 Figure 12.18 A cattle chute is a nonchemical example of a rate-determining step. Cattle can only be moved from one holding pen to another as quickly as one animal can make its way through the chute. (credit: Loren Kerns)
@@ -1553,6 +1548,7 @@ Among the factors affecting chemical reaction rates discussed earlier in this ch
 Figure 12.19 shows reaction diagrams for a chemical process in the absence and presence of a catalyst. Inspection of the diagrams reveals several traits of these reactions. Consistent with the fact that the two diagrams represent
 
 the same overall reaction, both curves begin and end at the same energies (in this case, because products are more energetic than reactants, the reaction is endothermic). The reaction mechanisms, however, are clearly different. The uncatalyzed reaction proceeds via a one-step mechanism (one transition state observed), whereas the catalyzed reaction follows a two-step mechanism (two transition states observed) with a notably lesser activation energy. This difference illustrates the means by which a catalyst functions to accelerate reactions, namely, by providing an alternative reaction mechanism with a lower activation energy. Although the catalyzed reaction mechanism for a reaction needn't necessarily involve a different number of steps than the uncatalyzed mechanism, it must provide a reaction path whose rate determining step is faster (lower $E_{\mathrm{a}}$ ).
+
 ![Image](Chapter_12_images/img-20.jpeg)
 
 Figure 12.19 Reaction diagrams for an endothermic process in the absence (red curve) and presence (blue curve) of a catalyst. The catalyzed pathway involves a two-step mechanism (note the presence of two transition states) and an intermediate species (represented by the valley between the two transitions states).
@@ -1580,6 +1576,7 @@ The catalyzed reaction is the one with lesser activation energy, in this case re
 **Check Your Learning** 
 
 Reaction diagrams for a chemical process with and without a catalyst are shown below. Both reactions involve a two-step mechanism with a rate-determining first step. Compute activation energies for the first step of each mechanism, and identify which corresponds to the catalyzed reaction. How do the second steps of these two mechanisms compare?
+
 ![Image](Chapter_12_images/img-22.jpeg)
 
 Answer: For the first step, $E_{\mathrm{a}}=80 \mathrm{~kJ}$ for (a) and 70 kJ for (b), so diagram (b) depicts the catalyzed reaction. Activation energies for the second steps of both mechanisms are the same, 20 kJ .
@@ -1628,6 +1625,7 @@ characteristic trait of a catalyst: Though it participates in the chemical react
 **Mario J. Molina**
 
 The 1995 Nobel Prize in Chemistry was shared by Paul J. Crutzen, Mario J. Molina (Figure 12.20), and F. Sherwood Rowland "for their work in atmospheric chemistry, particularly concerning the formation and decomposition of ozone." ${ }^{[1]}$ Molina, a Mexican citizen, carried out the majority of his work at the Massachusetts Institute of Technology (MIT).
+
 ![Image](Chapter_12_images/img-23.jpeg)
 
 Figure 12.20 (a) Mexican chemist Mario Molina (1943 -) shared the Nobel Prize in Chemistry in 1995 for his research on (b) the Antarctic ozone hole. (credit a: courtesy of Mario Molina; credit b: modification of work by NASA)
@@ -1660,6 +1658,7 @@ Since receiving his portion of the Nobel Prize, Molina has continued his work in
 **Glucose-6-Phosphate Dehydrogenase Deficiency**
 
 Enzymes in the human body act as catalysts for important chemical reactions in cellular metabolism. As such, a deficiency of a particular enzyme can translate to a life-threatening disease. G6PD (glucose-6-phosphate dehydrogenase) deficiency, a genetic condition that results in a shortage of the enzyme glucose-6-phosphate dehydrogenase, is the most common enzyme deficiency in humans. This enzyme, shown in Figure 12.21, is the rate-limiting enzyme for the metabolic pathway that supplies NADPH to cells (Figure 12.22).
+
 ![Image](Chapter_12_images/img-24.jpeg)
 
 Figure 12.21 Glucose-6-phosphate dehydrogenase is a rate-limiting enzyme for the metabolic pathway that supplies NADPH to cells.
@@ -1724,7 +1723,7 @@ The University of California at Davis' "ChemWiki" provides a thorough explanatio
 
 The study of enzymes is an important interconnection between biology and chemistry. Enzymes are usually proteins (polypeptides) that help to control the rate of chemical reactions between biologically important compounds, particularly those that are involved in cellular metabolism. Different classes of enzymes perform a variety of functions, as shown in Table 12.3.
 
-**Classes of Enzymes and Their Functions**
+Table 12.3 **Classes of Enzymes and Their Functions**
 
 | Class | Function |
 | :--: | :--: |
@@ -1735,9 +1734,10 @@ The study of enzymes is an important interconnection between biology and chemist
 | isomerases | isomerization |
 | ligases | bond formation with ATP hydrolysis |
 
-Table 12.3
+
 
 Enzyme molecules possess an active site, a part of the molecule with a shape that allows it to bond to a specific substrate (a reactant molecule), forming an enzyme-substrate complex as a reaction intermediate. There are two models that attempt to explain how this active site works. The most simplistic model is referred to as the lock-and-key hypothesis, which suggests that the molecular shapes of the active site and substrate are complementary, fitting together like a key in a lock. The induced fit hypothesis, on the other hand, suggests that the enzyme molecule is flexible and changes shape to accommodate a bond with the substrate. This is not to suggest that an enzyme's active site is completely malleable, however. Both the lock-and-key model and the induced fit model account for the fact that enzymes can only bind with specific substrates, since in general a particular enzyme only catalyzes a particular reaction (Figure 12.25).
+
 ![Image](Chapter_12_images/img-28.jpeg)
 
 Figure 12.25 (a) According to the lock-and-key model, the shape of an enzyme's active site is a perfect fit for the substrate. (b) According to the induced fit model, the active site is somewhat flexible, and can change shape in order to bond with the substrate.
@@ -2065,6 +2065,7 @@ $\mathrm{SO}_{2} \mathrm{Cl}_{2} \longrightarrow \mathrm{SO}_{2}+\mathrm{Cl}_{2}
 43. Both technetium-99 and thallium-201 are used to image heart muscle in patients with suspected heart problems. The half-lives are 6 h and 73 h , respectively. What percent of the radioactivity would remain for each of the isotopes after 2 days $(48 \mathrm{~h})$ ?
 
 44. There are two molecules with the formula $\mathrm{C}_{3} \mathrm{H}_{6}$. Propene, $\mathrm{CH}_{3} \mathrm{CH}=\mathrm{CH}_{2}$, is the monomer of the polymer polypropylene, which is used for indoor-outdoor carpets. Cyclopropane is used as an anesthetic:
+
 ![Image](Chapter_12_images/img-29.jpeg)
 
 When heated to $499^{\circ} \mathrm{C}$, cyclopropane rearranges (isomerizes) and forms propene with a rate constant of $5.95 \times 10^{-4} \mathrm{~s}^{-1}$. What is the half-life of this reaction? What fraction of the cyclopropane remains after 0.75 h at 499 ${ }^{\circ} \mathrm{C}$ ?
@@ -2082,6 +2083,7 @@ When heated to $499^{\circ} \mathrm{C}$, cyclopropane rearranges (isomerizes) an
 | \% Decomposed | 52.0 | 52.9 | 53.2 | 53.9 | 34.6 | 35.9 | 36.0 | 35.4 |
 
 49. For the past 10 years, the unsaturated hydrocarbon 1,3-butadiene $\left(\mathrm{CH}_{2}=\mathrm{CH}-\mathrm{CH}=\mathrm{CH}_{2}\right)$ has ranked 38th among the top 50 industrial chemicals. It is used primarily for the manufacture of synthetic rubber. An isomer exists also as cyclobutene:
+
 ![Image](Chapter_12_images/img-30.jpeg)
 
 The isomerization of cyclobutene to butadiene is first-order and the rate constant has been measured as $2.0 \times 10^{-4}$ $\mathrm{s}^{-1}$ at $150^{\circ} \mathrm{C}$ in a 0.53-L flask. Determine the partial pressure of cyclobutene and its concentration after 30.0 minutes if an isomerization reaction is carried out at $150^{\circ} \mathrm{C}$ with an initial pressure of 55 torr.
@@ -2197,12 +2199,12 @@ $\mathrm{COCl}(g)+\mathrm{Cl}(g) \longrightarrow \mathrm{COCl}_{2}(g)$ (fast, $k
 (c) Write the rate law for each elementary reaction.
 (d) Write the overall rate law expression.
 
+    2. This question is taken from the Chemistry Advanced Placement Examination and is used with the permission of the Educational Testing Service.
+
 #### 12.7 Catalysis 
 
 76. Account for the increase in reaction rate brought about by a catalyst.
 77. Compare the functions of homogeneous and heterogeneous catalysts.
-[^0]
-[^0]:    2. This question is taken from the Chemistry Advanced Placement Examination and is used with the permission of the Educational Testing Service.
 
 78. Consider this scenario and answer the following questions: Chlorine atoms resulting from decomposition of chlorofluoromethanes, such as $\mathrm{CCl}_{2} \mathrm{~F}_{2}$, catalyze the decomposition of ozone in the atmosphere. One simplified mechanism for the decomposition is:
 $\mathrm{O}_{3} \xrightarrow{\text { sunlight }} \mathrm{O}_{2}+\mathrm{O}$
@@ -2216,37 +2218,64 @@ $\mathrm{O}_{3}+\mathrm{NO} \longrightarrow \mathrm{NO}_{2}+\mathrm{O}_{2}$
 $\mathrm{NO}_{2}+\mathrm{O} \longrightarrow \mathrm{NO}+\mathrm{O}_{2}$
 Is NO a catalyst for the decomposition? Explain your answer.
 79. For each of the following pairs of reaction diagrams, identify which of the pair is catalyzed:
+
 (a)
+
 ![Image](Chapter_12_images/img-31.jpeg)
+
 (a)
+
 ![Image](Chapter_12_images/img-32.jpeg)
+
 (a)
+
 ![Image](Chapter_12_images/img-33.jpeg)
+
 (b)
+
 ![Image](Chapter_12_images/img-34.jpeg)
+
 (b)
 
 80. For each of the following pairs of reaction diagrams, identify which of the pairs is catalyzed:
+
 (a)
+
 ![Image](Chapter_12_images/img-35.jpeg)
+
 (a)
+
 ![Image](Chapter_12_images/img-36.jpeg)
+
 (a)
+
 ![Image](Chapter_12_images/img-37.jpeg)
+
 (b)
+
 ![Image](Chapter_12_images/img-38.jpeg)
+
 (b)
 
 81. For each of the following reaction diagrams, estimate the activation energy $\left(E_{\mathrm{a}}\right)$ of the reaction:
+
 (a)
+
 ![Image](Chapter_12_images/img-39.jpeg)
+
 (b)
+
 ![Image](Chapter_12_images/img-40.jpeg)
 
 82. For each of the following reaction diagrams, estimate the activation energy $\left(E_{\mathrm{a}}\right)$ of the reaction:
+
 (a)
+
 ![Image](Chapter_12_images/img-41.jpeg)
+
 (b)
+
 ![Image](Chapter_12_images/img-42.jpeg)
+
 83. Assuming the diagrams in Exercise 12.81 represent different mechanisms for the same reaction, which of the reactions has the faster rate?
 84. Consider the similarities and differences in the two reaction diagrams shown in Exercise 12.82. Do these diagrams represent two different overall reactions, or do they represent the same overall reaction taking place by two different mechanisms? Explain your answer.

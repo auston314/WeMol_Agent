@@ -1,6 +1,4 @@
-## Appendix M 
-
-### Half-Lives For Several Radioactive Isotopes
+## Appendix M - Half-Lives For Several Radioactive Isotopes
 
 Table M1 **Half-Lives for Several Radioactive Isotopes**
 
@@ -35,8 +33,6 @@ Table M1 **Half-Lives for Several Radioactive Isotopes**
 | ${ }_{94}^{239} \mathrm{Pu}$ | $6.54 \times 10^{3} \mathrm{y}$ | $(\alpha)$ | ${ }_{103}^{257} \mathrm{Lr}$ | 0.65 s | $(\alpha)$ |
 | ${ }_{94}^{241} \mathrm{Pu}$ | 14.4 y | $\left(\alpha\right.$ or $\left.\beta^{-}\right)$ | ${ }_{105}^{260} \mathrm{Ha}$ | 1.5 s | ( $\alpha$ or S.F.) |
 | ${ }_{95}^{241} \mathrm{Am}$ | 432.2 y | $(\alpha)$ | ${ }_{106}^{263} \mathrm{Sg}$ | 0.8 s | ( $\alpha$ or S.F.) |
-
-
 
 
 1. $\mathrm{y}=$ years, $\mathrm{d}=$ days, $\mathrm{h}=$ hours, $\mathrm{m}=$ minutes, $\mathrm{s}=$ seconds

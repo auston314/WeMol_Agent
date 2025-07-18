@@ -4,7 +4,7 @@
 
 Figure 9.1 The hot air inside these balloons is less dense than the surrounding cool air. This results in a buoyant force that causes the balloons to rise when their guy lines are untied. (credit: modification of work by Anthony Quintano)
 
-### Chapter Outline
+**Chapter Outline**
 
 9.1 Gas Pressure
 9.2 Relating Pressure, Volume, Amount, and Temperature: The Ideal Gas Law
@@ -13,7 +13,7 @@ Figure 9.1 The hot air inside these balloons is less dense than the surrounding 
 9.5 The Kinetic-Molecular Theory
 9.6 Non-Ideal Gas Behavior
 
-### Introduction
+**Introduction**
 
 We are surrounded by an ocean of gas-the atmosphere-and many of the properties of gases are familiar to us from our daily activities. Heated gases expand, which can make a hot air balloon rise (Figure 9.1) or cause a blowout in a bicycle tire left in the sun on a hot day.
 

@@ -1,8 +1,6 @@
-## Appendix B 
+## Appendix B: Essential Mathematics
 
-### Essential Mathematics
-
-#### Exponential Arithmetic
+**Exponential Arithmetic**
 
 Exponential notation is used to express very large and very small numbers as a product of two numbers. The first number of the product, the digit term, is usually a number not less than 1 and not equal to or greater than 10 . The second number of the product, the exponential term, is written as 10 with an exponent. Some examples of exponential notation are:
 
@@ -21,7 +19,7 @@ $$
 
 The power (exponent) of 10 is equal to the number of places the decimal is shifted to give the digit number. The exponential method is particularly useful notation for every large and very small numbers. For example, $1,230,000,000=1.23 \times 10^{9}$, and $0.00000000036=3.6 \times 10^{-10}$.
 
-#### Addition of Exponentials 
+### Addition of Exponentials 
 
 Convert all numbers to the same power of 10 , add the digit terms of the numbers, and if appropriate, convert the digit term back to a number between 1 and 10 by adjusting the exponential term.
 
@@ -39,7 +37,7 @@ $$
 \end{aligned}
 $$
 
-#### Subtraction of Exponentials
+**Subtraction of Exponentials**
 
 Convert all numbers to the same power of 10 , take the difference of the digit terms, and if appropriate, convert the digit term back to a number between 1 and 10 by adjusting the exponential term.
 
@@ -57,7 +55,7 @@ $$
 \end{aligned}
 $$
 
-#### Multiplication of Exponentials
+### Multiplication of Exponentials
 
 Multiply the digit terms in the usual way and add the exponents of the exponential terms.
 
@@ -72,7 +70,7 @@ $$
 \left(4.2 \times 10^{-8}\right) \times\left(2.0 \times 10^{3}\right)=(4.2 \times 2.0) \times 10^{(-8)+(+3)}=8.4 \times 10^{-5}
 $$
 
-#### Division of Exponentials 
+**Division of Exponentials** 
 
 Divide the digit term of the numerator by the digit term of the denominator and subtract the exponents of the exponential terms.
 
@@ -87,7 +85,7 @@ $$
 \frac{3.6 \times 10^{-5}}{6.0 \times 10^{-4}}=\left(\frac{3.6}{6.0}\right) \times 10^{(-5)-(-4)}=0.60 \times 10^{-1}=6.0 \times 10^{-2}
 $$
 
-#### Squaring of Exponentials
+**Squaring of Exponentials**
 
 Square the digit term in the usual way and multiply the exponent of the exponential term by 2 .
 
@@ -102,7 +100,7 @@ $$
 \left(4.0 \times 10^{-6}\right)^{2}=4 \times 4 \times 10^{2 \times(-6)}=16 \times 10^{-12}=1.6 \times 10^{-11}
 $$
 
-#### Cubing of Exponentials
+**Cubing of Exponentials**
 
 Cube the digit term in the usual way and multiply the exponent of the exponential term by 3 .
 
@@ -117,7 +115,7 @@ $$
 \left(2 \times 10^{4}\right)^{3}=2 \times 2 \times 2 \times 10^{3 \times 4}=8 \times 10^{12}
 $$
 
-#### Taking Square Roots of Exponentials
+**Taking Square Roots of Exponentials**
 
 If necessary, decrease or increase the exponential term so that the power of 10 is evenly divisible by 2 . Extract the square root of the digit term and divide the exponential term by 2 .
 
@@ -136,7 +134,7 @@ $$
 \end{aligned}
 $$
 
-#### Significant Figures
+### Significant Figures
 
 A beekeeper reports that he has 525,341 bees. The last three figures of the number are obviously inaccurate, for during the time the keeper was counting the bees, some of them died and others hatched; this makes it quite difficult to determine the exact number of bees. It would have been more reasonable if the beekeeper had reported the number 525,000. In other words, the last three figures are not significant, except to set the position of the decimal point. Their exact values have no useful meaning in this situation. When reporting quantities, use only as many significant figures as the accuracy of the measurement warrants.
 
@@ -173,7 +171,7 @@ $$
 
 When rounding numbers, increase the retained digit by 1 if it is followed by a number larger than 5 ("round up"). Do not change the retained digit if the digits that follow are less than 5 ("round down"). If the retained digit is followed by 5 , round up if the retained digit is odd, or round down if it is even (after rounding, the retained digit will thus always be even).
 
-#### The Use of Logarithms and Exponential Numbers
+### The Use of Logarithms and Exponential Numbers
 
 The common logarithm of a number (log) is the power to which 10 must be raised to equal that number. For example, the common logarithm of 100 is 2 , because 10 must be raised to the second power to equal 100 . Additional examples follow.
 
@@ -230,7 +228,7 @@ $$
 \log x^{n}=n \log x \text { and } \ln x^{n}=n \ln x
 $$
 
-#### The Solution of Quadratic Equations 
+### The Solution of Quadratic Equations 
 
 Mathematical functions of this form are known as second-order polynomials or, more commonly, quadratic functions.
 

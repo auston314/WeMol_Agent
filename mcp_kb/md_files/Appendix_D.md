@@ -1,6 +1,4 @@
-## Appendix D 
-
-### Fundamental Physical Constants
+## Appendix D - Fundamental Physical Constants
 
 Table D1 **Fundamental Physical Constants**
 
