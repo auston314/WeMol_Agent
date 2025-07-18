@@ -1,10 +1,10 @@
-## Chapter 17 -Electrochemistry
+## Chapter 17 - Electrochemistry
 
 ![Image](Chapter_17_images/img-0.jpeg)
 
 Figure 17.1 Electric vehicles are powered by batteries, devices that harness the energy of spontaneous redox reactions. (credit: modification of work by Robert Couse-Baker)
 
-### Chapter Outline
+**Chapter Outline**
 
 17.1 Review of Redox Chemistry
 17.2 Galvanic Cells
@@ -14,7 +14,7 @@ Figure 17.1 Electric vehicles are powered by batteries, devices that harness the
 17.6 Corrosion
 17.7 Electrolysis
 
-### Introduction
+**Introduction**
 
 Another chapter in this text introduced the chemistry of reduction-oxidation (redox) reactions. This important reaction class is defined by changes in oxidation states for one or more reactant elements, and it includes a subset of reactions involving the transfer of electrons between reactant species. Around the turn of the nineteenth century, chemists began exploring ways these electrons could be transferred indirectly via an external circuit rather than directly via intimate contact of redox reactants. In the two centuries since, the field of electrochemistry has evolved to yield significant insights on the fundamental aspects of redox chemistry as well as a wealth of technologies ranging from industrialscale metallurgical processes to robust, rechargeable batteries for electric vehicles (Figure 17.1). In this chapter, the essential concepts of electrochemistry will be addressed.
 

@@ -1,6 +1,4 @@
-## Appendix E 
-
-### Water Properties
+## Appendix E - Water Properties
 
 Table E1 **Water Density ( $\mathrm{g} / \mathrm{mL}$ ) at Different Temperatures $\left({ }^{\circ} \mathrm{C}\right)$**
 
@@ -22,6 +20,7 @@ Table E1 **Water Density ( $\mathrm{g} / \mathrm{mL}$ ) at Different Temperature
 
 
 Density of Water as a Function of Temperature
+
 ![Image](Appendix_E_images/img-0.jpeg)
 
 Table E2 **Water Vapor Pressure at Different Temperatures $\left({ }^{\circ} \mathrm{C}\right)$**
@@ -54,6 +53,7 @@ Table E2 **Water Vapor Pressure at Different Temperatures $\left({ }^{\circ} \ma
 
 
 Vapor Pressure as a Function of Temperature
+
 ![Image](Appendix_E_images/img-1.jpeg)
 
 Table E3 **Water $\mathrm{K}_{\mathrm{w}}$ and $\mathrm{pK}_{\mathrm{w}}$ at Different Temperatures $\left({ }^{\circ} \mathrm{C}\right)$**
@@ -81,6 +81,7 @@ Table E3 **Water $\mathrm{K}_{\mathrm{w}}$ and $\mathrm{pK}_{\mathrm{w}}$ at Dif
 1. $\mathrm{pK}_{\mathrm{w}}=-\log _{10}\left(\mathrm{~K}_{\mathrm{w}}\right)$
 
 Water $\mathrm{pK}_{\mathrm{w}}$ as a Function of Temperature
+
 ![Image](Appendix_E_images/img-2.jpeg)
 
 Table E4 **Specific Heat Capacity for Water** 
@@ -109,6 +110,7 @@ Table E6 **Water Cryoscopic (Freezing Point Depression) and Ebullioscopic (Boili
 
 
 Water Full-Range Spectral Absorption Curve
+
 ![Image](Appendix_E_images/img-3.jpeg)
 
 Figure E1 The plot shows the extent of light absorption versus wavelength for water. Absorption is reported in reciprocal meters and corresponds to the inverse of the distance light may travel through water before its intensity is diminished by $1 / e(-37 \%)$.

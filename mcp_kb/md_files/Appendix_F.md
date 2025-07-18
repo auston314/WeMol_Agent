@@ -1,4 +1,4 @@
-## Appendix F
+## Appendix F - Composition of Commercial Acids and Bases
 
 Table F1 **Composition of Commercial Acids and Bases**
 

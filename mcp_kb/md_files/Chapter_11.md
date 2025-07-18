@@ -1,10 +1,10 @@
-## Chapter 11 -Solutions and Colloids
+## Chapter 11 - Solutions and Colloids
 
 ![Image](Chapter_11_images/img-0.jpeg)
 
 Figure 11.1 Coral reefs, such as this one at the Palmyra Atoll National Wildlife Refuge, are vital to the ecosystem of earth's oceans. The health of coral reefs and all marine life depends on the specific chemical composition of the complex mixture known as seawater. (credit: modification of work by "USFWS - Pacific Region"/Wikimedia Commons)
 
-### Chapter Outline
+**Chapter Outline**
 
 11.1 The Dissolution Process
 11.2 Electrolytes
@@ -12,7 +12,7 @@ Figure 11.1 Coral reefs, such as this one at the Palmyra Atoll National Wildlife
 11.4 Colligative Properties
 11.5 Colloids
 
-### Introduction
+**Introduction**
 
 Coral reefs are home to about $25 \%$ of all marine species. They are being threatened by climate change, oceanic acidification, and water pollution, all of which change the composition of the solution known as seawater. Dissolved oxygen in seawater is critical for sea creatures, but as the oceans warm, oxygen becomes less soluble. As the concentration of carbon dioxide in the atmosphere increases, the concentration of carbon dioxide in the oceans increases, contributing to oceanic acidification. Coral reefs are particularly sensitive to the acidification of the ocean, since the exoskeletons of the coral polyps are soluble in acidic solutions. Humans contribute to the changing of seawater composition by allowing agricultural runoff and other forms of pollution to affect our oceans.
 

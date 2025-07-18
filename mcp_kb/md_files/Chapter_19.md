@@ -1,16 +1,16 @@
-## Chapter 19 -Transition Metals and Coordination Chemistry
+## Chapter 19 - Transition Metals and Coordination Chemistry
 
 ![Image](Chapter_19_images/img-0.jpeg)
 
 Figure 19.1 Transition metals often form vibrantly colored complexes. The minerals malachite (green), azurite (blue), and proustite (red) are some examples. (credit left: modification of work by James St. John; credit middle: modification of work by Stephanie Clifford; credit right: modification of work by Terry Wallace)
 
-### Chapter Outline
+**Chapter Outline**
 
 19.1 Occurrence, Preparation, and Properties of Transition Metals and Their Compounds
 19.2 Coordination Chemistry of Transition Metals
 19.3 Spectroscopic and Magnetic Properties of Coordination Compounds
 
-### Introduction
+**Introduction**
 
 We have daily contact with many transition metals. Iron occurs everywhere-from the rings in your spiral notebook and the cutlery in your kitchen to automobiles, ships, buildings, and in the hemoglobin in your blood. Titanium is useful in the manufacture of lightweight, durable products such as bicycle frames, artificial hips, and jewelry. Chromium is useful as a protective plating on plumbing fixtures and automotive detailing.
 

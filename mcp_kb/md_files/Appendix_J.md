@@ -1,6 +1,4 @@
-## Appendix J 
-
-### Solubility Products
+## Appendix J  Solubility Products
 
 Table J1 **Solubility Products**
 

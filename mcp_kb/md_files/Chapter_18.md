@@ -1,10 +1,10 @@
-## Chapter 18 -Representative Metals, Metalloids, and Nonmetals
+## Chapter 18 - Representative Metals, Metalloids, and Nonmetals
 
 ![Image](Chapter_18_images/img-0.jpeg)
 
 Figure 18.1 Purity is extremely important when preparing silicon wafers. Technicians in a cleanroom prepare silicon without impurities (left). The CEO of VLSI Research, Don Hutcheson, shows off a pure silicon wafer (center). A silicon wafer covered in Pentium chips is an enlarged version of the silicon wafers found in many electronics used today (right). (credit middle: modification of work by "Intel Free Press"/Flickr; credit right: modification of work by Naotake Murayama)
 
-### Chapter Outline
+**Chapter Outline**
 
 18.1 Periodicity
 18.2 Occurrence and Preparation of the Representative Metals
@@ -19,7 +19,7 @@ Figure 18.1 Purity is extremely important when preparing silicon wafers. Technic
 18.11 Occurrence, Preparation, and Properties of Halogens
 18.12 Occurrence, Preparation, and Properties of the Noble Gases
 
-### Introduction
+**Introduction**
 
 The development of the periodic table in the mid-1800s came from observations that there was a periodic relationship between the properties of the elements. Chemists, who have an understanding of the variations of these properties, have been able to use this knowledge to solve a wide variety of technical challenges. For example, silicon and other semiconductors form the backbone of modern electronics because of our ability to fine-tune the electrical properties of these materials. This chapter explores important properties of representative metals, metalloids, and nonmetals in the periodic table.
 

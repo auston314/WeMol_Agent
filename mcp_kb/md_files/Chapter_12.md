@@ -1,12 +1,10 @@
-# Chapter 12 
-
-## Kinetics
+## Chapter 12 - Kinetics
 
 ![Image](Chapter_12_images/img-0.jpeg)
 
 Figure 12.1 An agama lizard basks in the sun. As its body warms, the chemical reactions of its metabolism speed up.
 
-## Chapter Outline
+**Chapter Outline**
 
 12.1 Chemical Reaction Rates
 12.2 Factors Affecting Reaction Rates
@@ -16,7 +14,7 @@ Figure 12.1 An agama lizard basks in the sun. As its body warms, the chemical re
 12.6 Reaction Mechanisms
 12.7 Catalysis
 
-### Introduction
+**Introduction**
 
 The lizard in the photograph is not simply enjoying the sunshine or working on its tan. The heat from the sun's rays is critical to the lizard's survival. A warm lizard can move faster than a cold one because the chemical reactions that allow its muscles to move occur more rapidly at higher temperatures. A cold lizard is a slower lizard and an easier meal for predators.
 

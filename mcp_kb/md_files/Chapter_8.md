@@ -4,14 +4,14 @@
 
 Figure 8.1 Oxygen molecules orient randomly most of the time, as shown in the top magnified view. However, when we pour liquid oxygen through a magnet, the molecules line up with the magnetic field, and the attraction allows them to stay suspended between the poles of the magnet where the magnetic field is strongest. Other diatomic molecules (like $\mathrm{N}_{2}$ ) flow past the magnet. The detailed explanation of bonding described in this chapter allows us to understand this phenomenon. (credit: modification of work by Jefferson Lab)
 
-### Chapter Outline
+**Chapter Outline**
 
 8.1 Valence Bond Theory
 8.2 Hybrid Atomic Orbitals
 8.3 Multiple Bonds
 8.4 Molecular Orbital Theory
 
-### Introduction
+**Introduction**
 
 We have examined the basic ideas of bonding, showing that atoms share electrons to form molecules with stable Lewis structures and that we can predict the shapes of those molecules by valence shell electron pair repulsion (VSEPR) theory. These ideas provide an important starting point for understanding chemical bonding. But these models sometimes fall short in their abilities to predict the behavior of real substances. How can we reconcile the geometries of $s, p$, and $d$ atomic orbitals with molecular shapes that show angles like $120^{\circ}$ and $109.5^{\circ}$ ? Furthermore, we know that electrons and magnetic behavior are related through electromagnetic fields. Both $\mathrm{N}_{2}$ and $\mathrm{O}_{2}$ have fairly similar Lewis structures that contain lone pairs of electrons.
 

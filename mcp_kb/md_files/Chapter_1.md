@@ -4,7 +4,7 @@
 
 Figure 1.1 Chemical substances and processes are essential for our existence, providing sustenance, keeping us clean and healthy, fabricating electronic devices, enabling transportation, and much more. (credit "left": modification of work by "vxla"/Flickr; credit "left middle": modification of work by "the Italian voice"/Flickr; credit "right middle": modification of work by Jason Trim; credit "right": modification of work by "gosheshe"/Flickr)
 
-### Chapter Outline
+**Chapter Outline**
 
 1.1 Chemistry in Context
 1.2 Phases and Classification of Matter
@@ -13,7 +13,7 @@ Figure 1.1 Chemical substances and processes are essential for our existence, pr
 1.5 Measurement Uncertainty, Accuracy, and Precision
 1.6 Mathematical Treatment of Measurement Results
 
-### Introduction
+**Introduction**
 
 Your alarm goes off and, after hitting "snooze" once or twice, you pry yourself out of bed. You make a cup of coffee to help you get going, and then you shower, get dressed, eat breakfast, and check your phone for messages. On your way to school, you stop to fill your car's gas tank, almost making you late for the first day of chemistry class. As you find a seat in the classroom, you read the question projected on the screen: "Welcome to class! Why should we study chemistry?"
 

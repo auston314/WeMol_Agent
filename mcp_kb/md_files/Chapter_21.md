@@ -1,10 +1,10 @@
-## Chapter 21 -Nuclear Chemistry
+## Chapter 21 - Nuclear Chemistry
 
 ![Image](Chapter_21_images/img-0.jpeg)
 
 Figure 21.1 Nuclear chemistry provides the basis for many useful diagnostic and therapeutic methods in medicine, such as these positron emission tomography (PET) scans. The PET/computed tomography scan on the left shows muscle activity. The brain scans in the center show chemical differences in dopamine signaling in the brains of addicts and nonaddicts. The images on the right show an oncological application of PET scans to identify lymph node metastasis.
 
-### Chapter Outline
+**Chapter Outline**
 
 21.1 Nuclear Structure and Stability
 21.2 Nuclear Equations
@@ -13,7 +13,7 @@ Figure 21.1 Nuclear chemistry provides the basis for many useful diagnostic and 
 21.5 Uses of Radioisotopes
 21.6 Biological Effects of Radiation
 
-### Introduction
+**Introduction**
 
 The chemical reactions that we have considered in previous chapters involve changes in the electronic structure of the species involved, that is, the arrangement of the electrons around atoms, ions, or molecules. Nuclear structure, the numbers of protons and neutrons within the nuclei of the atoms involved, remains unchanged during chemical reactions.
 

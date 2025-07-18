@@ -1,6 +1,4 @@
-## Appendix L 
-
-### Standard Electrode (Half-Cell) Potentials
+## Appendix L - Standard Electrode (Half-Cell) Potentials
 
 Table L1 **Standard Electrode (Half-Cell) Potentials**
 

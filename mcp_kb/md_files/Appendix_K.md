@@ -1,6 +1,4 @@
-## Appendix K 
-
-### Formation Constants For Complex Ions
+## Appendix K - Formation Constants For Complex Ions
 
 Table K1 **Formation Constants for Complex Ions**
 
