@@ -1,4 +1,4 @@
-## Chapter 5 -Thermochemistry
+## Chapter 5 - Thermochemistry
 
 ![Image](Chapter_5_images/img-0.jpeg)
 

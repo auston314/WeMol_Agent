@@ -1,4 +1,4 @@
-## Chapter 4 -Stoichiometry of Chemical Reactions
+## Chapter 4 - Stoichiometry of Chemical Reactions
 
 ![Image](Chapter_4_images/img-0.jpeg)
 

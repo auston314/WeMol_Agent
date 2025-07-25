@@ -1,4 +1,4 @@
-## Chapter 3 -Composition of Substances and Solutions
+## Chapter 3 - Composition of Substances and Solutions
 
 ![Image](Chapter_3_images/img-0.jpeg)
 

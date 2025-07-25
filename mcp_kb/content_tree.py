@@ -1,7 +1,9 @@
 import re
 import os
-from typing import List, Optional
-
+from openai import OpenAI
+import numpy as np
+import pandas as pd
+from typing import List, Optional, Any
 
 class ContentNode:
     """
@@ -27,11 +29,241 @@ class ContentNode:
         self.parent_node = parent_node
         self.child_nodes: List[ContentNode] = []
         self.node_id = node_id
+        
+        # Enhanced attributes for content processing (initialized when needed)
+        self.summary = ""
+        self.keywords: List[str] = []
+        self.content_chunks: List[Any] = []  # ContentChunk objects when utils is available
+        self.sentences: List[str] = []
+        
+        # Embedding attributes (initialized when generated)
+        self.header_embedding: Optional[np.ndarray] = None
+        self.summary_embedding: Optional[np.ndarray] = None
+        self.chunk_embeddings: Optional[np.ndarray] = None
+        self.sentence_embeddings: Optional[np.ndarray] = None
     
     def add_child(self, child_node: 'ContentNode'):
         """Add a child node and set this node as its parent."""
         child_node.parent_node = self
         self.child_nodes.append(child_node)
+    
+    def generate_summary_and_keywords(self, llm_model: str = 'qwen2.5vl:32b', 
+                                     llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                                     max_summary_words: int = 30, max_keywords: int = 10):
+        """
+        Generate summary and keywords for the node's content_text using ContentProcessor.
+        
+        Args:
+            llm_model (str): LLM model to use for generation
+            llm_api_url (str): API URL for the LLM
+            max_summary_words (int): Maximum words in summary
+            max_keywords (int): Maximum number of keywords
+        """
+        if not self.content_text.strip():
+            self.summary = ""
+            self.keywords = []
+            return
+        
+        try:
+            # Import ContentProcessor here to avoid circular imports
+            from utils import ContentProcessor
+            
+            # Create processor instance
+            processor = ContentProcessor(llm_model, llm_api_url)
+            
+            # Generate summary
+            raw_summary = processor.generate_content_summary(
+                self.content_text, max_summary_words
+            )
+            
+            # Clean up summary by removing triple backticks and extra whitespace
+            self.summary = raw_summary.strip()
+            if self.summary.startswith('```') and self.summary.endswith('```'):
+                self.summary = self.summary[3:-3].strip()
+            
+            # Generate keywords
+            raw_keywords = processor.generate_keyword_list(
+                self.content_text, max_keywords
+            )
+            
+            # Filter out common non-content words
+            filter_words = {'json', 'list', 'format', 'response', 'keywords', 'text', 'following'}
+            self.keywords = [kw for kw in raw_keywords if kw.lower() not in filter_words]
+            
+        except Exception as e:
+            print(f"Error generating summary and keywords for node {self.node_id}: {e}")
+            self.summary = ""
+            self.keywords = []
+    
+    def create_content_chunks(self, llm_model: str = 'qwen2.5vl:32b', 
+                             llm_api_url: str = 'http://100.89.180.132:11434/api/generate'):
+        """
+        Create content chunks for the node's content_text using ContentProcessor.
+        
+        Args:
+            llm_model (str): LLM model to use for processing
+            llm_api_url (str): API URL for the LLM
+        """
+        if not self.content_text.strip():
+            self.content_chunks = []
+            return
+        
+        try:
+            # Import ContentProcessor here to avoid circular imports
+            from utils import ContentProcessor
+            
+            # Create processor instance
+            processor = ContentProcessor(llm_model, llm_api_url)
+            
+            # Create content chunks
+            self.content_chunks = processor.create_content_chunks(self.content_text)
+            
+        except Exception as e:
+            print(f"Error creating content chunks for node {self.node_id}: {e}")
+            self.content_chunks = []
+    
+    def extract_sentences(self, llm_model: str = 'qwen2.5vl:32b', 
+                         llm_api_url: str = 'http://100.89.180.132:11434/api/generate'):
+        """
+        Extract sentences from the node's content_text using ContentProcessor.
+        
+        Args:
+            llm_model (str): LLM model to use for processing
+            llm_api_url (str): API URL for the LLM
+        """
+        if not self.content_text.strip():
+            self.sentences = []
+            return
+        
+        try:
+            # Import ContentProcessor here to avoid circular imports
+            from utils import ContentProcessor
+            
+            # Create processor instance
+            processor = ContentProcessor(llm_model, llm_api_url)
+            
+            # Extract sentences
+            self.sentences = processor.extract_sentences_from_content(self.content_text)
+            
+        except Exception as e:
+            print(f"Error extracting sentences for node {self.node_id}: {e}")
+            self.sentences = []
+    
+    def process_content(self, llm_model: str = 'qwen2.5vl:32b', 
+                       llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                       max_summary_words: int = 30, max_keywords: int = 10,
+                       embedding_model: str = "text-embedding-3-large",
+                       generate_embeddings: bool = True):
+        """
+        Process all content for this node: generate summary, keywords, content chunks, sentences, and embeddings.
+        
+        Args:
+            llm_model (str): LLM model to use for processing
+            llm_api_url (str): API URL for the LLM
+            max_summary_words (int): Maximum words in summary
+            max_keywords (int): Maximum number of keywords
+            embedding_model (str): OpenAI embedding model to use for embeddings
+            generate_embeddings (bool): Whether to generate embeddings
+        """
+        print("Process node content ........")
+        # Generate all content processing components
+        self.generate_summary_and_keywords(llm_model, llm_api_url, max_summary_words, max_keywords)
+        self.create_content_chunks(llm_model, llm_api_url)
+        self.extract_sentences(llm_model, llm_api_url)
+      
+        # Generate embeddings if requested
+        if generate_embeddings:
+            self.generate_embeddings(embedding_model)
+    
+    def generate_embeddings(self, embedding_model: str = "text-embedding-3-large"):
+        """
+        Generate embeddings for header, summary, chunks, and sentences using EmbeddingGenerator.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+        """
+        try:
+            # Import EmbeddingGenerator here to avoid circular imports
+            from utils import EmbeddingGenerator
+            
+            # Create embedding generator instance
+            embedding_gen = EmbeddingGenerator(model=embedding_model)
+            
+            # Generate header embedding
+            self.header_embedding = embedding_gen.generate_header_embedding(self.header)
+            
+            # Generate summary embedding
+            self.summary_embedding = embedding_gen.generate_summary_embedding(self.summary)
+            
+            # Generate chunk embeddings
+            if self.content_chunks:
+                self.chunk_embeddings = embedding_gen.generate_chunk_embeddings(self.content_chunks)
+            
+            # Generate sentence embeddings
+            if self.sentences:
+                self.sentence_embeddings = embedding_gen.generate_sentence_embeddings(self.sentences)
+            
+        except Exception as e:
+            print(f"Error generating embeddings for node {self.node_id}: {e}")
+            # Keep existing None values on error
+    
+    def generate_header_embedding(self, embedding_model: str = "text-embedding-3-large"):
+        """
+        Generate embedding for the node header only.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+        """
+        try:
+            from utils import EmbeddingGenerator
+            embedding_gen = EmbeddingGenerator(model=embedding_model)
+            self.header_embedding = embedding_gen.generate_header_embedding(self.header)
+        except Exception as e:
+            print(f"Error generating header embedding for node {self.node_id}: {e}")
+    
+    def generate_summary_embedding(self, embedding_model: str = "text-embedding-3-large"):
+        """
+        Generate embedding for the node summary only.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+        """
+        try:
+            from utils import EmbeddingGenerator
+            embedding_gen = EmbeddingGenerator(model=embedding_model)
+            self.summary_embedding = embedding_gen.generate_summary_embedding(self.summary)
+        except Exception as e:
+            print(f"Error generating summary embedding for node {self.node_id}: {e}")
+    
+    def generate_chunk_embeddings(self, embedding_model: str = "text-embedding-3-large"):
+        """
+        Generate embeddings for the node content chunks only.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+        """
+        try:
+            from utils import EmbeddingGenerator
+            embedding_gen = EmbeddingGenerator(model=embedding_model)
+            if self.content_chunks:
+                self.chunk_embeddings = embedding_gen.generate_chunk_embeddings(self.content_chunks)
+        except Exception as e:
+            print(f"Error generating chunk embeddings for node {self.node_id}: {e}")
+    
+    def generate_sentence_embeddings(self, embedding_model: str = "text-embedding-3-large"):
+        """
+        Generate embeddings for the node sentences only.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+        """
+        try:
+            from utils import EmbeddingGenerator
+            embedding_gen = EmbeddingGenerator(model=embedding_model)
+            if self.sentences:
+                self.sentence_embeddings = embedding_gen.generate_sentence_embeddings(self.sentences)
+        except Exception as e:
+            print(f"Error generating sentence embeddings for node {self.node_id}: {e}")
     
     def __repr__(self):
         return f"ContentNode(id={self.node_id}, level={self.header_level}, header='{self.header}', children={len(self.child_nodes)})"
@@ -46,6 +278,8 @@ class ContentTree:
         """Initialize the ContentTree with a root node."""
         self.root = ContentNode(header="Root", header_level=0, node_id=0)
         self._node_counter = 1  # Start from 1 since root is 0
+        self.inverse_index = {}  # Initialize inverse index
+        self.inverse_index_builder = None  # Initialize inverse index builder
     
     def content_tree_constructor(self, markdown_file_path: str) -> ContentNode:
         """
@@ -79,15 +313,34 @@ class ContentTree:
         md_files.sort(key=self._sort_key)
         
         # Process each file
+        file_counter = 0
         for filename in md_files:
             file_path = os.path.join(md_files_directory, filename)
             chapter_tree = self.content_tree_constructor(file_path)
-            
+            file_counter += 1
+            if (file_counter > 2):
+                break
+                # End of Hack
             # Add the chapter/appendix as a child of the root
             if chapter_tree and chapter_tree.child_nodes:
                 # The first child of the chapter_tree is typically the main chapter/appendix node
                 main_node = chapter_tree.child_nodes[0] if chapter_tree.child_nodes else chapter_tree
                 self.root.add_child(main_node)
+        
+        # Reassign node IDs sequentially to eliminate gaps
+        self.reassign_node_ids()
+    
+    def reassign_node_ids(self) -> None:
+        """
+        Reassign node IDs sequentially based on tree traversal order.
+        This eliminates gaps caused by temporary File Root nodes.
+        Root starts at ID 1, and all other nodes follow sequentially.
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Reassign IDs starting from 1 for root
+        for i, node in enumerate(all_nodes, 1):
+            node.node_id = i
     
     def _sort_key(self, filename: str) -> tuple:
         """Sort key function to order files properly."""
@@ -261,20 +514,707 @@ class ContentTree:
                 appendices.append(child)
         return appendices
     
-    def print_tree_structure(self, node: Optional[ContentNode] = None, indent: int = 0):
+    def rename_repeating_headers(self) -> None:
+        """
+        Rename repeating headers by prefixing them with their parent's header.
+        This helps differentiate sections like 'Key Terms', 'Summary' that appear 
+        in multiple chapters.
+        """
+        # First, collect all headers and count their occurrences
+        header_counts = {}
+        all_nodes = self.tree_node_iterator()
+        
+        for node in all_nodes:
+            if node.header_level > 0:  # Skip root node
+                header = node.header
+                if header in header_counts:
+                    header_counts[header] += 1
+                else:
+                    header_counts[header] = 1
+        
+        # Find headers that appear more than once
+        repeating_headers = {header for header, count in header_counts.items() if count > 1}
+        
+        # Rename nodes with repeating headers
+        for node in all_nodes:
+            if (node.header in repeating_headers and 
+                node.parent_node and 
+                node.parent_node.header != "Root" and
+                node.header_level > 0):
+                
+                # Get the parent's header (clean it up if needed)
+                parent_header = node.parent_node.header
+                
+                # For chapter headers like "Chapter 1 - Essential Ideas", 
+                # extract just "Chapter 1" part
+                if " - " in parent_header:
+                    parent_prefix = parent_header.split(" - ")[0]
+                else:
+                    parent_prefix = parent_header
+                
+                # Create new header with parent prefix
+                new_header = f"{parent_prefix} {node.header}"
+                node.header = new_header
+    
+    def generate_all_summaries_and_keywords(self, llm_model: str = 'qwen2.5vl:32b', 
+                                          llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                                          max_summary_words: int = 30, max_keywords: int = 10,
+                                          skip_root: bool = True):
+        """
+        Generate summaries and keywords for all nodes in the tree.
+        
+        Args:
+            llm_model (str): LLM model to use for generation
+            llm_api_url (str): API URL for the LLM
+            max_summary_words (int): Maximum words in summary
+            max_keywords (int): Maximum number of keywords
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Generating summaries and keywords for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            if node.content_text.strip():  # Only process nodes with content
+                print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+                node.generate_summary_and_keywords(
+                    llm_model=llm_model,
+                    llm_api_url=llm_api_url,
+                    max_summary_words=max_summary_words,
+                    max_keywords=max_keywords
+                )
+            else:
+                print(f"Skipping node {i}/{len(content_nodes)} (no content): {node.header}")
+        
+        print("Summary and keyword generation complete!")
+    
+    def process_all_content(self, llm_model: str = 'qwen2.5vl:32b', 
+                           llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                           max_summary_words: int = 30, max_keywords: int = 10,
+                           embedding_model: str = "text-embedding-3-large",
+                           generate_embeddings: bool = True,
+                           skip_root: bool = True):
+        """
+        Process all content for all nodes in the tree: generate summaries, keywords, 
+        content chunks, sentences, and embeddings.
+        
+        Args:
+            llm_model (str): LLM model to use for processing
+            llm_api_url (str): API URL for the LLM
+            max_summary_words (int): Maximum words in summary
+            max_keywords (int): Maximum number of keywords
+            embedding_model (str): OpenAI embedding model to use for embeddings
+            generate_embeddings (bool): Whether to generate embeddings
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Processing all content for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            if node.content_text.strip():  # Only process nodes with content
+                print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+                node.process_content(
+                    llm_model=llm_model,
+                    llm_api_url=llm_api_url,
+                    max_summary_words=max_summary_words,
+                    max_keywords=max_keywords,
+                    embedding_model=embedding_model,
+                    generate_embeddings=generate_embeddings
+                )
+            else:
+                print(f"Skipping node {i}/{len(content_nodes)} (no content): {node.header}")
+        
+        print("Complete content processing finished!")
+    
+    def create_all_content_chunks(self, llm_model: str = 'qwen2.5vl:32b', 
+                                 llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                                 skip_root: bool = True):
+        """
+        Create content chunks for all nodes in the tree.
+        
+        Args:
+            llm_model (str): LLM model to use for processing
+            llm_api_url (str): API URL for the LLM
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Creating content chunks for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            if node.content_text.strip():  # Only process nodes with content
+                print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+                node.create_content_chunks(llm_model=llm_model, llm_api_url=llm_api_url)
+            else:
+                print(f"Skipping node {i}/{len(content_nodes)} (no content): {node.header}")
+        
+        print("Content chunk creation complete!")
+    
+    def extract_all_sentences(self, llm_model: str = 'qwen2.5vl:32b', 
+                             llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                             skip_root: bool = True):
+        """
+        Extract sentences for all nodes in the tree.
+        
+        Args:
+            llm_model (str): LLM model to use for processing
+            llm_api_url (str): API URL for the LLM
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Extracting sentences for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            if node.content_text.strip():  # Only process nodes with content
+                print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+                node.extract_sentences(llm_model=llm_model, llm_api_url=llm_api_url)
+            else:
+                print(f"Skipping node {i}/{len(content_nodes)} (no content): {node.header}")
+        
+        print("Sentence extraction complete!")
+    
+    def generate_all_embeddings(self, embedding_model: str = "text-embedding-3-large",
+                               skip_root: bool = True):
+        """
+        Generate embeddings for all nodes in the tree.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Generating embeddings for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+            node.generate_embeddings(embedding_model=embedding_model)
+        
+        print("Embedding generation complete!")
+    
+    def generate_all_header_embeddings(self, embedding_model: str = "text-embedding-3-large",
+                                      skip_root: bool = True):
+        """
+        Generate header embeddings for all nodes in the tree.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Generating header embeddings for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+            node.generate_header_embedding(embedding_model=embedding_model)
+        
+        print("Header embedding generation complete!")
+    
+    def generate_all_summary_embeddings(self, embedding_model: str = "text-embedding-3-large",
+                                       skip_root: bool = True):
+        """
+        Generate summary embeddings for all nodes in the tree.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Generating summary embeddings for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            if node.summary and node.summary.strip():  # Only process nodes with summaries
+                print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+                node.generate_summary_embedding(embedding_model=embedding_model)
+            else:
+                print(f"Skipping node {i}/{len(content_nodes)} (no summary): {node.header}")
+        
+        print("Summary embedding generation complete!")
+    
+    def generate_all_chunk_embeddings(self, embedding_model: str = "text-embedding-3-large",
+                                     skip_root: bool = True):
+        """
+        Generate chunk embeddings for all nodes in the tree.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Generating chunk embeddings for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            if node.content_chunks:  # Only process nodes with chunks
+                print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+                node.generate_chunk_embeddings(embedding_model=embedding_model)
+            else:
+                print(f"Skipping node {i}/{len(content_nodes)} (no chunks): {node.header}")
+        
+        print("Chunk embedding generation complete!")
+    
+    def generate_all_sentence_embeddings(self, embedding_model: str = "text-embedding-3-large",
+                                        skip_root: bool = True):
+        """
+        Generate sentence embeddings for all nodes in the tree.
+        
+        Args:
+            embedding_model (str): OpenAI embedding model to use
+            skip_root (bool): Whether to skip the root node
+        """
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        print(f"Generating sentence embeddings for {len(content_nodes)} nodes...")
+        
+        for i, node in enumerate(content_nodes, 1):
+            if node.sentences:  # Only process nodes with sentences
+                print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
+                node.generate_sentence_embeddings(embedding_model=embedding_model)
+            else:
+                print(f"Skipping node {i}/{len(content_nodes)} (no sentences): {node.header}")
+        
+        print("Sentence embedding generation complete!")
+    
+    def process_tree_content(self, llm_model: str = 'qwen2.5vl:32b', 
+                           llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                           max_summary_words: int = 30, max_keywords: int = 10,
+                           embedding_model: str = "text-embedding-3-large",
+                           generate_embeddings: bool = True,
+                           skip_root: bool = True,
+                           create_inverse_index: bool = True):
+        """
+        Process all content for all nodes in the tree and create an inverse index.
+        This is a comprehensive function that handles all content processing steps.
+        
+        Args:
+            llm_model (str): LLM model to use for processing
+            llm_api_url (str): API URL for the LLM
+            max_summary_words (int): Maximum words in summary
+            max_keywords (int): Maximum number of keywords
+            embedding_model (str): OpenAI embedding model to use for embeddings
+            generate_embeddings (bool): Whether to generate embeddings
+            skip_root (bool): Whether to skip the root node
+            create_inverse_index (bool): Whether to create an inverse index
+        """
+        print("="*80)
+        print("COMPREHENSIVE CONTENT TREE PROCESSING")
+        print("="*80)
+        
+        # Get all nodes to process
+        all_nodes = self.tree_node_iterator()
+        
+        # Filter out root node if requested
+        if skip_root:
+            content_nodes = [node for node in all_nodes if node.header_level > 0]
+        else:
+            content_nodes = all_nodes
+        
+        # Filter to only nodes with content
+        content_nodes = [node for node in content_nodes if node.content_text.strip()]
+        
+        print(f"Processing {len(content_nodes)} content nodes...")
+        print(f"LLM Model: {llm_model}")
+        print(f"Embedding Model: {embedding_model}")
+        print(f"Generate Embeddings: {generate_embeddings}")
+        print(f"Create Inverse Index: {create_inverse_index}")
+        print("-" * 80)
+        
+        # Process each node
+        for i, node in enumerate(content_nodes, 1):
+            print(f"\n[{i}/{len(content_nodes)}] Processing node {node.node_id}: {node.header}")
+            print(f"Content length: {len(node.content_text)} characters")
+            
+            try:
+                # Process all content for this node
+                node.process_content(
+                    llm_model=llm_model,
+                    llm_api_url=llm_api_url,
+                    max_summary_words=max_summary_words,
+                    max_keywords=max_keywords,
+                    embedding_model=embedding_model,
+                    generate_embeddings=generate_embeddings
+                )
+                
+                # Print processing results
+                print(f"  ✓ Summary: {len(node.summary)} chars")
+                print(f"  ✓ Keywords: {len(node.keywords)} items")
+                print(f"  ✓ Chunks: {len(node.content_chunks)} items")
+                print(f"  ✓ Sentences: {len(node.sentences)} items")
+                
+                if generate_embeddings:
+                    embeddings_status = []
+                    if node.header_embedding is not None:
+                        embeddings_status.append("Header")
+                    if node.summary_embedding is not None:
+                        embeddings_status.append("Summary")
+                    if node.chunk_embeddings is not None:
+                        embeddings_status.append("Chunks")
+                    if node.sentence_embeddings is not None:
+                        embeddings_status.append("Sentences")
+                    print(f"  ✓ Embeddings: {', '.join(embeddings_status)}")
+                
+            except Exception as e:
+                print(f"  ❌ Error processing node {node.node_id}: {e}")
+        
+        print("\n" + "="*80)
+        print("CONTENT PROCESSING COMPLETE")
+        print("="*80)
+        
+        # Create inverse index if requested
+        if create_inverse_index:
+            print("\nCreating inverse index using InverseIndexBuilder...")
+            
+            try:
+                # Import InverseIndexBuilder from utils
+                from utils import InverseIndexBuilder
+                
+                # Create inverse index builder instance
+                self.inverse_index_builder = InverseIndexBuilder(include_stopwords=False)
+                
+                # Build n-gram indexes for all content nodes
+                self.inverse_index_builder.build_ngram_indexes(content_nodes)
+                
+                print(f"✓ N-gram inverse indexes created successfully!")
+                print(f"    - Monograms: {len(self.inverse_index_builder.monogram_index)} terms")
+                print(f"    - Bigrams: {len(self.inverse_index_builder.bigram_index)} terms")  
+                print(f"    - Trigrams: {len(self.inverse_index_builder.trigram_index)} terms")
+                
+                # Also store the legacy simple inverse index for backward compatibility
+                self.inverse_index = dict(self.inverse_index_builder.monogram_index)
+                
+                # Print some statistics about the monogram index
+                total_terms = sum(len(node_list) for node_list in self.inverse_index.values())
+                avg_nodes_per_term = total_terms / len(self.inverse_index) if self.inverse_index else 0
+                print(f"✓ Average nodes per term: {avg_nodes_per_term:.2f}")
+                
+                # Show most common terms from monogram index
+                most_common_terms = sorted(self.inverse_index.items(), 
+                                         key=lambda x: len(x[1]), reverse=True)[:10]
+                print(f"✓ Most common monogram terms:")
+                for term, nodes in most_common_terms:
+                    print(f"    '{term}': {len(nodes)} nodes")
+                
+            except Exception as e:
+                print(f"❌ Error creating advanced inverse index: {e}")
+                print("Falling back to simple inverse index...")
+                self.inverse_index = self._create_simple_inverse_index(content_nodes)
+                print(f"✓ Simple inverse index created with {len(self.inverse_index)} unique terms")
+        
+        print("\n" + "="*80)
+        print("TREE CONTENT PROCESSING FINISHED!")
+        print("="*80)
+    
+    def _create_simple_inverse_index(self, nodes: List[ContentNode]) -> dict:
+        """
+        Create a simple inverse index mapping terms to nodes that contain them.
+        This is a fallback method when InverseIndexBuilder is not available.
+        
+        Args:
+            nodes (List[ContentNode]): List of nodes to index
+            
+        Returns:
+            dict: Dictionary mapping terms to lists of node IDs
+        """
+        inverse_index = {}
+        
+        def add_terms_to_index(terms: List[str], node_id: int):
+            """Helper function to add terms to the inverse index."""
+            for term in terms:
+                if term and len(term.strip()) > 2:  # Skip very short terms
+                    term_clean = term.strip().lower()
+                    if term_clean not in inverse_index:
+                        inverse_index[term_clean] = []
+                    if node_id not in inverse_index[term_clean]:
+                        inverse_index[term_clean].append(node_id)
+        
+        for node in nodes:
+            node_id = node.node_id
+            
+            # Index header words
+            if node.header:
+                header_words = re.findall(r'\b\w+\b', node.header.lower())
+                add_terms_to_index(header_words, node_id)
+            
+            # Index keywords
+            if node.keywords:
+                add_terms_to_index(node.keywords, node_id)
+            
+            # Index summary words
+            if node.summary:
+                summary_words = re.findall(r'\b\w+\b', node.summary.lower())
+                add_terms_to_index(summary_words, node_id)
+            
+            # Index chunk content words (if available)
+            if node.content_chunks:
+                for chunk in node.content_chunks:
+                    if hasattr(chunk, 'text'):
+                        chunk_words = re.findall(r'\b\w+\b', chunk.text.lower())
+                        add_terms_to_index(chunk_words, node_id)
+                    elif isinstance(chunk, str):
+                        chunk_words = re.findall(r'\b\w+\b', chunk.lower())
+                        add_terms_to_index(chunk_words, node_id)
+            
+            # Index sentence words
+            if node.sentences:
+                for sentence in node.sentences:
+                    sentence_words = re.findall(r'\b\w+\b', sentence.lower())
+                    add_terms_to_index(sentence_words, node_id)
+        
+        return inverse_index
+    
+    def search_content(self, query: str, max_results: int = 10, use_ngrams: bool = True) -> List[tuple]:
+        """
+        Search the content tree for nodes containing query terms.
+        
+        This is the main search method that uses InverseIndexBuilder with n-gram support
+        for advanced lexical similarity scoring.
+        
+        Args:
+            query (str): Search query
+            max_results (int): Maximum number of results to return
+            use_ngrams (bool): Whether to use n-gram similarity scoring (recommended)
+            
+        Returns:
+            List[tuple]: List of (node_id, score) tuples sorted by relevance
+        """
+        # Check if advanced inverse index is available
+        if hasattr(self, 'inverse_index_builder') and self.inverse_index_builder is not None:
+            try:
+                if use_ngrams:
+                    # Use advanced n-gram search with lexical similarity scoring
+                    return self.inverse_index_builder.get_matching_nodes(query, max_results)
+                else:
+                    # Use simple matching from monogram index
+                    results = []
+                    query_terms = query.lower().split()
+                    node_scores = {}
+                    
+                    for term in query_terms:
+                        if term in self.inverse_index_builder.monogram_index:
+                            for node_id in self.inverse_index_builder.monogram_index[term]:
+                                node_scores[node_id] = node_scores.get(node_id, 0) + 1
+                    
+                    # Sort by score and return top results
+                    sorted_results = sorted(node_scores.items(), key=lambda x: x[1], reverse=True)
+                    return sorted_results[:max_results]
+                    
+            except Exception as e:
+                print(f"Error using InverseIndexBuilder: {e}")
+                print("Falling back to simple search...")
+        
+        # Fallback to simple inverse index search
+        if hasattr(self, 'inverse_index') and self.inverse_index:
+            return self._simple_search(query, max_results)
+        
+        print("No search index available. Run process_tree_content() first.")
+        return []
+    
+    def _simple_search(self, query: str, max_results: int) -> List[tuple]:
+        """
+        Simple search using the basic inverse index as fallback.
+        
+        Args:
+            query (str): Search query
+            max_results (int): Maximum number of results to return
+            
+        Returns:
+            List[tuple]: List of (node_id, score) tuples sorted by relevance
+        """
+        # Tokenize query
+        query_terms = re.findall(r'\b\w+\b', query.lower())
+        if not query_terms:
+            return []
+        
+        # Score nodes based on term matches
+        node_scores = {}
+        
+        for term in query_terms:
+            if term in self.inverse_index:
+                for node_id in self.inverse_index[term]:
+                    if node_id not in node_scores:
+                        node_scores[node_id] = 0
+                    node_scores[node_id] += 1
+        
+        # Sort by score and return top results
+        sorted_results = sorted(node_scores.items(), key=lambda x: x[1], reverse=True)
+        return sorted_results[:max_results]
+    
+    def enhanced_search(self, query: str, max_results: int = 10, 
+                       semantic_weight: float = 0.6, lexical_weight: float = 0.4) -> List[tuple]:
+        """
+        Enhanced search combining lexical similarity with optional semantic similarity.
+        
+        Currently uses only lexical similarity from InverseIndexBuilder. Semantic similarity
+        can be added when embeddings are available.
+        
+        Args:
+            query (str): Search query
+            max_results (int): Maximum number of results to return
+            semantic_weight (float): Weight for semantic similarity (reserved for future use)
+            lexical_weight (float): Weight for lexical similarity
+            
+        Returns:
+            List[tuple]: List of (node_id, score) tuples sorted by relevance
+        """
+        if not hasattr(self, 'inverse_index_builder') or not self.inverse_index_builder:
+            print("Advanced search not available. Using basic search...")
+            return self.search_content(query, max_results, use_ngrams=False)
+        
+        try:
+            # Get normalized lexical similarity scores using n-gram analysis (0-1.0 range)
+            lexical_scores = self.inverse_index_builder.calculate_normalized_lexical_similarity(query)
+            
+            # Apply lexical weight and convert to list of tuples
+            results = [(node_id, score * lexical_weight) for node_id, score in lexical_scores.items()]
+            results.sort(key=lambda x: x[1], reverse=True)
+            
+            return results[:max_results]
+        except Exception as e:
+            print(f"Error in enhanced search: {e}")
+            return self.search_content(query, max_results, use_ngrams=False)
+    
+    def search_inverse_index(self, query: str, max_results: int = 10) -> List[tuple]:
+        """
+        DEPRECATED: Use search_content() instead.
+        
+        Args:
+            query (str): Search query
+            max_results (int): Maximum number of results to return
+            
+        Returns:
+            List[tuple]: List of (node_id, score) tuples sorted by relevance
+        """
+        print("Warning: search_inverse_index() is deprecated. Use search_content() instead.")
+        return self.search_content(query, max_results, use_ngrams=False)
+    
+    def search_content_tree(self, query: str, max_results: int = 10, use_ngrams: bool = True) -> List[ContentNode]:
+        """
+        Search the content tree and return matching nodes.
+        
+        Args:
+            query (str): Search query
+            max_results (int): Maximum number of results to return
+            use_ngrams (bool): Whether to use n-gram search with advanced scoring
+            
+        Returns:
+            List[ContentNode]: List of matching content nodes sorted by relevance
+        """
+        # Use the unified search_content method
+        search_results = self.search_content(query, max_results, use_ngrams)
+        
+        # Convert node IDs to actual nodes
+        matching_nodes = []
+        all_nodes = self.tree_node_iterator()
+        node_map = {node.node_id: node for node in all_nodes}
+        
+        for node_id, score in search_results:
+            if node_id in node_map:
+                matching_nodes.append(node_map[node_id])
+        
+        return matching_nodes
+    
+    def print_tree_structure(self, node: Optional[ContentNode] = None, indent: int = 0, 
+                           show_summary: bool = False, show_keywords: bool = False,
+                           show_chunks: bool = False, show_sentences: bool = False,
+                           show_embeddings: bool = False):
         """
         Print the tree structure for debugging purposes.
         
         Args:
             node (ContentNode, optional): Node to start from. Uses root if None.
             indent (int): Current indentation level
+            show_summary (bool): Whether to show node summaries
+            show_keywords (bool): Whether to show node keywords
+            show_chunks (bool): Whether to show content chunks count
+            show_sentences (bool): Whether to show sentences count
+            show_embeddings (bool): Whether to show embedding status
         """
         if node is None:
             node = self.root
         
-        print('  ' * indent + f"[{node.node_id}] Level {node.header_level}: {node.header}")
+        content_length = len(node.content_text)
+        summary_info = f" | Summary: {node.summary[:50]}..." if show_summary and node.summary else ""
+        keywords_info = f" | Keywords: {', '.join(node.keywords[:5])}" if show_keywords and node.keywords else ""
+        chunks_info = f" | Chunks: {len(node.content_chunks)}" if show_chunks and node.content_chunks else ""
+        sentences_info = f" | Sentences: {len(node.sentences)}" if show_sentences and node.sentences else ""
+        
+        # Show embedding status
+        embeddings_info = ""
+        if show_embeddings:
+            embedding_status = []
+            if node.header_embedding is not None:
+                embedding_status.append("H")
+            if node.summary_embedding is not None:
+                embedding_status.append("S")  
+            if node.chunk_embeddings is not None:
+                embedding_status.append("C")
+            if node.sentence_embeddings is not None:
+                embedding_status.append("T")
+            embeddings_info = f" | Embeddings: {'/'.join(embedding_status) if embedding_status else 'None'}"
+        
+        print('  ' * indent + f"[{node.node_id}] Level {node.header_level}: {node.header} " +
+              f"(content: {content_length} chars{summary_info}{keywords_info}{chunks_info}{sentences_info}{embeddings_info})")
+        
         for child in node.child_nodes:
-            self.print_tree_structure(child, indent + 1)
+            self.print_tree_structure(child, indent + 1, show_summary, show_keywords, show_chunks, show_sentences, show_embeddings)
 
 
 # Example usage and testing
@@ -286,19 +1226,36 @@ if __name__ == "__main__":
     md_directory = "/Users/chemxai/GenAI/AI_Tutor/mcp_kb/md_files"
     tree.build_textbook_tree(md_directory)
     
+    # Rename repeating headers to make them unique
+    tree.rename_repeating_headers()
+    
     # Print tree structure
     print("Textbook Structure:")
     tree.print_tree_structure()
+    
+    # Generate summaries and keywords for all nodes
+    print("\n" + "="*60)
+    print("GENERATING SUMMARIES AND KEYWORDS")
+    print("="*60)
+    tree.generate_all_summaries_and_keywords()
+    
+    # Print tree structure with summaries and keywords
+    print("\n" + "="*60)
+    print("TREE STRUCTURE WITH SUMMARIES AND KEYWORDS")
+    print("="*60)
+    tree.print_tree_structure(show_summary=True, show_keywords=True)
     
     # Get all nodes
     all_nodes = tree.tree_node_iterator()
     print(f"\nTotal nodes: {len(all_nodes)}")
     
-    # Find a specific chapter
+    # Find a specific chapter and show its enhanced information
     chapter1 = tree.find_node_by_header("Chapter 1 - Essential Ideas")
     if chapter1:
         print(f"\nFound: {chapter1}")
         print(f"Content preview: {chapter1.content_text[:200]}...")
+        print(f"Summary: {chapter1.summary}")
+        print(f"Keywords: {', '.join(chapter1.keywords)}")
     
     # Get content from a node and its children
     if chapter1:
@@ -336,3 +1293,15 @@ if __name__ == "__main__":
         print("✅ Order verification: All nodes are in correct order!")
     else:
         print("❌ Order verification: Some nodes are out of order.")
+    
+    # Show some examples of generated summaries and keywords
+    print("\n" + "="*60)
+    print("EXAMPLES OF GENERATED SUMMARIES AND KEYWORDS")
+    print("="*60)
+    content_nodes = [node for node in all_nodes if node.header_level > 0 and node.content_text.strip()]
+    for i, node in enumerate(content_nodes[:5]):  # Show first 5 content nodes
+        print(f"\nNode {i+1}: {node.header}")
+        print(f"Content length: {len(node.content_text)} characters")
+        print(f"Summary: {node.summary}")
+        print(f"Keywords: {', '.join(node.keywords)}")
+        print("-" * 40)

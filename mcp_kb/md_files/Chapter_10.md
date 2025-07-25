@@ -1,4 +1,4 @@
-## Chapter 10 -Liquids and Solids
+## Chapter 10 - Liquids and Solids
 
 ![Image](Chapter_10_images/img-0.jpeg)
 

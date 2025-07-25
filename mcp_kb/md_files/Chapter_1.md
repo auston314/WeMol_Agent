@@ -1,4 +1,4 @@
-## Chapter 1 -Essential Ideas
+## Chapter 1 - Essential Ideas
 
 ![Image](Chapter_1_images/img-0.jpeg)
 

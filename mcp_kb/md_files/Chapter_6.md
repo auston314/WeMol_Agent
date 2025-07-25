@@ -1,4 +1,4 @@
-## Chapter 6 -Electronic Structure and Periodic Properties of Elements
+## Chapter 6 - Electronic Structure and Periodic Properties of Elements
 
 ![Image](Chapter_6_images/img-0.jpeg)
 

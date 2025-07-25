@@ -1,4 +1,4 @@
-## Chapter 8 -Advanced Theories of Covalent Bonding
+## Chapter 8 - Advanced Theories of Covalent Bonding
 
 ![Image](Chapter_8_images/img-0.jpeg)
 
