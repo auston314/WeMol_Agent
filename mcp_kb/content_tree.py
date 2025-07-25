@@ -48,7 +48,7 @@ class ContentNode:
         self.child_nodes.append(child_node)
     
     def generate_summary_and_keywords(self, llm_model: str = 'qwen2.5vl:32b', 
-                                     llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                                     llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                                      max_summary_words: int = 30, max_keywords: int = 10):
         """
         Generate summary and keywords for the node's content_text using ContentProcessor.
@@ -96,7 +96,7 @@ class ContentNode:
             self.keywords = []
     
     def create_content_chunks(self, llm_model: str = 'qwen2.5vl:32b', 
-                             llm_api_url: str = 'http://100.89.180.132:11434/api/generate'):
+                             llm_api_url: str = 'https://chatmol.org/ollama/api/generate'):
         """
         Create content chunks for the node's content_text using ContentProcessor.
         
@@ -123,7 +123,7 @@ class ContentNode:
             self.content_chunks = []
     
     def extract_sentences(self, llm_model: str = 'qwen2.5vl:32b', 
-                         llm_api_url: str = 'http://100.89.180.132:11434/api/generate'):
+                         llm_api_url: str = 'https://chatmol.org/ollama/api/generate'):
         """
         Extract sentences from the node's content_text using ContentProcessor.
         
@@ -150,7 +150,7 @@ class ContentNode:
             self.sentences = []
     
     def process_content(self, llm_model: str = 'qwen2.5vl:32b', 
-                       llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                       llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                        max_summary_words: int = 30, max_keywords: int = 10,
                        embedding_model: str = "text-embedding-3-large",
                        generate_embeddings: bool = True):
@@ -557,7 +557,7 @@ class ContentTree:
                 node.header = new_header
     
     def generate_all_summaries_and_keywords(self, llm_model: str = 'qwen2.5vl:32b', 
-                                          llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                                          llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                                           max_summary_words: int = 30, max_keywords: int = 10,
                                           skip_root: bool = True):
         """
@@ -595,7 +595,7 @@ class ContentTree:
         print("Summary and keyword generation complete!")
     
     def process_all_content(self, llm_model: str = 'qwen2.5vl:32b', 
-                           llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                           llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                            max_summary_words: int = 30, max_keywords: int = 10,
                            embedding_model: str = "text-embedding-3-large",
                            generate_embeddings: bool = True,
@@ -640,7 +640,7 @@ class ContentTree:
         print("Complete content processing finished!")
     
     def create_all_content_chunks(self, llm_model: str = 'qwen2.5vl:32b', 
-                                 llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                                 llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                                  skip_root: bool = True):
         """
         Create content chunks for all nodes in the tree.
@@ -670,7 +670,7 @@ class ContentTree:
         print("Content chunk creation complete!")
     
     def extract_all_sentences(self, llm_model: str = 'qwen2.5vl:32b', 
-                             llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                             llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                              skip_root: bool = True):
         """
         Extract sentences for all nodes in the tree.
@@ -834,7 +834,7 @@ class ContentTree:
         print("Sentence embedding generation complete!")
     
     def process_tree_content(self, llm_model: str = 'qwen2.5vl:32b', 
-                           llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                           llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                            max_summary_words: int = 30, max_keywords: int = 10,
                            embedding_model: str = "text-embedding-3-large",
                            generate_embeddings: bool = True,

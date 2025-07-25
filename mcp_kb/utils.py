@@ -48,7 +48,7 @@ class ContentProcessor:
     """Handles content processing tasks for ContentNode objects."""
     
     def __init__(self, llm_model: str = 'qwen2.5vl:32b', 
-                 llm_api_url: str = 'http://100.89.180.132:11434/api/generate'):
+                 llm_api_url: str = 'https://chatmol.org/ollama/api/generate'):
         self.llm_model = llm_model
         self.llm_api_url = llm_api_url
     
@@ -763,7 +763,7 @@ class ContentEnhancer:
     """Main class that coordinates all content enhancement operations."""
     
     def __init__(self, llm_model: str = 'qwen2.5vl:32b', 
-                 llm_api_url: str = 'http://100.89.180.132:11434/api/generate',
+                 llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                  embedding_model: str = "text-embedding-3-large"):
         self.processor = ContentProcessor(llm_model, llm_api_url)
         self.embedding_generator = EmbeddingGenerator(embedding_model)
