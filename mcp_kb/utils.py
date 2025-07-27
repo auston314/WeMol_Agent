@@ -446,11 +446,29 @@ class EmbeddingGenerator:
 class InverseIndexBuilder:
     """Builds and manages inverse indexes for n-grams."""
     
-    def __init__(self, include_stopwords: bool = False):
+    def __init__(self, include_stopwords: bool = False, parameters: Optional[Any] = None):
         self.include_stopwords = include_stopwords
         self.monogram_index: Dict[str, List[int]] = defaultdict(list)
         self.bigram_index: Dict[str, List[int]] = defaultdict(list)
         self.trigram_index: Dict[str, List[int]] = defaultdict(list)
+        
+        # Store parameters for n-gram weights
+        if parameters is None:
+            try:
+                from parameters import DEFAULT_PARAMETERS
+                self.parameters = DEFAULT_PARAMETERS
+            except ImportError:
+                # Fallback if parameters.py is not available
+                from dataclasses import dataclass
+                @dataclass
+                class FallbackParameters:
+                    class ngram_weights:
+                        monogram: float = 1.0
+                        bigram: float = 4.0
+                        trigram: float = 9.0
+                self.parameters = FallbackParameters()
+        else:
+            self.parameters = parameters
     
     def build_ngram_indexes(self, nodes: List[Any]) -> None:
         """
@@ -508,12 +526,13 @@ class InverseIndexBuilder:
         
         return tokens
     
-    def calculate_lexical_similarity(self, query: str, node_ids: List[int] = None) -> Dict[int, float]:
+    def calculate_lexical_similarity(self, query: str, parameters: Optional[Any] = None, node_ids: List[int] = None) -> Dict[int, float]:
         """
         Calculate lexical similarity scores between query and nodes.
         
         Args:
             query (str): Query text
+            parameters: Parameters object from parameters.py (optional)
             node_ids (List[int], optional): Specific node IDs to score. If None, scores all nodes.
             
         Returns:
@@ -525,6 +544,13 @@ class InverseIndexBuilder:
                         for i in range(len(query_tokens)-1)]
         query_trigrams = [f"{query_tokens[i]} {query_tokens[i+1]} {query_tokens[i+2]}" 
                          for i in range(len(query_tokens)-2)]
+        
+        # Use provided parameters or fall back to instance parameters
+        ngram_weights = None
+        if parameters is not None:
+            ngram_weights = getattr(parameters, 'ngram_weights', None)
+        if ngram_weights is None:
+            ngram_weights = getattr(self.parameters, 'ngram_weights', None)
         
         # Collect all relevant node IDs
         if node_ids is None:
@@ -542,7 +568,7 @@ class InverseIndexBuilder:
         scores = {}
         for node_id in relevant_nodes:
             score = self._calculate_node_score(
-                node_id, query_monograms, query_bigrams, query_trigrams
+                node_id, query_monograms, query_bigrams, query_trigrams, ngram_weights
             )
             if score > 0:
                 scores[node_id] = score
@@ -550,12 +576,35 @@ class InverseIndexBuilder:
         return scores
     
     def _calculate_node_score(self, node_id: int, query_monograms: List[str], 
-                            query_bigrams: List[str], query_trigrams: List[str]) -> float:
-        """Calculate the lexical similarity score for a specific node."""
-        # Weights for different n-gram types
-        monogram_weight = 1.0
-        bigram_weight = 4.0
-        trigram_weight = 9.0
+                            query_bigrams: List[str], query_trigrams: List[str],
+                            ngram_weights: Optional[Any] = None) -> float:
+        """
+        Calculate the lexical similarity score for a specific node.
+        
+        Args:
+            node_id: ID of the node to score
+            query_monograms: List of query monograms
+            query_bigrams: List of query bigrams  
+            query_trigrams: List of query trigrams
+            ngram_weights: NGramWeights object from parameters.py (optional)
+            
+        Returns:
+            float: Lexical similarity score
+        """
+        # Get weights from parameters if not provided
+        if ngram_weights is None:
+            try:
+                from parameters import DEFAULT_PARAMETERS
+                ngram_weights = DEFAULT_PARAMETERS.ngram_weights
+            except ImportError:
+                # Fallback to hardcoded defaults if parameters.py is not available
+                from dataclasses import dataclass
+                @dataclass
+                class FallbackNGramWeights:
+                    monogram: float = 1.0
+                    bigram: float = 4.0
+                    trigram: float = 9.0
+                ngram_weights = FallbackNGramWeights()
         
         score = 0.0
         
@@ -571,15 +620,16 @@ class InverseIndexBuilder:
         total_query_grams = len(query_monograms) + len(query_bigrams) + len(query_trigrams)
         if total_query_grams > 0:
             score = (
-                monogram_weight * monogram_matches +
-                bigram_weight * bigram_matches +
-                trigram_weight * trigram_matches
+                ngram_weights.monogram * monogram_matches +
+                ngram_weights.bigram * bigram_matches +
+                ngram_weights.trigram * trigram_matches
             ) / total_query_grams
         
         return score
     
     def _calculate_max_possible_score(self, query_monograms: List[str], 
-                                    query_bigrams: List[str], query_trigrams: List[str]) -> float:
+                                    query_bigrams: List[str], query_trigrams: List[str],
+                                    ngram_weights: Optional[Any] = None) -> float:
         """
         Calculate the maximum possible n-gram score for a query.
         This represents the score if all query n-grams were perfectly matched.
@@ -588,35 +638,47 @@ class InverseIndexBuilder:
             query_monograms (List[str]): Query monograms
             query_bigrams (List[str]): Query bigrams  
             query_trigrams (List[str]): Query trigrams
+            ngram_weights: NGramWeights object from parameters.py (optional)
             
         Returns:
             float: Maximum possible score for this query
         """
-        # Weights for different n-gram types (same as in _calculate_node_score)
-        monogram_weight = 1.0
-        bigram_weight = 4.0
-        trigram_weight = 9.0
+        # Get weights from parameters if not provided
+        if ngram_weights is None:
+            try:
+                from parameters import DEFAULT_PARAMETERS
+                ngram_weights = DEFAULT_PARAMETERS.ngram_weights
+            except ImportError:
+                # Fallback to hardcoded defaults if parameters.py is not available
+                from dataclasses import dataclass
+                @dataclass
+                class FallbackNGramWeights:
+                    monogram: float = 1.0
+                    bigram: float = 4.0
+                    trigram: float = 9.0
+                ngram_weights = FallbackNGramWeights()
         
         # Calculate maximum score assuming all n-grams match perfectly
         total_query_grams = len(query_monograms) + len(query_bigrams) + len(query_trigrams)
         if total_query_grams > 0:
             max_score = (
-                monogram_weight * len(query_monograms) +
-                bigram_weight * len(query_bigrams) +
-                trigram_weight * len(query_trigrams)
+                ngram_weights.monogram * len(query_monograms) +
+                ngram_weights.bigram * len(query_bigrams) +
+                ngram_weights.trigram * len(query_trigrams)
             ) / total_query_grams
         else:
             max_score = 1.0  # Avoid division by zero
         
         return max_score
     
-    def calculate_normalized_lexical_similarity(self, query: str, node_ids: List[int] = None) -> Dict[int, float]:
+    def calculate_normalized_lexical_similarity(self, query: str, parameters: Optional[Any] = None, node_ids: List[int] = None) -> Dict[int, float]:
         """
         Calculate normalized lexical similarity scores between query and nodes.
         Scores are normalized to 0-1.0 range based on the maximum possible score for the query.
         
         Args:
             query (str): Query text
+            parameters: Parameters object from parameters.py (optional)
             node_ids (List[int], optional): Specific node IDs to score. If None, scores all nodes.
             
         Returns:
@@ -629,8 +691,15 @@ class InverseIndexBuilder:
         query_trigrams = [f"{query_tokens[i]} {query_tokens[i+1]} {query_tokens[i+2]}" 
                          for i in range(len(query_tokens)-2)]
         
+        # Use provided parameters or fall back to instance parameters
+        ngram_weights = None
+        if parameters is not None:
+            ngram_weights = getattr(parameters, 'ngram_weights', None)
+        if ngram_weights is None:
+            ngram_weights = getattr(self.parameters, 'ngram_weights', None)
+        
         # Calculate maximum possible score for normalization
-        max_possible_score = self._calculate_max_possible_score(query_monograms, query_bigrams, query_trigrams)
+        max_possible_score = self._calculate_max_possible_score(query_monograms, query_bigrams, query_trigrams, ngram_weights)
         
         # Collect all relevant node IDs
         if node_ids is None:
@@ -648,7 +717,7 @@ class InverseIndexBuilder:
         scores = {}
         for node_id in relevant_nodes:
             raw_score = self._calculate_node_score(
-                node_id, query_monograms, query_bigrams, query_trigrams
+                node_id, query_monograms, query_bigrams, query_trigrams, ngram_weights
             )
             if raw_score > 0:
                 # Normalize score to 0-1.0 range
@@ -657,7 +726,7 @@ class InverseIndexBuilder:
         
         return scores
     
-    def get_matching_nodes(self, query: str, top_k: int = 10, normalize_scores: bool = True) -> List[Tuple[int, float]]:
+    def get_matching_nodes(self, query: str, top_k: int = 10, normalize_scores: bool = True, parameters: Optional[Any] = None) -> List[Tuple[int, float]]:
         """
         Get top-k nodes that match the query based on lexical similarity.
         
@@ -665,14 +734,15 @@ class InverseIndexBuilder:
             query (str): Query text
             top_k (int): Number of top results to return
             normalize_scores (bool): Whether to normalize scores to 0-1.0 range
+            parameters: Parameters object from parameters.py (optional)
             
         Returns:
             List[Tuple[int, float]]: List of (node_id, score) tuples sorted by score
         """
         if normalize_scores:
-            scores = self.calculate_normalized_lexical_similarity(query)
+            scores = self.calculate_normalized_lexical_similarity(query, parameters)
         else:
-            scores = self.calculate_lexical_similarity(query)
+            scores = self.calculate_lexical_similarity(query, parameters)
         
         sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
         return sorted_scores[:top_k]
@@ -705,10 +775,8 @@ def calculate_semantic_similarity(query_embedding: np.ndarray,
                                 header_embedding: Optional[np.ndarray],
                                 summary_embedding: Optional[np.ndarray],
                                 chunk_embeddings: Optional[np.ndarray] = None,
-                                weight_header: float = 0.4,
-                                weight_summary: float = 0.2,
-                                weight_content: float = 0.3,
-                                weight_chunks: float = 0.1) -> float:
+                                sentence_embeddings: Optional[np.ndarray] = None,
+                                weights: Optional[Any] = None) -> float:
     """
     Calculate semantic similarity score between query and node content.
     
@@ -718,25 +786,43 @@ def calculate_semantic_similarity(query_embedding: np.ndarray,
         header_embedding: Header embedding
         summary_embedding: Summary embedding
         chunk_embeddings: Chunk embeddings
-        weight_*: Weights for different components
+        sentence_embeddings: Sentence embeddings
+        weights: SemanticSimilarityWeights object from parameters.py (optional)
         
     Returns:
         float: Similarity score
     """
+    # Import weights if not provided
+    if weights is None:
+        try:
+            from parameters import DEFAULT_PARAMETERS
+            weights = DEFAULT_PARAMETERS.semantic_weights
+        except ImportError:
+            # Fallback to hardcoded defaults if parameters.py is not available
+            from dataclasses import dataclass
+            @dataclass
+            class FallbackWeights:
+                header: float = 0.2
+                summary: float = 0.2
+                content: float = 0.2
+                chunks: float = 0.2
+                sentences: float = 0.2
+            weights = FallbackWeights()
+    
     total_score = 0.0
     total_weight = 0.0
     
     # Header similarity
     if header_embedding is not None:
         header_sim = np.dot(query_embedding, header_embedding)
-        total_score += weight_header * header_sim
-        total_weight += weight_header
+        total_score += weights.header * header_sim
+        total_weight += weights.header
     
     # Summary similarity
     if summary_embedding is not None:
         summary_sim = np.dot(query_embedding, summary_embedding)
-        total_score += weight_summary * summary_sim
-        total_weight += weight_summary
+        total_score += weights.summary * summary_sim
+        total_weight += weights.summary
     
     # Content similarity (legacy support)
     if content_embeddings is not None:
@@ -744,17 +830,30 @@ def calculate_semantic_similarity(query_embedding: np.ndarray,
             content_sim = np.dot(query_embedding, content_embeddings)
         else:
             content_sim = np.max(np.dot(query_embedding, content_embeddings.T))
-        total_score += weight_content * content_sim
-        total_weight += weight_content
+        total_score += weights.content * content_sim
+        total_weight += weights.content
     
-    # Chunk similarity
+    # Chunk similarity (using maximum similarity across all chunks)
     if chunk_embeddings is not None and len(chunk_embeddings) > 0:
         if chunk_embeddings.ndim == 1:
+            # Single chunk embedding
             chunk_sim = np.dot(query_embedding, chunk_embeddings)
         else:
+            # Multiple chunk embeddings - use maximum similarity
             chunk_sim = np.max(np.dot(query_embedding, chunk_embeddings.T))
-        total_score += weight_chunks * chunk_sim
-        total_weight += weight_chunks
+        total_score += weights.chunks * chunk_sim
+        total_weight += weights.chunks
+    
+    # Sentence similarity (using maximum similarity across all sentences)
+    if sentence_embeddings is not None and len(sentence_embeddings) > 0:
+        if sentence_embeddings.ndim == 1:
+            # Single sentence embedding
+            sentence_sim = np.dot(query_embedding, sentence_embeddings)
+        else:
+            # Multiple sentence embeddings - use maximum similarity
+            sentence_sim = np.max(np.dot(query_embedding, sentence_embeddings.T))
+        total_score += weights.sentences * sentence_sim
+        total_weight += weights.sentences
     
     return total_score / total_weight if total_weight > 0 else 0.0
 
@@ -764,10 +863,21 @@ class ContentEnhancer:
     
     def __init__(self, llm_model: str = 'qwen2.5vl:32b', 
                  llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
-                 embedding_model: str = "text-embedding-3-large"):
+                 embedding_model: str = "text-embedding-3-large",
+                 parameters: Optional[Any] = None):
         self.processor = ContentProcessor(llm_model, llm_api_url)
         self.embedding_generator = EmbeddingGenerator(embedding_model)
-        self.index_builder = InverseIndexBuilder()
+        self.index_builder = InverseIndexBuilder(parameters=parameters)
+        
+        # Store parameters for search operations
+        if parameters is None:
+            try:
+                from parameters import DEFAULT_PARAMETERS
+                self.parameters = DEFAULT_PARAMETERS
+            except ImportError:
+                self.parameters = None
+        else:
+            self.parameters = parameters
     
     def enhance_content_tree(self, content_tree) -> None:
         """
@@ -832,8 +942,9 @@ class ContentEnhancer:
     
     def search_nodes(self, query: str, content_tree, 
                     top_k: int = 10, 
-                    semantic_weight: float = 0.6,
-                    lexical_weight: float = 0.4) -> List[Tuple[Any, float]]:
+                    semantic_weight: Optional[float] = None,
+                    lexical_weight: Optional[float] = None,
+                    parameters: Optional[Any] = None) -> List[Tuple[Any, float]]:
         """
         Search for relevant nodes using both semantic and lexical similarity.
         
@@ -841,12 +952,22 @@ class ContentEnhancer:
             query: Search query
             content_tree: ContentTree to search
             top_k: Number of results to return
-            semantic_weight: Weight for semantic similarity
-            lexical_weight: Weight for lexical similarity
+            semantic_weight: Weight for semantic similarity (optional)
+            lexical_weight: Weight for lexical similarity (optional)
+            parameters: SearchParameters object (optional)
             
         Returns:
             List of (node, combined_score) tuples
         """
+        # Use provided parameters or fall back to instance parameters
+        search_params = parameters or self.parameters
+        
+        # Use provided weights or fall back to parameters, then to defaults
+        if semantic_weight is None:
+            semantic_weight = search_params.combined_weights.semantic if search_params else 0.6
+        if lexical_weight is None:
+            lexical_weight = search_params.combined_weights.lexical if search_params else 0.4
+        
         print(f"Searching for: '{query}'")
         
         # Generate query embedding
@@ -872,7 +993,9 @@ class ContentEnhancer:
                     getattr(node, 'sentence_embeddings', None),
                     node.header_embedding,
                     getattr(node, 'summary_embedding', None),
-                    getattr(node, 'chunk_embeddings', None)
+                    getattr(node, 'chunk_embeddings', None),
+                    getattr(node, 'sentence_embeddings', None),
+                    search_params.semantic_weights if search_params else None
                 )
             
             # Combine scores
