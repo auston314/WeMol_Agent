@@ -317,10 +317,11 @@ class ContentTree:
         for filename in md_files:
             file_path = os.path.join(md_files_directory, filename)
             chapter_tree = self.content_tree_constructor(file_path)
-            file_counter += 1
-            if (file_counter > 2):
-                break
-                # End of Hack
+            # Start Hack
+            # file_counter += 1
+            # if (file_counter > 2):
+            #     break
+            # End of Hack
             # Add the chapter/appendix as a child of the root
             if chapter_tree and chapter_tree.child_nodes:
                 # The first child of the chapter_tree is typically the main chapter/appendix node
