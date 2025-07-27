@@ -1098,35 +1098,99 @@ class ContentTree:
         return sorted_results[:max_results]
     
     def enhanced_search(self, query: str, max_results: int = 10, 
-                       semantic_weight: float = 0.6, lexical_weight: float = 0.4) -> List[tuple]:
+                       semantic_weight: Optional[float] = None, 
+                       lexical_weight: Optional[float] = None,
+                       parameters: Optional[Any] = None) -> List[tuple]:
         """
-        Enhanced search combining lexical similarity with optional semantic similarity.
+        Enhanced search combining lexical similarity with semantic similarity.
         
-        Currently uses only lexical similarity from InverseIndexBuilder. Semantic similarity
-        can be added when embeddings are available.
+        Uses both lexical similarity from InverseIndexBuilder and semantic similarity
+        from embeddings when available.
         
         Args:
             query (str): Search query
             max_results (int): Maximum number of results to return
-            semantic_weight (float): Weight for semantic similarity (reserved for future use)
-            lexical_weight (float): Weight for lexical similarity
+            semantic_weight (float, optional): Weight for semantic similarity 
+            lexical_weight (float, optional): Weight for lexical similarity
+            parameters: SearchParameters object from parameters.py (optional)
             
         Returns:
             List[tuple]: List of (node_id, score) tuples sorted by relevance
         """
+        # Get weights from parameters if not provided
+        if parameters is None:
+            try:
+                from parameters import DEFAULT_PARAMETERS
+                parameters = DEFAULT_PARAMETERS
+            except ImportError:
+                # Fallback if parameters.py is not available
+                pass
+        
+        # Use provided weights or fall back to parameters, then to defaults
+        if semantic_weight is None:
+            semantic_weight = parameters.combined_weights.semantic if parameters else 0.6
+        if lexical_weight is None:
+            lexical_weight = parameters.combined_weights.lexical if parameters else 0.4
         if not hasattr(self, 'inverse_index_builder') or not self.inverse_index_builder:
             print("Advanced search not available. Using basic search...")
             return self.search_content(query, max_results, use_ngrams=False)
         
         try:
             # Get normalized lexical similarity scores using n-gram analysis (0-1.0 range)
-            lexical_scores = self.inverse_index_builder.calculate_normalized_lexical_similarity(query)
+            lexical_scores = self.inverse_index_builder.calculate_normalized_lexical_similarity(query, parameters)
             
-            # Apply lexical weight and convert to list of tuples
-            results = [(node_id, score * lexical_weight) for node_id, score in lexical_scores.items()]
+            # Generate query embedding for semantic similarity
+            semantic_scores = {}
+            try:
+                from utils import EmbeddingGenerator, calculate_semantic_similarity
+                embedding_gen = EmbeddingGenerator()
+                query_embedding = embedding_gen.generate_embeddings([query])[0]
+                
+                # Get all content nodes
+                all_nodes = self.tree_node_iterator()
+                content_nodes = [node for node in all_nodes if node.header_level > 0]
+                
+                # Calculate semantic similarity for each node that has embeddings
+                for node in content_nodes:
+                    if (hasattr(node, 'header_embedding') and node.header_embedding is not None):
+                        semantic_score = calculate_semantic_similarity(
+                            query_embedding,
+                            getattr(node, 'sentence_embeddings', None),
+                            node.header_embedding,
+                            getattr(node, 'summary_embedding', None),
+                            getattr(node, 'chunk_embeddings', None),
+                            getattr(node, 'sentence_embeddings', None),
+                            parameters.semantic_weights if parameters else None
+                        )
+                        semantic_scores[node.node_id] = semantic_score
+                        
+            except Exception as e:
+                print(f"Warning: Could not calculate semantic similarity: {e}")
+                semantic_scores = {}
+            
+            # Combine lexical and semantic scores
+            combined_scores = {}
+            
+            # Get all relevant node IDs from both scoring methods
+            all_node_ids = set(lexical_scores.keys()) | set(semantic_scores.keys())
+            
+            for node_id in all_node_ids:
+                lexical_score = lexical_scores.get(node_id, 0.0)
+                semantic_score = semantic_scores.get(node_id, 0.0)
+                
+                # Calculate combined score
+                combined_score = (lexical_weight * lexical_score + 
+                                semantic_weight * semantic_score)
+                
+                if combined_score > 0:
+                    combined_scores[node_id] = combined_score
+            
+            # Convert to list of tuples and sort by score
+            results = list(combined_scores.items())
             results.sort(key=lambda x: x[1], reverse=True)
             
             return results[:max_results]
+            
         except Exception as e:
             print(f"Error in enhanced search: {e}")
             return self.search_content(query, max_results, use_ngrams=False)
@@ -1170,6 +1234,215 @@ class ContentTree:
                 matching_nodes.append(node_map[node_id])
         
         return matching_nodes
+    
+    def rag_query(self, user_query: str, top_k: int = 1, 
+                  llm_model: str = 'qwen2.5vl:32b',
+                  llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
+                  semantic_weight: Optional[float] = None, 
+                  lexical_weight: Optional[float] = None,
+                  custom_params: Optional[Any] = None,
+                  debug: bool = False) -> str:
+        """
+        Retrieval-Augmented Generation (RAG) function that answers user queries using content from the tree.
+        
+        This function:
+        1. Uses enhanced_search to find relevant content nodes
+        2. Retrieves content from top-k most relevant nodes
+        3. Generates an answer using the LLM based on the retrieved content
+        4. Returns "No information in the provided content for your query" if no relevant content is found
+        
+        Args:
+            user_query (str): The user's question
+            top_k (int): Number of top relevant nodes to use for context (default: 1)
+            llm_model (str): LLM model to use for answer generation
+            llm_api_url (str): API URL for the LLM
+            semantic_weight (float, optional): Weight for semantic similarity in enhanced search (deprecated, use custom_params)
+            lexical_weight (float, optional): Weight for lexical similarity in enhanced search (deprecated, use custom_params)
+            custom_params: Parameters object from parameters.py containing all weight configurations
+            debug (bool): Whether to print debug information about retrieved content
+            
+        Returns:
+            str: Generated answer or "No information in the provided content for your query"
+        """
+        if not user_query.strip():
+            return "Please provide a valid query."
+        
+        # Handle parameter precedence: custom_params > individual weights > defaults
+        parameters = custom_params
+        if parameters is None:
+            try:
+                from parameters import DEFAULT_PARAMETERS
+                parameters = DEFAULT_PARAMETERS
+            except ImportError:
+                # Fallback if parameters.py is not available
+                parameters = None
+        
+        # Determine search weights (semantic/lexical combination)
+        if semantic_weight is None:
+            final_semantic_weight = parameters.combined_weights.semantic if parameters else 0.6
+        else:
+            final_semantic_weight = semantic_weight
+            
+        if lexical_weight is None:
+            final_lexical_weight = parameters.combined_weights.lexical if parameters else 0.4
+        else:
+            final_lexical_weight = lexical_weight
+        
+        try:
+            # Step 1: Search for relevant content nodes using enhanced search
+            search_results = self.enhanced_search(
+                query=user_query, 
+                max_results=max(top_k, 5),  # Get a few more to ensure we have options
+                semantic_weight=final_semantic_weight,
+                lexical_weight=final_lexical_weight,
+                parameters=parameters  # Pass full parameters to enhanced_search for semantic similarity weights
+            )
+            
+            if debug:
+                print(f"\n🔍 DEBUG: Search results for '{user_query}':")
+                print(f"Total search results: {len(search_results)}")
+                all_nodes = self.tree_node_iterator()
+                node_map = {node.node_id: node for node in all_nodes}
+                for i, (node_id, score) in enumerate(search_results[:10], 1):
+                    if node_id in node_map:
+                        node = node_map[node_id]
+                        print(f"  {i}. [Node {node_id}] Score: {score:.4f} | Header: '{node.header}'")
+                        print(f"     Content preview: {node.content_text[:100]}...")
+                    else:
+                        print(f"  {i}. [Node {node_id}] Score: {score:.4f} | NODE NOT FOUND")
+                print()
+            
+            if not search_results:
+                if debug:
+                    print("❌ DEBUG: No search results found!")
+                return "No information in the provided content for your query."
+            
+            # Step 2: Filter out results with very low relevance scores
+            # Only keep results with score > 0.01 to ensure some relevance
+            relevant_results = [(node_id, score) for node_id, score in search_results if score > 0.01]
+            
+            if debug:
+                print(f"🔍 DEBUG: Filtering results with score > 0.01:")
+                print(f"Results after filtering: {len(relevant_results)}")
+                if relevant_results:
+                    for i, (node_id, score) in enumerate(relevant_results[:5], 1):
+                        if node_id in node_map:
+                            node = node_map[node_id]
+                            print(f"  {i}. [Node {node_id}] Score: {score:.4f} | Header: '{node.header}'")
+                print()
+            
+            if not relevant_results:
+                if debug:
+                    print("❌ DEBUG: No relevant results after filtering!")
+                return "No information in the provided content for your query."
+            
+            # Step 3: Get the actual nodes and collect their content
+            all_nodes = self.tree_node_iterator()
+            node_map = {node.node_id: node for node in all_nodes}
+            
+            context_parts = []
+            source_info = []
+            
+            if debug:
+                print(f"🔍 DEBUG: Collecting content from top-{top_k} results:")
+            
+            # Take only top_k results
+            for i, (node_id, score) in enumerate(relevant_results[:top_k]):
+                if node_id in node_map:
+                    node = node_map[node_id]
+                    
+                    if debug:
+                        print(f"  Using Node {node_id}: '{node.header}' (score: {score:.4f})")
+                        print(f"    Content length: {len(node.content_text)} chars")
+                        print(f"    Summary length: {len(node.summary) if node.summary else 0} chars")
+                    
+                    # Collect comprehensive content from the node
+                    content_pieces = []
+                    
+                    # Add header for context
+                    if node.header and node.header != "Root":
+                        content_pieces.append(f"Section: {node.header}")
+                    
+                    # Add main content
+                    if node.content_text.strip():
+                        content_pieces.append(node.content_text.strip())
+                    
+                    # Add summary if available and different from content
+                    if node.summary and node.summary.strip() and len(node.summary) > 20:
+                        if node.summary not in node.content_text:
+                            content_pieces.append(f"Summary: {node.summary}")
+                    
+                    # Combine content pieces
+                    if content_pieces:
+                        node_content = "\n\n".join(content_pieces)
+                        context_parts.append(node_content)
+                        source_info.append(f"Node {node_id}: {node.header} (relevance: {score:.3f})")
+                        
+                        if debug:
+                            print(f"    Added content pieces: {len(content_pieces)}")
+                            print(f"    Total content for this node: {len(node_content)} chars")
+                    else:
+                        if debug:
+                            print(f"    ❌ No usable content found in this node")
+            
+            if debug:
+                print(f"🔍 DEBUG: Total context parts collected: {len(context_parts)}")
+                print()
+            
+            if not context_parts:
+                if debug:
+                    print("❌ DEBUG: No context parts collected from any node!")
+                return "No information in the provided content for your query."
+            
+            # Step 4: Create context for the LLM
+            context = "\n\n" + "="*50 + "\n\n".join(context_parts)
+            
+            # Step 5: Generate answer using ContentProcessor
+            from utils import ContentProcessor
+            processor = ContentProcessor(llm_model, llm_api_url)
+            
+            # Create a comprehensive prompt for answering the query
+            answer_prompt = (
+                f"Based on the provided content below, please answer the following question: "
+                f'"{user_query}"\n\n'
+                f"Instructions:\n"
+                f"1. Use only the information provided in the content below\n"
+                f"2. If the content does not contain sufficient information to answer the question, "
+                f"respond with: 'No information in the provided content for your query.'\n"
+                f"3. Be accurate and cite specific information from the content when possible\n"
+                f"4. Keep your answer clear and concise\n"
+                f"5. Do not make up information not present in the content\n\n"
+                f"Content:\n"
+            )
+            
+            # Use the existing LLM service call method
+            full_prompt = answer_prompt + context
+            answer = processor._call_llm_service(full_prompt, temperature=0.2, max_tokens=512)
+            
+            # Clean up the answer
+            answer = answer.strip()
+            
+            # Check if the LLM indicates no information available
+            no_info_indicators = [
+                "no information in the provided content",
+                "not enough information",
+                "cannot be answered based on the provided content",
+                "insufficient information",
+                "the content does not contain"
+            ]
+            
+            if any(indicator in answer.lower() for indicator in no_info_indicators):
+                return "No information in the provided content for your query."
+            
+            # If answer is too short or generic, it might not be useful
+            if len(answer) < 20:
+                return "No information in the provided content for your query."
+            
+            return answer
+            
+        except Exception as e:
+            print(f"Error in RAG query processing: {e}")
+            return "No information in the provided content for your query."
     
     def print_tree_structure(self, node: Optional[ContentNode] = None, indent: int = 0, 
                            show_summary: bool = False, show_keywords: bool = False,
