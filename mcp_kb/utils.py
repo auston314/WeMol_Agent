@@ -978,7 +978,7 @@ class ContentEnhancer:
         content_nodes = [node for node in all_nodes if node.header_level > 0]
         
         # Calculate lexical similarity scores (normalized to 0-1.0 range)
-        lexical_scores = self.index_builder.calculate_normalized_lexical_similarity(query)
+        lexical_scores = self.index_builder.calculate_normalized_lexical_similarity(query, parameters)
         
         # Calculate combined scores
         node_scores = []

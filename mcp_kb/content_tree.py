@@ -1412,12 +1412,16 @@ class ContentTree:
                 f"respond with: 'No information in the provided content for your query.'\n"
                 f"3. Be accurate and cite specific information from the content when possible\n"
                 f"4. Keep your answer clear and concise\n"
-                f"5. Do not make up information not present in the content\n\n"
+                f"5. Do not make up information not present in the content\n"
+                f"6. If the answer contains a figure caption, make sure to include the picture link, which is usually above the figure caption line.\n\n"
                 f"Content:\n"
             )
-            
+
             # Use the existing LLM service call method
-            full_prompt = answer_prompt + context
+            full_prompt = answer_prompt + context + "\n\n" + f"Based on the provided content above, please answer the following question: {user_query}"
+            if debug:
+                print(f"🔍 DEBUG: Generated full prompt for LLM:\n{full_prompt[:500]}...")
+                print(full_prompt)
             answer = processor._call_llm_service(full_prompt, temperature=0.2, max_tokens=512)
             
             # Clean up the answer
