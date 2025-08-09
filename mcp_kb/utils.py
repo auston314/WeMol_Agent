@@ -47,10 +47,167 @@ class ContentChunk:
 class ContentProcessor:
     """Handles content processing tasks for ContentNode objects."""
     
-    def __init__(self, llm_model: str = 'qwen2.5vl:32b', 
+    def __init__(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                  llm_api_url: str = 'https://chatmol.org/ollama/api/generate'):
+        """
+        Initialize ContentProcessor with flexible LLM support.
+        
+        Args:
+            llm_type (str): Type of LLM provider ('ollama', 'openai', 'zai')
+            llm_model (str): Model name (e.g., 'qwen2.5vl:32b', 'gpt-4o', 'glm-4.5')
+            llm_api_url (str): API URL (only used for Ollama)
+        """
+        self.llm_type = llm_type.lower()
         self.llm_model = llm_model
         self.llm_api_url = llm_api_url
+        
+        # Initialize clients based on LLM type
+        if self.llm_type == 'openai':
+            self.openai_client = OpenAI()
+        elif self.llm_type == 'zai':
+            try:
+                from zai import ZaiClient
+                import os
+                self.zai_client = ZaiClient(api_key=os.environ.get('ZAI_API_KEY'))
+            except ImportError:
+                raise ImportError("ZAI client not found. Please install the zai package.")
+            except KeyError:
+                raise ValueError("ZAI_API_KEY environment variable not set.")
+        elif self.llm_type != 'ollama':
+            raise ValueError(f"Unsupported LLM type: {llm_type}. Supported types: 'ollama', 'openai', 'zai'")
+    
+    def _call_openai_api(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
+        """Call OpenAI API with chat completion. Uses max_completion_tokens for GPT-5 models and enforces temperature=1 for GPT-5."""
+        try:
+            messages = [
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": prompt}
+            ]
+ls             is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGNORECASE))
+            # Build kwargs dynamically to support different models
+            kwargs = {
+                "model": self.llm_model,
+                "messages": messages,
+                # For GPT-5 only the default temperature=1 is supported
+                "temperature": 1 if is_gpt5 else temperature,
+            }
+            # Use max_completion_tokens for GPT-5 models, else max_tokens
+            if is_gpt5:
+                kwargs["max_completion_tokens"] = max_tokens
+            else:
+                kwargs["max_tokens"] = max_tokens
+            
+            response = self.openai_client.chat.completions.create(**kwargs)
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            err_msg = str(e)
+            # Retry paths for known parameter issues
+            try:
+                # If temperature value is unsupported, retry without specifying temperature (use model default)
+                if "temperature" in err_msg and ("unsupported" in err_msg.lower() or "Only the default (1) value is supported" in err_msg):
+                    messages = [
+                        {"role": "system", "content": system_message},
+                        {"role": "user", "content": prompt}
+                    ]
+                    is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGNORECASE))
+                    kwargs = {
+                        "model": self.llm_model,
+                        "messages": messages,
+                    }
+                    if is_gpt5:
+                        kwargs["max_completion_tokens"] = max_tokens
+                    else:
+                        kwargs["max_tokens"] = max_tokens
+                    response = self.openai_client.chat.completions.create(**kwargs)
+                    return response.choices[0].message.content.strip()
+                
+                # If max_tokens is unsupported, retry with max_completion_tokens
+                if "max_tokens" in err_msg and "max_completion_tokens" in err_msg:
+                    messages = [
+                        {"role": "system", "content": system_message},
+                        {"role": "user", "content": prompt}
+                    ]
+                    kwargs = {
+                        "model": self.llm_model,
+                        "messages": messages,
+                        "max_completion_tokens": max_tokens,
+                    }
+                    # Use default temperature for safety
+                    response = self.openai_client.chat.completions.create(**kwargs)
+                    return response.choices[0].message.content.strip()
+            except Exception as e2:
+                print(f"Error calling OpenAI API (retry): {e2}")
+            print(f"Error calling OpenAI API: {e}")
+            return ""
+    
+    def _call_zai_api(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
+        """Call Z.AI API with chat completion."""
+        try:
+            response = self.zai_client.chat.completions.create(
+                model=self.llm_model,
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temperature,
+                top_p=0.8
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"Error calling Z.AI API: {e}")
+            return ""
+    
+    def _call_ollama_api(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
+        """Call Ollama API with streaming or non-streaming."""
+        try:
+            # Create the full prompt combining system message and user prompt
+            if system_message:
+                full_prompt = f"System: {system_message}\n\nUser: {prompt}"
+            else:
+                full_prompt = prompt
+            
+            payload = {
+                'model': self.llm_model,
+                'prompt': full_prompt,
+                'options': {
+                    'temperature': temperature
+                },
+                'stream': False
+            }
+
+            response = requests.post(self.llm_api_url, json=payload, stream=False)
+            data = response.json()
+            
+            if 'error' in data:
+                raise Exception(f"Ollama API error: {data['error']}")
+            
+            return data.get('response', '')
+            
+        except Exception as e:
+            print(f"Error calling Ollama API: {e}")
+            return ""
+    
+    def _call_llm_unified(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
+        """
+        Unified method to call any LLM provider based on llm_type.
+        
+        Args:
+            prompt (str): User prompt
+            system_message (str): System message (optional)
+            temperature (float): Sampling temperature
+            max_tokens (int): Maximum tokens
+            
+        Returns:
+            str: Generated response
+        """
+        if self.llm_type == 'openai':
+            return self._call_openai_api(prompt, system_message, temperature, max_tokens)
+        elif self.llm_type == 'zai':
+            return self._call_zai_api(prompt, system_message, temperature, max_tokens)
+        elif self.llm_type == 'ollama':
+            return self._call_ollama_api(prompt, system_message, temperature, max_tokens)
+        else:
+            raise ValueError(f"Unsupported LLM type: {self.llm_type}")
     
     def generate_content_summary(self, content_text: str, max_words: int = 30) -> str:
         """
@@ -68,12 +225,8 @@ class ContentProcessor:
             return ""
         
         print("Generating summary...")
-        summary_prompt = (
-            f"Please generate a summary of the following text in triple backticks "
-            f"in no more than {max_words} words. Keep summary clean, "
-            f"no title or header is needed.\n"
-        )
-        summary = self._call_llm_with_template(content_text, summary_prompt)
+        system_message = f"You are an expert at summarizing text. Please create a concise summary of the given text with no more than {max_words} words. Keep summary clean, no title or header is needed."
+        summary = self._call_llm_unified(content_text, system_message)
         return summary.strip()
     
     def generate_keyword_list(self, content_text: str, max_keywords: int = 10) -> List[str]:
@@ -92,13 +245,12 @@ class ContentProcessor:
             return []
         
         print("Generating keywords...")
-        keyword_prompt = (
-            f"Generate a list of keywords of the following text in triple backticks "
-            f"in no more than {max_keywords} words. The keyword list should be in "
-            f"JSON list format. Only list the most important keywords. "
-            f"Make your response clean, no title or header is needed.\n"
+        system_message = (
+            f"Generate a list of keywords from the given text in no more than {max_keywords} words. "
+            f"The keyword list should be in JSON list format. Only list the most important keywords. "
+            f"Make your response clean, no title or header is needed. Return only the JSON array."
         )
-        keywords_response = self._call_llm_with_template(content_text, keyword_prompt)
+        keywords_response = self._call_llm_unified(content_text, system_message)
         
         try:
             keywords = json.loads(keywords_response)
@@ -306,58 +458,6 @@ class ContentProcessor:
             return []
         
         return extract_sentences_from_text(content_text)
-    
-    def _call_llm_with_template(self, input_text: str, prompt_template: str) -> str:
-        """
-        Helper function to call LLM API with a specific prompt template.
-        
-        Args:
-            input_text (str): The input text
-            prompt_template (str): The prompt template
-            
-        Returns:
-            str: Generated response text
-        """
-        prompt = prompt_template + f"```{input_text}```"
-        return self._call_llm_service(prompt)
-    
-    def _call_llm_service(self, prompt: str, temperature: float = 0.1, 
-                         max_tokens: int = 1024) -> str:
-        """
-        Helper function to call LLM API and generate text.
-        
-        Args:
-            prompt (str): The input prompt
-            temperature (float): Sampling temperature
-            max_tokens (int): Maximum number of tokens
-            
-        Returns:
-            str: Generated response text
-        """
-        payload = {
-            'model': self.llm_model,
-            'prompt': prompt,
-            'temperature': temperature,
-            'max_tokens': max_tokens
-        }
-
-        try:
-            response = requests.post(self.llm_api_url, json=payload, stream=True)
-            
-            generated_text = ''
-            if response.status_code == 200:
-                for line in response.iter_lines():
-                    if line:
-                        data = json.loads(line.decode('utf-8'))
-                        if 'response' in data:
-                            generated_text += data['response']
-            else:
-                print(f'LLM API Error: {response.status_code}, {response.text}')
-                
-            return generated_text
-        except Exception as e:
-            print(f"Error calling LLM service: {e}")
-            return ""
 
 
 class EmbeddingGenerator:
@@ -861,11 +961,21 @@ def calculate_semantic_similarity(query_embedding: np.ndarray,
 class ContentEnhancer:
     """Main class that coordinates all content enhancement operations."""
     
-    def __init__(self, llm_model: str = 'qwen2.5vl:32b', 
+    def __init__(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                  llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                  embedding_model: str = "text-embedding-3-large",
                  parameters: Optional[Any] = None):
-        self.processor = ContentProcessor(llm_model, llm_api_url)
+        """
+        Initialize ContentEnhancer with flexible LLM support.
+        
+        Args:
+            llm_type (str): Type of LLM provider ('ollama', 'openai', 'zai')
+            llm_model (str): Model name
+            llm_api_url (str): API URL (only used for Ollama)
+            embedding_model (str): Embedding model name
+            parameters: Optional parameters object
+        """
+        self.processor = ContentProcessor(llm_type, llm_model, llm_api_url)
         self.embedding_generator = EmbeddingGenerator(embedding_model)
         self.index_builder = InverseIndexBuilder(parameters=parameters)
         

@@ -47,15 +47,16 @@ class ContentNode:
         child_node.parent_node = self
         self.child_nodes.append(child_node)
     
-    def generate_summary_and_keywords(self, llm_model: str = 'qwen2.5vl:32b', 
+    def generate_summary_and_keywords(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                                      llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                                      max_summary_words: int = 30, max_keywords: int = 10):
         """
         Generate summary and keywords for the node's content_text using ContentProcessor.
         
         Args:
+            llm_type (str): LLM provider ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for generation
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
             max_summary_words (int): Maximum words in summary
             max_keywords (int): Maximum number of keywords
         """
@@ -69,7 +70,7 @@ class ContentNode:
             from utils import ContentProcessor
             
             # Create processor instance
-            processor = ContentProcessor(llm_model, llm_api_url)
+            processor = ContentProcessor(llm_type, llm_model, llm_api_url)
             
             # Generate summary
             raw_summary = processor.generate_content_summary(
@@ -95,14 +96,15 @@ class ContentNode:
             self.summary = ""
             self.keywords = []
     
-    def create_content_chunks(self, llm_model: str = 'qwen2.5vl:32b', 
+    def create_content_chunks(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                              llm_api_url: str = 'https://chatmol.org/ollama/api/generate'):
         """
         Create content chunks for the node's content_text using ContentProcessor.
         
         Args:
+            llm_type (str): LLM provider ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for processing
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
         """
         if not self.content_text.strip():
             self.content_chunks = []
@@ -113,7 +115,7 @@ class ContentNode:
             from utils import ContentProcessor
             
             # Create processor instance
-            processor = ContentProcessor(llm_model, llm_api_url)
+            processor = ContentProcessor(llm_type, llm_model, llm_api_url)
             
             # Create content chunks
             self.content_chunks = processor.create_content_chunks(self.content_text)
@@ -122,14 +124,15 @@ class ContentNode:
             print(f"Error creating content chunks for node {self.node_id}: {e}")
             self.content_chunks = []
     
-    def extract_sentences(self, llm_model: str = 'qwen2.5vl:32b', 
+    def extract_sentences(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                          llm_api_url: str = 'https://chatmol.org/ollama/api/generate'):
         """
         Extract sentences from the node's content_text using ContentProcessor.
         
         Args:
+            llm_type (str): LLM provider ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for processing
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
         """
         if not self.content_text.strip():
             self.sentences = []
@@ -140,7 +143,7 @@ class ContentNode:
             from utils import ContentProcessor
             
             # Create processor instance
-            processor = ContentProcessor(llm_model, llm_api_url)
+            processor = ContentProcessor(llm_type, llm_model, llm_api_url)
             
             # Extract sentences
             self.sentences = processor.extract_sentences_from_content(self.content_text)
@@ -149,7 +152,7 @@ class ContentNode:
             print(f"Error extracting sentences for node {self.node_id}: {e}")
             self.sentences = []
     
-    def process_content(self, llm_model: str = 'qwen2.5vl:32b', 
+    def process_content(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                        llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                        max_summary_words: int = 30, max_keywords: int = 10,
                        embedding_model: str = "text-embedding-3-large",
@@ -158,8 +161,9 @@ class ContentNode:
         Process all content for this node: generate summary, keywords, content chunks, sentences, and embeddings.
         
         Args:
+            llm_type (str): LLM provider ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for processing
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
             max_summary_words (int): Maximum words in summary
             max_keywords (int): Maximum number of keywords
             embedding_model (str): OpenAI embedding model to use for embeddings
@@ -167,9 +171,9 @@ class ContentNode:
         """
         print("Process node content ........")
         # Generate all content processing components
-        self.generate_summary_and_keywords(llm_model, llm_api_url, max_summary_words, max_keywords)
-        self.create_content_chunks(llm_model, llm_api_url)
-        self.extract_sentences(llm_model, llm_api_url)
+        self.generate_summary_and_keywords(llm_type, llm_model, llm_api_url, max_summary_words, max_keywords)
+        self.create_content_chunks(llm_type, llm_model, llm_api_url)
+        self.extract_sentences(llm_type, llm_model, llm_api_url)
       
         # Generate embeddings if requested
         if generate_embeddings:
@@ -318,9 +322,9 @@ class ContentTree:
             file_path = os.path.join(md_files_directory, filename)
             chapter_tree = self.content_tree_constructor(file_path)
             # Start Hack
-            # file_counter += 1
-            # if (file_counter > 2):
-            #     break
+            file_counter += 1
+            if (file_counter > 2):
+                break
             # End of Hack
             # Add the chapter/appendix as a child of the root
             if chapter_tree and chapter_tree.child_nodes:
@@ -557,7 +561,7 @@ class ContentTree:
                 new_header = f"{parent_prefix} {node.header}"
                 node.header = new_header
     
-    def generate_all_summaries_and_keywords(self, llm_model: str = 'qwen2.5vl:32b', 
+    def generate_all_summaries_and_keywords(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                                           llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                                           max_summary_words: int = 30, max_keywords: int = 10,
                                           skip_root: bool = True):
@@ -565,8 +569,9 @@ class ContentTree:
         Generate summaries and keywords for all nodes in the tree.
         
         Args:
+            llm_type (str): LLM provider to use ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for generation
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
             max_summary_words (int): Maximum words in summary
             max_keywords (int): Maximum number of keywords
             skip_root (bool): Whether to skip the root node
@@ -585,6 +590,7 @@ class ContentTree:
             if node.content_text.strip():  # Only process nodes with content
                 print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
                 node.generate_summary_and_keywords(
+                    llm_type=llm_type,
                     llm_model=llm_model,
                     llm_api_url=llm_api_url,
                     max_summary_words=max_summary_words,
@@ -595,7 +601,7 @@ class ContentTree:
         
         print("Summary and keyword generation complete!")
     
-    def process_all_content(self, llm_model: str = 'qwen2.5vl:32b', 
+    def process_all_content(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                            llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                            max_summary_words: int = 30, max_keywords: int = 10,
                            embedding_model: str = "text-embedding-3-large",
@@ -606,8 +612,9 @@ class ContentTree:
         content chunks, sentences, and embeddings.
         
         Args:
+            llm_type (str): LLM provider to use ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for processing
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
             max_summary_words (int): Maximum words in summary
             max_keywords (int): Maximum number of keywords
             embedding_model (str): OpenAI embedding model to use for embeddings
@@ -628,6 +635,7 @@ class ContentTree:
             if node.content_text.strip():  # Only process nodes with content
                 print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
                 node.process_content(
+                    llm_type=llm_type,
                     llm_model=llm_model,
                     llm_api_url=llm_api_url,
                     max_summary_words=max_summary_words,
@@ -640,15 +648,16 @@ class ContentTree:
         
         print("Complete content processing finished!")
     
-    def create_all_content_chunks(self, llm_model: str = 'qwen2.5vl:32b', 
+    def create_all_content_chunks(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                                  llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                                  skip_root: bool = True):
         """
         Create content chunks for all nodes in the tree.
         
         Args:
+            llm_type (str): LLM provider to use ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for processing
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
             skip_root (bool): Whether to skip the root node
         """
         all_nodes = self.tree_node_iterator()
@@ -664,21 +673,22 @@ class ContentTree:
         for i, node in enumerate(content_nodes, 1):
             if node.content_text.strip():  # Only process nodes with content
                 print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
-                node.create_content_chunks(llm_model=llm_model, llm_api_url=llm_api_url)
+                node.create_content_chunks(llm_type=llm_type, llm_model=llm_model, llm_api_url=llm_api_url)
             else:
                 print(f"Skipping node {i}/{len(content_nodes)} (no content): {node.header}")
         
         print("Content chunk creation complete!")
     
-    def extract_all_sentences(self, llm_model: str = 'qwen2.5vl:32b', 
+    def extract_all_sentences(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                              llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                              skip_root: bool = True):
         """
         Extract sentences for all nodes in the tree.
         
         Args:
+            llm_type (str): LLM provider to use ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for processing
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
             skip_root (bool): Whether to skip the root node
         """
         all_nodes = self.tree_node_iterator()
@@ -694,7 +704,7 @@ class ContentTree:
         for i, node in enumerate(content_nodes, 1):
             if node.content_text.strip():  # Only process nodes with content
                 print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
-                node.extract_sentences(llm_model=llm_model, llm_api_url=llm_api_url)
+                node.extract_sentences(llm_type=llm_model, llm_api_url=llm_api_url)
             else:
                 print(f"Skipping node {i}/{len(content_nodes)} (no content): {node.header}")
         
@@ -834,7 +844,7 @@ class ContentTree:
         
         print("Sentence embedding generation complete!")
     
-    def process_tree_content(self, llm_model: str = 'qwen2.5vl:32b', 
+    def process_tree_content(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                            llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                            max_summary_words: int = 30, max_keywords: int = 10,
                            embedding_model: str = "text-embedding-3-large",
@@ -846,8 +856,9 @@ class ContentTree:
         This is a comprehensive function that handles all content processing steps.
         
         Args:
+            llm_type (str): LLM provider to use ('ollama', 'openai', 'zai')
             llm_model (str): LLM model to use for processing
-            llm_api_url (str): API URL for the LLM
+            llm_api_url (str): API URL for the LLM (Ollama only)
             max_summary_words (int): Maximum words in summary
             max_keywords (int): Maximum number of keywords
             embedding_model (str): OpenAI embedding model to use for embeddings
@@ -872,6 +883,7 @@ class ContentTree:
         content_nodes = [node for node in content_nodes if node.content_text.strip()]
         
         print(f"Processing {len(content_nodes)} content nodes...")
+        print(f"LLM Provider: {llm_type}")
         print(f"LLM Model: {llm_model}")
         print(f"Embedding Model: {embedding_model}")
         print(f"Generate Embeddings: {generate_embeddings}")
@@ -886,6 +898,7 @@ class ContentTree:
             try:
                 # Process all content for this node
                 node.process_content(
+                    llm_type=llm_type,
                     llm_model=llm_model,
                     llm_api_url=llm_api_url,
                     max_summary_words=max_summary_words,
@@ -1237,6 +1250,7 @@ class ContentTree:
         return matching_nodes
     
     def rag_query(self, user_query: str, top_k: int = 1, 
+                  llm_type: str = 'ollama',
                   llm_model: str = 'qwen2.5vl:32b',
                   llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                   semantic_weight: Optional[float] = None, 
@@ -1400,7 +1414,7 @@ class ContentTree:
             
             # Step 5: Generate answer using ContentProcessor
             from utils import ContentProcessor
-            processor = ContentProcessor(llm_model, llm_api_url)
+            processor = ContentProcessor(llm_type, llm_model, llm_api_url)
             
             # Create a comprehensive prompt for answering the query
             answer_prompt = (
@@ -1414,15 +1428,18 @@ class ContentTree:
                 f"4. Keep your answer clear and concise\n"
                 f"5. Do not make up information not present in the content\n"
                 f"6. If the answer contains a figure caption, make sure to include the picture link, which is usually above the figure caption line.\n\n"
-                f"Content:\n"
             )
 
-            # Use the existing LLM service call method
+            # Use the flexible LLM service call method
             full_prompt = answer_prompt + context + "\n\n" + f"Based on the provided content above, please answer the following question: {user_query}"
             if debug:
                 print(f"🔍 DEBUG: Generated full prompt for LLM:\n{full_prompt[:500]}...")
                 print(full_prompt)
-            answer = processor._call_llm_service(full_prompt, temperature=0.2, max_tokens=512)
+            system_message = (
+                "You are a helpful assistant. Use ONLY the provided content to answer. "
+                "If there isn't enough information, respond exactly with: 'No information in the provided content for your query.'"
+            )
+            answer = processor._call_llm_unified(full_prompt, system_message=system_message, temperature=0.2, max_tokens=512)
             
             # Clean up the answer
             answer = answer.strip()
