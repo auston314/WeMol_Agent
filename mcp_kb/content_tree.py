@@ -35,6 +35,8 @@ class ContentNode:
         self.keywords: List[str] = []
         self.content_chunks: List[Any] = []  # ContentChunk objects when utils is available
         self.sentences: List[str] = []
+        # Add container for generated study questions
+        self.questions: List[str] = []
         
         # Embedding attributes (initialized when generated)
         self.header_embedding: Optional[np.ndarray] = None
@@ -152,6 +154,27 @@ class ContentNode:
             print(f"Error extracting sentences for node {self.node_id}: {e}")
             self.sentences = []
     
+    def generate_questions(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
+                           llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
+                           max_questions: int = 50) -> None:
+        """
+        Generate study questions for this node's content as a JSON list of strings.
+        The LLM is instructed to internally identify facts, relationships, and entities,
+        and return ONLY a JSON array of questions answerable from the content.
+        """
+        if not self.content_text.strip():
+            self.questions = []
+            return
+        try:
+            from utils import ContentProcessor
+            processor = ContentProcessor(llm_type, llm_model, llm_api_url)
+            questions = processor.generate_questions_json(self.content_text, max_questions=max_questions)
+            # Ensure list of strings and limit to max_questions
+            self.questions = [str(q).strip() for q in (questions or []) if str(q).strip()][:max_questions]
+        except Exception as e:
+            print(f"Error generating questions for node {self.node_id}: {e}")
+            self.questions = []
+    
     def process_content(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                        llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                        max_summary_words: int = 30, max_keywords: int = 10,
@@ -174,7 +197,9 @@ class ContentNode:
         self.generate_summary_and_keywords(llm_type, llm_model, llm_api_url, max_summary_words, max_keywords)
         self.create_content_chunks(llm_type, llm_model, llm_api_url)
         self.extract_sentences(llm_type, llm_model, llm_api_url)
-      
+        # Generate study questions in strict JSON list format
+        self.generate_questions(llm_type, llm_model, llm_api_url)
+        
         # Generate embeddings if requested
         if generate_embeddings:
             self.generate_embeddings(embedding_model)
@@ -322,9 +347,9 @@ class ContentTree:
             file_path = os.path.join(md_files_directory, filename)
             chapter_tree = self.content_tree_constructor(file_path)
             # Start Hack
-            file_counter += 1
-            if (file_counter > 2):
-                break
+            # file_counter += 1
+            # if (file_counter > 2):
+            #     break
             # End of Hack
             # Add the chapter/appendix as a child of the root
             if chapter_tree and chapter_tree.child_nodes:
@@ -673,7 +698,7 @@ class ContentTree:
         for i, node in enumerate(content_nodes, 1):
             if node.content_text.strip():  # Only process nodes with content
                 print(f"Processing node {i}/{len(content_nodes)}: {node.header}")
-                node.create_content_chunks(llm_type=llm_type, llm_model=llm_model, llm_api_url=llm_api_url)
+                node.create_content_chunks(llm_type=llm_model, llm_api_url=llm_api_url)
             else:
                 print(f"Skipping node {i}/{len(content_nodes)} (no content): {node.header}")
         
@@ -819,7 +844,7 @@ class ContentTree:
     def generate_all_sentence_embeddings(self, embedding_model: str = "text-embedding-3-large",
                                         skip_root: bool = True):
         """
-        Generate sentence embeddings for all nodes in the tree.
+        Generate embeddings for all nodes in the tree.
         
         Args:
             embedding_model (str): OpenAI embedding model to use
@@ -912,7 +937,8 @@ class ContentTree:
                 print(f"  ✓ Keywords: {len(node.keywords)} items")
                 print(f"  ✓ Chunks: {len(node.content_chunks)} items")
                 print(f"  ✓ Sentences: {len(node.sentences)} items")
-                
+                print(f"  ✓ Questions: {len(node.questions)} items")
+
                 if generate_embeddings:
                     embeddings_status = []
                     if node.header_embedding is not None:

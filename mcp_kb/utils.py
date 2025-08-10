@@ -77,13 +77,13 @@ class ContentProcessor:
             raise ValueError(f"Unsupported LLM type: {llm_type}. Supported types: 'ollama', 'openai', 'zai'")
     
     def _call_openai_api(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
-        """Call OpenAI API with chat completion. Uses max_completion_tokens for GPT-5 models and enforces temperature=1 for GPT-5."""
+        """Call OpenAI API with chat completion. Uses max_completion_tokens for GPT-5 models and enforces temperature=1 for GPT-5. If truncated with empty content, retries once with stricter brevity and more output tokens."""
         try:
             messages = [
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": prompt}
             ]
-ls             is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGNORECASE))
+            is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGNORECASE))
             # Build kwargs dynamically to support different models
             kwargs = {
                 "model": self.llm_model,
@@ -97,8 +97,36 @@ ls             is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGN
             else:
                 kwargs["max_tokens"] = max_tokens
             
+            #print("Calling OpenAI API with parameters:", kwargs)
             response = self.openai_client.chat.completions.create(**kwargs)
-            return response.choices[0].message.content.strip()
+            #print("OpenAI API raw response:", response)
+
+            # Extract primary content
+            choice = response.choices[0]
+            content = (getattr(choice, "message", None).content or "").strip() if getattr(choice, "message", None) else ""
+
+            # If we hit length limit and got no content, retry once with more output budget and stricter brevity
+            if (not content) and getattr(choice, "finish_reason", None) == "length":
+                retry_kwargs = dict(kwargs)
+                retry_messages = list(messages)
+                retry_messages[0] = {
+                    "role": "system",
+                    "content": (system_message + " Be extremely concise. Return no more than 120 words.").strip()
+                }
+                retry_kwargs["messages"] = retry_messages
+                if is_gpt5:
+                    # Try to give more room for output
+                    retry_kwargs["max_completion_tokens"] = min(8192, max_tokens * 2)
+                else:
+                    retry_kwargs["max_tokens"] = min(8192, max_tokens * 2)
+                print("Retrying OpenAI API with parameters due to length and empty content:", retry_kwargs)
+                response2 = self.openai_client.chat.completions.create(**retry_kwargs)
+                print("OpenAI API retry raw response:", response2)
+                choice2 = response2.choices[0]
+                content2 = (getattr(choice2, "message", None).content or "").strip() if getattr(choice2, "message", None) else ""
+                return content2
+
+            return content
         except Exception as e:
             err_msg = str(e)
             # Retry paths for known parameter issues
@@ -133,6 +161,25 @@ ls             is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGN
                         "max_completion_tokens": max_tokens,
                     }
                     # Use default temperature for safety
+                    response = self.openai_client.chat.completions.create(**kwargs)
+                    return response.choices[0].message.content.strip()
+
+                # If an unexpected keyword like 'reasoning' caused the failure, retry without it
+                if "unexpected keyword argument" in err_msg and "reasoning" in err_msg:
+                    messages = [
+                        {"role": "system", "content": system_message},
+                        {"role": "user", "content": prompt}
+                    ]
+                    is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGNORECASE))
+                    kwargs = {
+                        "model": self.llm_model,
+                        "messages": messages,
+                        "temperature": 1 if is_gpt5 else temperature,
+                    }
+                    if is_gpt5:
+                        kwargs["max_completion_tokens"] = max_tokens
+                    else:
+                        kwargs["max_tokens"] = max_tokens
                     response = self.openai_client.chat.completions.create(**kwargs)
                     return response.choices[0].message.content.strip()
             except Exception as e2:
@@ -187,7 +234,7 @@ ls             is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGN
             print(f"Error calling Ollama API: {e}")
             return ""
     
-    def _call_llm_unified(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
+    def _call_llm_unified(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 4096) -> str:
         """
         Unified method to call any LLM provider based on llm_type.
         
@@ -458,6 +505,73 @@ ls             is_gpt5 = bool(re.match(r"^\s*gpt-5", str(self.llm_model), re.IGN
             return []
         
         return extract_sentences_from_text(content_text)
+    
+    def generate_questions_json(self, content_text: str, max_questions: int = 50) -> List[str]:
+        """
+        Generate a list of study questions in JSON array format based on the given content.
+        The model is instructed to internally identify facts, relationships, and entities, and
+        to output ONLY a JSON list of questions that can be answered using the content.
+        
+        Args:
+            content_text (str): Source text to analyze
+            max_questions (int): Maximum number of questions to generate
+        
+        Returns:
+            List[str]: List of questions
+        """
+        content_text = content_text.strip()
+        if not content_text:
+            return []
+        
+        print("Generating study questions...")
+        system_message = (
+            "You are an expert question generator for textbooks.\n"
+            "Analyze the text carefully. Internally identify all key facts, relationships, and entities.\n"
+            "Then generate diverse, specific questions that can be answered using ONLY the provided text.\n"
+            "Return STRICTLY a JSON array of strings (questions) and nothing else.\n"
+            "Requirements:\n"
+            f"- Up to {max_questions} questions.\n"
+            "- Cover main facts, relationships, and entities.\n"
+            "- Each question must be clear, self-contained, and answerable from the text alone.\n"
+            "- Prefer who/what/when/where/why/how, definitions, comparisons, mechanisms, causes, consequences.\n"
+            "- Avoid yes/no when possible and avoid referencing 'the text' or 'according to the text'.\n"
+            "- Do not include questions that are too similar to each other.\n"
+            "- Put more emphasis on important concepts.\n"
+            "- Do not include answers."
+        )
+        response = self._call_llm_unified(content_text, system_message)
+        #print("Question generation response:", response)
+        # Normalize and parse JSON output
+        s = (response or "").strip()
+        if not s:
+            return []
+        
+        # Strip code fences if present
+        if s.startswith("```"):
+            s = re.sub(r"^```(?:json)?\s*|\s*```$", "", s, flags=re.IGNORECASE | re.DOTALL).strip()
+        
+        # Try direct JSON parse
+        try:
+            data = json.loads(s)
+            if isinstance(data, list):
+                return [str(q).strip() for q in data if str(q).strip()]
+        except Exception:
+            pass
+        
+        # Try to extract first JSON array from text
+        m = re.search(r"\[[\s\S]*\]", s)
+        if m:
+            try:
+                data = json.loads(m.group(0))
+                if isinstance(data, list):
+                    return [str(q).strip() for q in data if str(q).strip()]
+            except Exception:
+                pass
+        
+        # Fallback: split by lines and collect plausible questions
+        lines = [ln.strip().lstrip("-*0123456789. ").strip() for ln in s.splitlines()]
+        questions = [ln for ln in lines if ln]
+        return questions
 
 
 class EmbeddingGenerator:
