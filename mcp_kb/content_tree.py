@@ -69,7 +69,7 @@ class ContentNode:
         
         try:
             # Import ContentProcessor here to avoid circular imports
-            from utils import ContentProcessor
+            from content_processing import ContentProcessor
             
             # Create processor instance
             processor = ContentProcessor(llm_type, llm_model, llm_api_url)
@@ -114,7 +114,7 @@ class ContentNode:
         
         try:
             # Import ContentProcessor here to avoid circular imports
-            from utils import ContentProcessor
+            from content_processing import ContentProcessor
             
             # Create processor instance
             processor = ContentProcessor(llm_type, llm_model, llm_api_url)
@@ -142,7 +142,7 @@ class ContentNode:
         
         try:
             # Import ContentProcessor here to avoid circular imports
-            from utils import ContentProcessor
+            from content_processing import ContentProcessor
             
             # Create processor instance
             processor = ContentProcessor(llm_type, llm_model, llm_api_url)
@@ -166,7 +166,7 @@ class ContentNode:
             self.questions = []
             return
         try:
-            from utils import ContentProcessor
+            from content_processing import ContentProcessor
             processor = ContentProcessor(llm_type, llm_model, llm_api_url)
             questions = processor.generate_questions_json(self.content_text, max_questions=max_questions)
             # Ensure list of strings and limit to max_questions
@@ -213,7 +213,7 @@ class ContentNode:
         """
         try:
             # Import EmbeddingGenerator here to avoid circular imports
-            from utils import EmbeddingGenerator
+            from embeddings import EmbeddingGenerator
             
             # Create embedding generator instance
             embedding_gen = EmbeddingGenerator(model=embedding_model)
@@ -244,7 +244,7 @@ class ContentNode:
             embedding_model (str): OpenAI embedding model to use
         """
         try:
-            from utils import EmbeddingGenerator
+            from embeddings import EmbeddingGenerator
             embedding_gen = EmbeddingGenerator(model=embedding_model)
             self.header_embedding = embedding_gen.generate_header_embedding(self.header)
         except Exception as e:
@@ -258,7 +258,7 @@ class ContentNode:
             embedding_model (str): OpenAI embedding model to use
         """
         try:
-            from utils import EmbeddingGenerator
+            from embeddings import EmbeddingGenerator
             embedding_gen = EmbeddingGenerator(model=embedding_model)
             self.summary_embedding = embedding_gen.generate_summary_embedding(self.summary)
         except Exception as e:
@@ -272,7 +272,7 @@ class ContentNode:
             embedding_model (str): OpenAI embedding model to use
         """
         try:
-            from utils import EmbeddingGenerator
+            from embeddings import EmbeddingGenerator
             embedding_gen = EmbeddingGenerator(model=embedding_model)
             if self.content_chunks:
                 self.chunk_embeddings = embedding_gen.generate_chunk_embeddings(self.content_chunks)
@@ -287,7 +287,7 @@ class ContentNode:
             embedding_model (str): OpenAI embedding model to use
         """
         try:
-            from utils import EmbeddingGenerator
+            from embeddings import EmbeddingGenerator
             embedding_gen = EmbeddingGenerator(model=embedding_model)
             if self.sentences:
                 self.sentence_embeddings = embedding_gen.generate_sentence_embeddings(self.sentences)
@@ -310,7 +310,7 @@ class ContentTree:
         self.inverse_index = {}  # Initialize inverse index
         self.inverse_index_builder = None  # Initialize inverse index builder
     
-    def content_tree_constructor(self, markdown_file_path: str) -> ContentNode:
+    def content_tree_constructor(self, markdown_file_path: str, max_level: int = 3) -> ContentNode:
         """
         Construct a content tree from a single markdown file.
         
@@ -323,9 +323,9 @@ class ContentTree:
         with open(markdown_file_path, 'r', encoding='utf-8') as file:
             markdown_text = file.read()
         
-        return self._parse_markdown_to_tree(markdown_text)
+        return self._parse_markdown_to_tree(markdown_text, max_level)
     
-    def build_textbook_tree(self, md_files_directory: str) -> None:
+    def build_textbook_tree(self, md_files_directory: str, max_level: int = 3) -> None:
         """
         Build the complete textbook tree from all markdown files in the directory.
         
@@ -345,7 +345,7 @@ class ContentTree:
         file_counter = 0
         for filename in md_files:
             file_path = os.path.join(md_files_directory, filename)
-            chapter_tree = self.content_tree_constructor(file_path)
+            chapter_tree = self.content_tree_constructor(file_path, max_level=max_level)
             # Start Hack
             # file_counter += 1
             # if (file_counter > 2):
@@ -385,7 +385,7 @@ class ContentTree:
         else:
             return (3, 0)
     
-    def _parse_markdown_to_tree(self, markdown_text: str) -> ContentNode:
+    def _parse_markdown_to_tree(self, markdown_text: str, max_level: int = 3) -> ContentNode:
         """
         Parse markdown text and create a tree structure.
         
@@ -406,8 +406,11 @@ class ContentTree:
         for line in lines:
             # Check if line is a markdown header
             match = re.match(r'^(#+)\s*(.*)', line)
-            
+            level = -1
             if match:
+                level = len(match.group(1))  # Number of # symbols
+            
+            if match and level <= max_level:
                 # Process any accumulated content for the current node
                 if content_block.strip():
                     current_node.content_text = content_block.strip()
@@ -963,8 +966,8 @@ class ContentTree:
             print("\nCreating inverse index using InverseIndexBuilder...")
             
             try:
-                # Import InverseIndexBuilder from utils
-                from utils import InverseIndexBuilder
+                # Import InverseIndexBuilder from new module
+                from indexing import InverseIndexBuilder
                 
                 # Create inverse index builder instance
                 self.inverse_index_builder = InverseIndexBuilder(include_stopwords=False)
@@ -1182,7 +1185,7 @@ class ContentTree:
             # Generate query embedding for semantic similarity
             semantic_scores = {}
             try:
-                from utils import EmbeddingGenerator, calculate_semantic_similarity
+                from embeddings import EmbeddingGenerator, calculate_semantic_similarity
                 embedding_gen = EmbeddingGenerator()
                 query_embedding = embedding_gen.generate_embeddings([query])[0]
                 
@@ -1439,7 +1442,7 @@ class ContentTree:
             context = "\n\n" + "="*50 + "\n\n".join(context_parts)
             
             # Step 5: Generate answer using ContentProcessor
-            from utils import ContentProcessor
+            from content_processing import ContentProcessor
             processor = ContentProcessor(llm_type, llm_model, llm_api_url)
             
             # Create a comprehensive prompt for answering the query
