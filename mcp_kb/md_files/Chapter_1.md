@@ -800,7 +800,7 @@ x \mathrm{oz} & =125 \# \times \frac{1 \mathrm{oz}}{28.349 \#} \\
 \end{aligned}
 $$
 
-## Check Your Learning
+**Check Your Learning**
 
 Convert a volume of 9.345 qt to liters.
 
@@ -1059,7 +1059,7 @@ Answer: $10^{\circ} \mathrm{C}, 280 \mathrm{~K}$
 - **unit**  standard of comparison for measurements
 - **unit conversion factor**  ratio of equivalent quantities expressed with different units; used to convert from one unit to a different unit
 
-#### Key Equations 
+### Key Equations 
 
 - density $=\frac{\text { mass }}{\text { volume }}$
 - $T_{\circ C}=\frac{5}{9} \times\left(T_{\circ F}-32\right)$
