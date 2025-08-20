@@ -356,7 +356,11 @@ class ContentTree:
                 # The first child of the chapter_tree is typically the main chapter/appendix node
                 main_node = chapter_tree.child_nodes[0] if chapter_tree.child_nodes else chapter_tree
                 self.root.add_child(main_node)
-        
+                # Check multiple children and add them to root if the remaining children nodes have the same level as the main node
+                for child in chapter_tree.child_nodes[1:]:
+                    if child.header_level == main_node.header_level:
+                        self.root.add_child(child)
+
         # Reassign node IDs sequentially to eliminate gaps
         self.reassign_node_ids()
     
