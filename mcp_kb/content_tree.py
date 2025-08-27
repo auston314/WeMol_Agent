@@ -31,12 +31,13 @@ class ContentNode:
         self.node_id = node_id
         
         # Enhanced attributes for content processing (initialized when needed)
-        self.summary = ""
-        self.keywords: List[str] = []
-        self.content_chunks: List[Any] = []  # ContentChunk objects when utils is available
-        self.sentences: List[str] = []
+        self.summary = None
+        self.knowledge_list = None
+        self.keywords: List[str] = None
+        self.content_chunks: List[Any] = None  # ContentChunk objects when utils is available
+        self.sentences: List[str] = None
         # Add container for generated study questions
-        self.questions: List[str] = []
+        self.questions: List[str] = None
         
         # Embedding attributes (initialized when generated)
         self.header_embedding: Optional[np.ndarray] = None
@@ -167,14 +168,24 @@ class ContentNode:
             return
         try:
             from content_processing import ContentProcessor
+            if not self.summary:
+                self.generate_summary_and_keywords(llm_type, llm_model, llm_api_url)
+            summary = self.summary
             processor = ContentProcessor(llm_type, llm_model, llm_api_url)
-            questions = processor.generate_questions_json(self.content_text, max_questions=max_questions)
+            if not self.knowledge_list:
+                self.knowledge_list = processor.generate_knowledge_list(self.content_text)
+            knowledge_graph = self.knowledge_list
+            # Estimat max question base on content length
+            content_text = self.header + "\n\n" + self.content_text
+            max_questions = max(1, len(content_text) // 200)
+            #questions = processor.generate_questions_json(self.content_text, max_questions=max_questions)
+            questions = processor.generate_questions(self.content_text, summary, knowledge_graph, max_questions)
             # Ensure list of strings and limit to max_questions
             self.questions = [str(q).strip() for q in (questions or []) if str(q).strip()][:max_questions]
         except Exception as e:
             print(f"Error generating questions for node {self.node_id}: {e}")
             self.questions = []
-    
+
     def process_content(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b', 
                        llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
                        max_summary_words: int = 30, max_keywords: int = 10,
@@ -194,12 +205,25 @@ class ContentNode:
         """
         print("Process node content ........")
         # Generate all content processing components
-        self.generate_summary_and_keywords(llm_type, llm_model, llm_api_url, max_summary_words, max_keywords)
-        self.create_content_chunks(llm_type, llm_model, llm_api_url)
-        self.extract_sentences(llm_type, llm_model, llm_api_url)
-        # Generate study questions in strict JSON list format
-        self.generate_questions(llm_type, llm_model, llm_api_url)
-        
+        # Check if summary and keywords already exist to avoid redundant calls
+        if not self.summary or not self.keywords:
+            self.generate_summary_and_keywords(llm_type, llm_model, llm_api_url, max_summary_words, max_keywords)
+        # Check if content chunks exist
+        if not self.content_chunks:
+            self.create_content_chunks(llm_type, llm_model, llm_api_url)
+        # Check if sentences exist
+        if not self.sentences:
+            self.extract_sentences(llm_type, llm_model, llm_api_url)
+        # Check if knowledge list exists
+        if not self.knowledge_list:
+            from content_processing import ContentProcessor
+            processor = ContentProcessor(llm_type, llm_model, llm_api_url)
+            self.knowledge_list = processor.generate_knowledge_list(self.content_text)
+        # Generate study questions in list format
+        if not self.questions:  
+            self.generate_questions(llm_type, llm_model, llm_api_url)
+        #self.generate_questions(llm_type, llm_model, llm_api_url)
+
         # Generate embeddings if requested
         if generate_embeddings:
             self.generate_embeddings(embedding_model)
@@ -232,6 +256,10 @@ class ContentNode:
             if self.sentences:
                 self.sentence_embeddings = embedding_gen.generate_sentence_embeddings(self.sentences)
             
+            # Generate question embeddings
+            if self.questions:
+                self.question_embeddings = embedding_gen.generate_sentence_embeddings(self.questions)
+
         except Exception as e:
             print(f"Error generating embeddings for node {self.node_id}: {e}")
             # Keep existing None values on error

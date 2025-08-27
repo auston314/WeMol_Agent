@@ -336,3 +336,29 @@ class ContentProcessor:
         lines = [ln.strip().lstrip("-*0123456789. ").strip() for ln in s.splitlines()]
         questions = [ln for ln in lines if ln]
         return questions
+    
+    def generate_knowledge_list(self, content_text:str) -> str:
+        content_text= content_text.strip()
+        print("Generating knowledge list...")
+        #system_message= "You are extremely skilled in generating knowledge graphs. Please create a knowledge graph of key facts, concepts of chemistry, properties and relationships."
+        system_message= "You are extremely skilled expert to extract knowledge from a documentg. Please create a list of key facts, concepts of chemistry, properties and relationships that are included in the provided content."
+        knowledge_list = self._call_llm_unified(content_text, system_message)
+        return knowledge_list
+       
+    def generate_questions(self, content_text:str, summary:str, knowledge_graph:str, max_questions:int) -> str:
+        #knowledge_graph= self.generate_knowledge_graph(content_text)
+        #summary= self.generate_content_summary(content_text)
+        system_message = f"""You will generate a list of questions based on the given text, its summary and knowledge list according to the following rules:
+        
+        1. Please put one question per line, and DO NOT include any additional text. No answers are needed, just the questions.
+        2. Make sure you generate the more generic questions about the most important concepts first, and then generate more granular, specific questions.
+        3. Make sure to avoid similar questions.
+        4. Make sure the questions are answerable based on the provided content.
+        5. Make sure no more than {max_questions} questions will be created.
+        """
+        print("Generating questions based on content, summary and knowledge list...")
+        combined_prompt = f"Summary: {summary}\n\nKnowledge Graph: {knowledge_graph}\n\nOriginal Text: {content_text}"
+        questions = self._call_llm_unified(combined_prompt, system_message)
+        question_list = questions.split("\n")
+        question_list = [question.strip() for question in question_list if len(question) > 1] # Remove blank lines
+        return question_list
