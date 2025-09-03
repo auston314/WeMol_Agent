@@ -44,6 +44,7 @@ class ContentNode:
         self.summary_embedding: Optional[np.ndarray] = None
         self.chunk_embeddings: Optional[np.ndarray] = None
         self.sentence_embeddings: Optional[np.ndarray] = None
+        self.question_embeddings: Optional[np.ndarray] = None
     
     def add_child(self, child_node: 'ContentNode'):
         """Add a child node and set this node as its parent."""
@@ -204,6 +205,8 @@ class ContentNode:
             generate_embeddings (bool): Whether to generate embeddings
         """
         print("Process node content ........")
+        if (self.skip):
+            return
         # Generate all content processing components
         # Check if summary and keywords already exist to avoid redundant calls
         if not self.summary or not self.keywords:
@@ -235,6 +238,8 @@ class ContentNode:
         Args:
             embedding_model (str): OpenAI embedding model to use
         """
+        if (self.skip):
+            return
         try:
             # Import EmbeddingGenerator here to avoid circular imports
             from embeddings import EmbeddingGenerator
@@ -243,21 +248,23 @@ class ContentNode:
             embedding_gen = EmbeddingGenerator(model=embedding_model)
             
             # Generate header embedding
-            self.header_embedding = embedding_gen.generate_header_embedding(self.header)
+            if self.header_embedding is None:
+                self.header_embedding = embedding_gen.generate_header_embedding(self.header)
             
             # Generate summary embedding
-            self.summary_embedding = embedding_gen.generate_summary_embedding(self.summary)
-            
+            if self.summary_embedding is None:
+                self.summary_embedding = embedding_gen.generate_summary_embedding(self.summary)
+
             # Generate chunk embeddings
-            if self.content_chunks:
+            if self.content_chunks and self.chunk_embeddings is None:
                 self.chunk_embeddings = embedding_gen.generate_chunk_embeddings(self.content_chunks)
             
             # Generate sentence embeddings
-            if self.sentences:
+            if self.sentences and self.sentence_embeddings is None:
                 self.sentence_embeddings = embedding_gen.generate_sentence_embeddings(self.sentences)
             
             # Generate question embeddings
-            if self.questions:
+            if self.questions and self.question_embeddings is None:
                 self.question_embeddings = embedding_gen.generate_sentence_embeddings(self.questions)
 
         except Exception as e:
@@ -954,7 +961,9 @@ class ContentTree:
         for i, node in enumerate(content_nodes, 1):
             print(f"\n[{i}/{len(content_nodes)}] Processing node {node.node_id}: {node.header}")
             print(f"Content length: {len(node.content_text)} characters")
-            
+            if (node.skip):
+                print("  ⚠️ Node processing was skipped due to insufficient content.")
+                continue            
             try:
                 # Process all content for this node
                 node.process_content(
@@ -968,6 +977,7 @@ class ContentTree:
                 )
                 
                 # Print processing results
+
                 print(f"  ✓ Summary: {len(node.summary)} chars")
                 print(f"  ✓ Keywords: {len(node.keywords)} items")
                 print(f"  ✓ Chunks: {len(node.content_chunks)} items")
@@ -984,6 +994,10 @@ class ContentTree:
                         embeddings_status.append("Chunks")
                     if node.sentence_embeddings is not None:
                         embeddings_status.append("Sentences")
+                    if node.question_embeddings is not None:
+                        embeddings_status.append("Questions")
+                    if not embeddings_status:
+                        embeddings_status.append("None")
                     print(f"  ✓ Embeddings: {', '.join(embeddings_status)}")
                 
             except Exception as e:

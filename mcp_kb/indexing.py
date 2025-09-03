@@ -37,6 +37,9 @@ class InverseIndexBuilder:
     def build_ngram_indexes(self, nodes: List[Any]) -> None:
         print("Building n-gram indexes...")
         for node in nodes:
+            if (node.skip):
+                print("  ⚠️ Node processing was skipped.")
+                continue
             if hasattr(node, 'content_text') and node.content_text:
                 self._add_node_to_indexes(node.node_id, node.content_text)
         print(f"Index stats: {len(self.monogram_index)} monograms, {len(self.bigram_index)} bigrams, {len(self.trigram_index)} trigrams")
