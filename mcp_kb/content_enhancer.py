@@ -85,6 +85,7 @@ class ContentEnhancer:
                     getattr(node, 'summary_embedding', None),
                     getattr(node, 'chunk_embeddings', None),
                     getattr(node, 'sentence_embeddings', None),
+                    getattr(node, 'question_embeddings', None),
                     search_params.semantic_weights if search_params else None,
                 )
             combined_score = (semantic_weight * semantic_score + lexical_weight * lexical_score)

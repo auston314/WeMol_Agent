@@ -17,15 +17,16 @@ class SemanticSimilarityWeights:
     These weights control how much each type of embedding contributes to the overall
     semantic similarity score between a query and a content node.
     """
-    header: float = 0.2      # Weight for header embedding similarity
-    summary: float = 0.2     # Weight for summary embedding similarity  
-    content: float = 0.2     # Weight for content embedding similarity (legacy)
-    chunks: float = 0.2      # Weight for chunk embedding similarity
-    sentences: float = 0.2   # Weight for sentence embedding similarity
-    
+    header: float = 0.15      # Weight for header embedding similarity
+    summary: float = 0.15     # Weight for summary embedding similarity  
+    content: float = 0.15     # Weight for content embedding similarity (legacy)
+    chunks: float = 0.15      # Weight for chunk embedding similarity
+    sentences: float = 0.15   # Weight for sentence embedding similarity
+    questions: float = 0.25   # Weight for question embedding similarity
+
     def __post_init__(self):
         """Validate that weights sum to 1.0 or close to it."""
-        total = self.header + self.summary + self.content + self.chunks + self.sentences
+        total = self.header + self.summary + self.content + self.chunks + self.sentences + self.questions
         if not (0.95 <= total <= 1.05):  # Allow small floating point differences
             print(f"Warning: Semantic similarity weights sum to {total:.3f}, not 1.0")
 
@@ -167,11 +168,12 @@ def get_parameters(config_name: str = "default") -> SearchParameters:
     return configs[config_name]
 
 
-def create_custom_parameters(semantic_header: float = 0.2,
-                           semantic_summary: float = 0.2,
-                           semantic_content: float = 0.2,
-                           semantic_chunks: float = 0.2,
-                           semantic_sentences: float = 0.2,
+def create_custom_parameters(semantic_header: float = 0.15,
+                           semantic_summary: float = 0.15,
+                           semantic_content: float = 0.15,
+                           semantic_chunks: float = 0.15,
+                           semantic_sentences: float = 0.15,
+                           semantic_questions: float = 0.25,        
                            ngram_monogram: float = 1.0,
                            ngram_bigram: float = 4.0,
                            ngram_trigram: float = 9.0,
@@ -201,7 +203,8 @@ def create_custom_parameters(semantic_header: float = 0.2,
             summary=semantic_summary,
             content=semantic_content,
             chunks=semantic_chunks,
-            sentences=semantic_sentences
+            sentences=semantic_sentences,
+            questions=semantic_questions
         ),
         ngram_weights=NGramWeights(
             monogram=ngram_monogram,
@@ -231,12 +234,14 @@ def print_parameters(params: SearchParameters) -> None:
     print(f"  Content:   {params.semantic_weights.content:.2f}")
     print(f"  Chunks:    {params.semantic_weights.chunks:.2f}")
     print(f"  Sentences: {params.semantic_weights.sentences:.2f}")
+    print(f"  Questions: {params.semantic_weights.questions:.2f}")
     
     semantic_sum = (params.semantic_weights.header + 
                    params.semantic_weights.summary + 
                    params.semantic_weights.content + 
                    params.semantic_weights.chunks + 
-                   params.semantic_weights.sentences)
+                   params.semantic_weights.sentences +
+                   params.semantic_weights.questions)
     print(f"  Total:     {semantic_sum:.2f}")
     
     print("\nN-Gram Weights:")
@@ -272,6 +277,8 @@ if __name__ == "__main__":
         semantic_summary=0.3,
         semantic_chunks=0.3,
         combined_semantic=0.8,
+        combined_questions=0.25,
+        combined_sentences=0.15,
         combined_lexical=0.2
     )
     print_parameters(custom)

@@ -1249,6 +1249,7 @@ class ContentTree:
                             getattr(node, 'summary_embedding', None),
                             getattr(node, 'chunk_embeddings', None),
                             getattr(node, 'sentence_embeddings', None),
+                             getattr(node, 'question_embeddings', None),
                             parameters.semantic_weights if parameters else None
                         )
                         semantic_scores[node.node_id] = semantic_score
@@ -1531,9 +1532,9 @@ class ContentTree:
             if any(indicator in answer.lower() for indicator in no_info_indicators):
                 return "No information in the provided content for your query."
             
-            # If answer is too short or generic, it might not be useful
-            if len(answer) < 20:
-                return "No information in the provided content for your query."
+            # # If answer is too short or generic, it might not be useful
+            # if len(answer) < 20:
+            #     return "No information in the provided content for your query."
             
             return answer
             

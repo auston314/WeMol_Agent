@@ -80,6 +80,7 @@ def calculate_semantic_similarity(query_embedding: np.ndarray,
                                   summary_embedding: Optional[np.ndarray],
                                   chunk_embeddings: Optional[np.ndarray] = None,
                                   sentence_embeddings: Optional[np.ndarray] = None,
+                                  question_embeddings: Optional[np.ndarray] = None,
                                   weights: Optional[Any] = None) -> float:
     """Calculate weighted semantic similarity across available embedding types."""
     if weights is None:
@@ -90,11 +91,12 @@ def calculate_semantic_similarity(query_embedding: np.ndarray,
             from dataclasses import dataclass
             @dataclass
             class FallbackWeights:
-                header: float = 0.2
-                summary: float = 0.2
-                content: float = 0.2
-                chunks: float = 0.2
-                sentences: float = 0.2
+                header: float = 0.15
+                summary: float = 0.15
+                content: float = 0.15
+                chunks: float = 0.15
+                sentences: float = 0.15
+                questions: float = 0.25
             weights = FallbackWeights()
 
     total_score = 0.0
@@ -131,5 +133,13 @@ def calculate_semantic_similarity(query_embedding: np.ndarray,
             sentence_sim = float(np.max(np.dot(query_embedding, sentence_embeddings.T)))
         total_score += weights.sentences * sentence_sim
         total_weight += weights.sentences
+
+    if question_embeddings is not None and len(question_embeddings) > 0:
+        if question_embeddings.ndim == 1:
+            question_sim = float(np.dot(query_embedding, question_embeddings))
+        else:
+            question_sim = float(np.max(np.dot(query_embedding, question_embeddings.T)))
+        total_score += weights.questions * question_sim
+        total_weight += weights.questions
 
     return total_score / total_weight if total_weight > 0 else 0.0
