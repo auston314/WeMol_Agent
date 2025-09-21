@@ -946,7 +946,7 @@ class ContentTree:
         else:
             content_nodes = all_nodes
         
-        # Filter to only nodes with content
+        # Filter to only nodes with no skip content 
         content_nodes = [node for node in content_nodes if node.content_text.strip()]
         
         print(f"Processing {len(content_nodes)} content nodes...")
@@ -1249,7 +1249,7 @@ class ContentTree:
                             getattr(node, 'summary_embedding', None),
                             getattr(node, 'chunk_embeddings', None),
                             getattr(node, 'sentence_embeddings', None),
-                             getattr(node, 'question_embeddings', None),
+                            getattr(node, 'question_embeddings', None),
                             parameters.semantic_weights if parameters else None
                         )
                         semantic_scores[node.node_id] = semantic_score
@@ -1358,6 +1358,7 @@ class ContentTree:
         if not user_query.strip():
             return "Please provide a valid query."
         
+        meta_data = {}
         # Handle parameter precedence: custom_params > individual weights > defaults
         parameters = custom_params
         if parameters is None:
@@ -1388,7 +1389,7 @@ class ContentTree:
                 lexical_weight=final_lexical_weight,
                 parameters=parameters  # Pass full parameters to enhanced_search for semantic similarity weights
             )
-            
+            meta_data['search_results'] = search_results
             if debug:
                 print(f"\n🔍 DEBUG: Search results for '{user_query}':")
                 print(f"Total search results: {len(search_results)}")
