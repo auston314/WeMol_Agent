@@ -168,17 +168,17 @@ def get_parameters(config_name: str = "default") -> SearchParameters:
     return configs[config_name]
 
 
-def create_custom_parameters(semantic_header: float = 0.15,
-                           semantic_summary: float = 0.15,
-                           semantic_content: float = 0.15,
-                           semantic_chunks: float = 0.15,
-                           semantic_sentences: float = 0.15,
-                           semantic_questions: float = 0.25,        
-                           ngram_monogram: float = 1.0,
-                           ngram_bigram: float = 4.0,
-                           ngram_trigram: float = 9.0,
-                           combined_semantic: float = 0.6,
-                           combined_lexical: float = 0.4) -> SearchParameters:
+def create_custom_parameters(semantic_header: float = 0.2,
+                           semantic_summary: float = 0.3,
+                           semantic_content: float = 0.1,
+                           semantic_chunks: float = 0.2,
+                           semantic_sentences: float = 0.2,
+                           semantic_questions: float = 0.3,        
+                           ngram_monogram: float = 0.5,
+                           ngram_bigram: float = 2.0,
+                           ngram_trigram: float = 4.5,
+                           combined_semantic: float = 0.7,
+                           combined_lexical: float = 0.3) -> SearchParameters:
     """
     Create a custom SearchParameters configuration with specified weights.
     
