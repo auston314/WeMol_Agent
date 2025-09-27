@@ -7,8 +7,8 @@ from dataclasses import dataclass
 from typing import List, Dict, Optional
 import re
 import json
-import requests
-from openai import OpenAI
+
+from llm_client_adaptor import LLMClientAdaptor
 
 from nlp_utils import extract_sentences_from_text
 
@@ -36,149 +36,31 @@ class ContentProcessor:
         self.llm_type = llm_type.lower()
         self.llm_model = llm_model
         self.llm_api_url = llm_api_url
-
-        if self.llm_type == 'openai':
-            self.openai_client = OpenAI()
-        elif self.llm_type == 'zai':
-            try:
-                from zai import ZaiClient
-                import os
-                self.zai_client = ZaiClient(api_key=os.environ.get('ZAI_API_KEY'))
-            except ImportError:
-                raise ImportError("ZAI client not found. Please install the zai package.")
-            except KeyError:
-                raise ValueError("ZAI_API_KEY environment variable not set.")
-        elif self.llm_type != 'ollama':
-            raise ValueError(f"Unsupported LLM type: {llm_type}. Supported types: 'ollama', 'openai', 'zai'")
-
-    # Unified LLM caller wrappers (moved from utils)
-    def _call_openai_api(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
+        adaptor_base_url = llm_api_url if llm_api_url else None
         try:
-            import re as _re
-            messages = [
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ]
-            is_gpt5 = bool(_re.match(r"^\s*gpt-5", str(self.llm_model), _re.IGNORECASE))
-            kwargs = {
-                "model": self.llm_model,
-                "messages": messages,
-                "temperature": 1 if is_gpt5 else temperature,
-            }
-            if is_gpt5:
-                kwargs["max_completion_tokens"] = max_tokens
-            else:
-                kwargs["max_tokens"] = max_tokens
-
-            response = self.openai_client.chat.completions.create(**kwargs)
-            choice = response.choices[0]
-            content = (getattr(choice, "message", None).content or "").strip() if getattr(choice, "message", None) else ""
-
-            if (not content) and getattr(choice, "finish_reason", None) == "length":
-                retry_kwargs = dict(kwargs)
-                retry_messages = list(messages)
-                retry_messages[0] = {
-                    "role": "system",
-                    "content": (system_message + " Be extremely concise. Return no more than 120 words.").strip()
-                }
-                retry_kwargs["messages"] = retry_messages
-                if is_gpt5:
-                    retry_kwargs["max_completion_tokens"] = min(8192, max_tokens * 2)
-                else:
-                    retry_kwargs["max_tokens"] = min(8192, max_tokens * 2)
-                response2 = self.openai_client.chat.completions.create(**retry_kwargs)
-                choice2 = response2.choices[0]
-                content2 = (getattr(choice2, "message", None).content or "").strip() if getattr(choice2, "message", None) else ""
-                return content2
-
-            return content
-        except Exception as e:
-            err_msg = str(e)
-            try:
-                if "temperature" in err_msg and ("unsupported" in err_msg.lower() or "Only the default (1) value is supported" in err_msg):
-                    messages = [
-                        {"role": "system", "content": system_message},
-                        {"role": "user", "content": prompt}
-                    ]
-                    import re as _re
-                    is_gpt5 = bool(_re.match(r"^\s*gpt-5", str(self.llm_model), _re.IGNORECASE))
-                    kwargs = {"model": self.llm_model, "messages": messages}
-                    if is_gpt5:
-                        kwargs["max_completion_tokens"] = max_tokens
-                    else:
-                        kwargs["max_tokens"] = max_tokens
-                    response = self.openai_client.chat.completions.create(**kwargs)
-                    return response.choices[0].message.content.strip()
-                if "max_tokens" in err_msg and "max_completion_tokens" in err_msg:
-                    messages = [
-                        {"role": "system", "content": system_message},
-                        {"role": "user", "content": prompt}
-                    ]
-                    kwargs = {"model": self.llm_model, "messages": messages, "max_completion_tokens": max_tokens}
-                    response = self.openai_client.chat.completions.create(**kwargs)
-                    return response.choices[0].message.content.strip()
-                if "unexpected keyword argument" in err_msg and "reasoning" in err_msg:
-                    messages = [
-                        {"role": "system", "content": system_message},
-                        {"role": "user", "content": prompt}
-                    ]
-                    import re as _re
-                    is_gpt5 = bool(_re.match(r"^\s*gpt-5", str(self.llm_model), _re.IGNORECASE))
-                    kwargs = {"model": self.llm_model, "messages": messages, "temperature": 1 if is_gpt5 else temperature}
-                    if is_gpt5:
-                        kwargs["max_completion_tokens"] = max_tokens
-                    else:
-                        kwargs["max_tokens"] = max_tokens
-                    response = self.openai_client.chat.completions.create(**kwargs)
-                    return response.choices[0].message.content.strip()
-            except Exception as e2:
-                print(f"Error calling OpenAI API (retry): {e2}")
-            print(f"Error calling OpenAI API: {e}")
-            return ""
-
-    def _call_zai_api(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
-        try:
-            response = self.zai_client.chat.completions.create(
+            self.llm_adaptor = LLMClientAdaptor(
+                provider=self.llm_type,
                 model=self.llm_model,
-                messages=[
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=temperature,
-                top_p=0.8
+                base_url=adaptor_base_url,
             )
-            return response.choices[0].message.content.strip()
-        except Exception as e:
-            print(f"Error calling Z.AI API: {e}")
-            return ""
+        except ValueError as exc:
+            raise ValueError(str(exc))
 
-    def _call_ollama_api(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 1024) -> str:
-        try:
-            full_prompt = f"System: {system_message}\n\nUser: {prompt}" if system_message else prompt
-            payload = {
-                'model': self.llm_model,
-                'prompt': full_prompt,
-                'options': {'temperature': temperature},
-                'stream': False,
-            }
-            response = requests.post(self.llm_api_url, json=payload, stream=False)
-            data = response.json()
-            if 'error' in data:
-                raise Exception(f"Ollama API error: {data['error']}")
-            return data.get('response', '')
-        except Exception as e:
-            print(f"Error calling Ollama API: {e}")
-            return ""
-
+    # Unified LLM caller wrapper (moved from utils)
     def _call_llm_unified(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 4096) -> str:
-        if self.llm_type == 'openai':
-            return self._call_openai_api(prompt, system_message, temperature, max_tokens)
-        elif self.llm_type == 'zai':
-            return self._call_zai_api(prompt, system_message, temperature, max_tokens)
-        elif self.llm_type == 'ollama':
-            return self._call_ollama_api(prompt, system_message, temperature, max_tokens)
-        else:
-            raise ValueError(f"Unsupported LLM type: {self.llm_type}")
+        messages = []
+        if system_message:
+            messages.append({"role": "system", "content": system_message})
+        messages.append({"role": "user", "content": prompt})
+        try:
+            return self.llm_adaptor.chat(
+                messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+        except Exception as exc:
+            print(f"Error calling {self.llm_type} API: {exc}")
+            return ""
 
     def generate_content_summary(self, content_text: str, max_words: int = 30) -> str:
         content_text = content_text.strip()
