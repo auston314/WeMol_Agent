@@ -4,19 +4,20 @@ Split out from utils.py to reduce file size and improve modularity.
 """
 from typing import List, Tuple, Optional, Any
 
-from .content_processing import ContentProcessor
+from .content_processing import ContentProcessor, ensure_llm_client_adaptor
 from .embeddings import EmbeddingGenerator, calculate_semantic_similarity
 from .indexing import InverseIndexBuilder
+from .llm_client_adaptor import LLMClientAdaptor
 
 
 class ContentEnhancer:
     """Main class that coordinates all content enhancement operations."""
 
-    def __init__(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b',
-                 llm_api_url: str = 'https://chatmol.org/ollama/api/generate',
+    def __init__(self, llm_client_adaptor: Optional[LLMClientAdaptor] = None,
                  embedding_model: str = "text-embedding-3-large",
                  parameters: Optional[Any] = None):
-        self.processor = ContentProcessor(llm_type, llm_model, llm_api_url)
+        self.llm_client_adaptor = ensure_llm_client_adaptor(llm_client_adaptor)
+        self.processor = ContentProcessor(self.llm_client_adaptor)
         self.embedding_generator = EmbeddingGenerator(embedding_model)
         self.index_builder = InverseIndexBuilder(parameters=parameters)
         if parameters is None:

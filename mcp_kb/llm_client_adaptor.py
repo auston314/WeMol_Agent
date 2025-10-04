@@ -102,7 +102,7 @@ class LLMClientAdaptor:
         model: str,
         base_url: Optional[str] = None,
         api_key: Optional[str] = None,
-        timeout: int = 60,
+        timeout: int = 120,
         session: Optional[requests.Session] = None,
     ) -> None:
         if not provider:
@@ -185,21 +185,66 @@ class LLMClientAdaptor:
         max_tokens: Optional[int],
         **kwargs: Any,
     ) -> str:
+        if self._is_gpt5_model():
+            return self._chat_openai_responses(
+                messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                **kwargs,
+            )
+
         payload: Dict[str, Any] = {"model": self.model, "messages": messages}
         if temperature is not None:
-            payload["temperature"] = 1.0 if self._is_gpt5_model() else temperature
+            payload["temperature"] = temperature
         if max_tokens is not None:
-            token_field = "max_completion_tokens" if self._is_gpt5_model() else "max_tokens"
-            payload[token_field] = max_tokens
-        if self._is_gpt5_model():
-            # Ensure GPT-5 Codex previews are opted-in with sensible defaults.
-            payload.setdefault("temperature", 1.0)
-            payload.setdefault("reasoning", {"effort": kwargs.pop("reasoning_effort", "medium")})
+            payload["max_tokens"] = max_tokens
         payload.update(kwargs)
 
         headers = self._json_headers(bearer=True)
         data = self._post("chat/completions", headers=headers, payload=payload)
         return self._extract_choice_content(data)
+
+    def _chat_openai_responses(
+        self,
+        messages: List[Dict[str, Any]],
+        temperature: Optional[float],
+        max_tokens: Optional[int],
+        **kwargs: Any,
+    ) -> str:
+        if kwargs.get("stream"):
+            raise ValueError("Streaming is not yet supported for OpenAI Responses API calls.")
+
+        reasoning_effort = kwargs.pop("reasoning_effort", "medium")
+        structured_messages = self._messages_to_responses_input(messages)
+
+        payload: Dict[str, Any] = {
+            "model": self.model,
+            "input": structured_messages,
+        }
+
+        if self._responses_allows_temperature():
+            if temperature is not None:
+                payload["temperature"] = temperature
+            else:
+                payload.setdefault("temperature", 1.0)
+
+        if max_tokens is not None:
+            if self._is_gpt5_model() and max_tokens < 512:
+                # GPT-5 reasoning responses often consume substantial tokens before emitting text.
+                # Avoid truncating useful output when the caller leaves the default small limit in place.
+                pass
+            else:
+                payload["max_output_tokens"] = max_tokens
+
+        if "reasoning" not in kwargs and reasoning_effort:
+            payload["reasoning"] = {"effort": reasoning_effort}
+
+        if kwargs:
+            payload.update(kwargs)
+
+        headers = self._json_headers(bearer=True)
+        data = self._post("responses", headers=headers, payload=payload)
+        return self._extract_response_output(data)
 
     def _chat_google(
         self,
@@ -462,7 +507,14 @@ class LLMClientAdaptor:
     ) -> Dict[str, Any]:
         url = f"{self.base_url}/{endpoint.lstrip('/')}"
         response = self.session.post(url, headers=headers, json=payload, params=params, timeout=self.timeout)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as exc:
+            text = response.text
+            raise requests.HTTPError(
+                f"{exc} | response body: {text[:1000]}",
+                response=response,
+            ) from None
         return response.json()
 
     def _prepare_messages(self, messages: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -508,6 +560,26 @@ class LLMClientAdaptor:
         lines.append("Assistant:")
         return "\n\n".join(lines)
 
+    def _messages_to_responses_input(self, messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        structured: List[Dict[str, Any]] = []
+        for msg in messages:
+            role = msg.get("role", "user")
+            content_type = "input_text"
+            if role == "assistant":
+                content_type = "output_text"
+            structured.append(
+                {
+                    "role": role,
+                    "content": [
+                        {
+                            "type": content_type,
+                            "text": self._ensure_text(msg.get("content", "")),
+                        }
+                    ],
+                }
+            )
+        return structured
+
     def _json_headers(self, bearer: bool, extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
         headers = {"Content-Type": "application/json"}
         if bearer and self.api_key:
@@ -533,8 +605,30 @@ class LLMClientAdaptor:
                 return delta.get("content", "")
         return ""
 
+    def _extract_response_output(self, data: Dict[str, Any]) -> str:
+        output = data.get("output") or data.get("outputs") or []
+        for block in output:
+            if not isinstance(block, dict):
+                continue
+            content = block.get("content") or []
+            for item in content:
+                if isinstance(item, dict):
+                    item_type = item.get("type")
+                    if item_type in {"text", "output_text", "summary_text"}:
+                        return self._ensure_text(item.get("text", ""))
+            if "text" in block:
+                return self._ensure_text(block.get("text", ""))
+            if "value" in block:
+                return self._ensure_text(block.get("value", ""))
+        if isinstance(output, dict):
+            return self._ensure_text(output.get("text", ""))
+        return ""
+
     def _is_gpt5_model(self) -> bool:
         return bool(re.match(r"^\s*gpt-5", self.model, re.IGNORECASE))
+
+    def _responses_allows_temperature(self) -> bool:
+        return not self._is_gpt5_model()
 
     @classmethod
     def _normalise_provider(cls, provider: str) -> str:

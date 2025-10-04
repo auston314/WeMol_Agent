@@ -12,6 +12,21 @@ from llm_client_adaptor import LLMClientAdaptor
 
 from nlp_utils import extract_sentences_from_text
 
+DEFAULT_LLM_PROVIDER = "ollama"
+DEFAULT_LLM_MODEL = "qwen2.5vl:32b"
+DEFAULT_LLM_BASE_URL = "https://chatmol.org/ollama/api/generate"
+
+
+def ensure_llm_client_adaptor(llm_client_adaptor: Optional[LLMClientAdaptor] = None) -> LLMClientAdaptor:
+    """Return a usable ``LLMClientAdaptor`` instance, constructing a default when needed."""
+    if llm_client_adaptor is not None:
+        return llm_client_adaptor
+    return LLMClientAdaptor(
+        provider=DEFAULT_LLM_PROVIDER,
+        model=DEFAULT_LLM_MODEL,
+        base_url=DEFAULT_LLM_BASE_URL,
+    )
+
 
 @dataclass
 class ContentChunk:
@@ -31,20 +46,12 @@ class ContentChunk:
 class ContentProcessor:
     """Handles content processing tasks for ContentNode objects."""
 
-    def __init__(self, llm_type: str = 'ollama', llm_model: str = 'qwen2.5vl:32b',
-                 llm_api_url: str = 'https://chatmol.org/ollama/api/generate'):
-        self.llm_type = llm_type.lower()
-        self.llm_model = llm_model
-        self.llm_api_url = llm_api_url
-        adaptor_base_url = llm_api_url if llm_api_url else None
+    def __init__(self, llm_client_adaptor: Optional[LLMClientAdaptor] = None):
         try:
-            self.llm_adaptor = LLMClientAdaptor(
-                provider=self.llm_type,
-                model=self.llm_model,
-                base_url=adaptor_base_url,
-            )
+            self.llm_adaptor = ensure_llm_client_adaptor(llm_client_adaptor)
         except ValueError as exc:
             raise ValueError(str(exc))
+        self.provider_name = getattr(self.llm_adaptor, "provider", "unknown")
 
     # Unified LLM caller wrapper (moved from utils)
     def _call_llm_unified(self, prompt: str, system_message: str = "", temperature: float = 0.1, max_tokens: int = 4096) -> str:
@@ -59,7 +66,7 @@ class ContentProcessor:
                 max_tokens=max_tokens,
             )
         except Exception as exc:
-            print(f"Error calling {self.llm_type} API: {exc}")
+            print(f"Error calling {self.provider_name} API: {exc}")
             return ""
 
     def generate_content_summary(self, content_text: str, max_words: int = 30) -> str:
@@ -235,8 +242,9 @@ class ContentProcessor:
         1. Please put one question per line, and DO NOT include any additional text. No answers are needed, just the questions.
         2. Make sure you generate the more generic questions about the most important concepts first, and then generate more granular, specific questions.
         3. Make sure to avoid similar questions.
-        4. Make sure the questions are answerable based on the provided content.
-        5. Make sure no more than {max_questions} questions will be created.
+        4. Make sure the questions are answerable based on the provided content. 
+        5. Each question should be clear and self-contained, without needing additional context.
+        6. Make sure no more than {max_questions} questions will be created.
         """
         print("Generating questions based on content, summary and knowledge list...")
         combined_prompt = f"Summary: {summary}\n\nKnowledge Graph: {knowledge_graph}\n\nOriginal Text: {content_text}"

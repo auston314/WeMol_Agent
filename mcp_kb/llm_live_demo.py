@@ -44,7 +44,7 @@ PROVIDER_CONFIGS: Dict[str, Dict[str, Optional[str]]] = {
     },
     "xai": {
         "model_env": "XAI_MODEL",
-    "default_model": "grok-4",
+        "default_model": "grok-4",
         "api_key_env": LLMClientAdaptor.ENV_API_KEYS.get("xai"),
         "base_url_env": "XAI_BASE_URL",
     },
