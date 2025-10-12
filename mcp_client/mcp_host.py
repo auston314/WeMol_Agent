@@ -2,9 +2,11 @@ import asyncio
 import sys
 import json
 import argparse
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from contextlib import AsyncExitStack
+
 
 from dotenv import load_dotenv
 from anthropic import Anthropic
@@ -130,11 +132,12 @@ class MCPHost:
                 for tool in aggregated
             ]
 
-    async def process_query(self, query: str) -> str:
+    async def process_query(self, query: str, chat_history: list = [], user_name: str = "James Lee") -> str:
         if not self.sessions:
             return "Error: No MCP servers connected."
 
-        messages: List[Dict[str, Any]] = [{"role": "user", "content": query}]
+        user_context = {"role":"system","content":f"User name: {user_name}, Today's date is {datetime.now().isoformat()[:16]}"}
+        messages: List[Dict[str, Any]] = [user_context] + chat_history[-4:] # Last 4 messages, include the last user message (query)
         output_parts: List[str] = []
         tool_log: List[Dict[str, Any]] = []
 
@@ -202,17 +205,24 @@ class MCPHost:
                 messages=messages,
                 model=self.openai_model,
                 tools=tools or None,
+                tool_choice = "auto",
                 temperature = 0.0
             )
+
+            choice0 = response.choices[0]
+
             stop_reason = response.choices[0].finish_reason
             msg = response.choices[0].message
             messages.append(msg.model_dump())
             final_output = ""
             tc_count = 0
             if (response.choices[0].message.content):
-                final_output += response.choices[0].message.content
-            
-            while stop_reason == "tool_calls":
+                final_output = response.choices[0].message.content
+            max_turns = 5
+            turn = 0
+            tc_count = 0
+            while stop_reason == "tool_calls" and turn < max_turns:
+                turn += 1
                 calls: List[Dict[str, Any]] = []
                 tc_count = 0
                 for tc in msg.tool_calls:
@@ -233,11 +243,7 @@ class MCPHost:
                                     "content": result.content[0].text
                                 }
                                 messages.append(tc_message)
-                                if final_output != "":
-                                    final_output += "<br>\n" + tc_message["content"]
-                                else:
-                                    final_output += tc_message["content"]
-
+                                #tool_log.append({"tool": name, "input": args, "output": tc_message["content"]}
                             except Exception as e:
                                 print(f"Error {e}")
        
@@ -258,8 +264,13 @@ class MCPHost:
                     break
 
             if (tc_count > 0 and response.choices[0].message.content):
-                final_output += "<br>\n" + response.choices[0].message.content
+                if (final_output != ""):
+                    final_output += "<br>\n" + response.choices[0].message.content
+                else:
+                    final_output = response.choices[0].message.content
 
+            final_output = final_output.replace("\\(","$").replace("\\)","$").replace("\\[","$$").replace("\\]","$$")
+            print("Final output = ", final_output)
             return final_output
 
     async def chat_loop(self):

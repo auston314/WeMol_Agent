@@ -133,6 +133,7 @@ def answer_chemistry_question(question: str, top_k: int = 1) -> str:
             llm_client_adaptor=llm_client
         )
         
+        print("Answer from RAG Query = ", answer)
         logger.info(f"✅ Answer generated successfully")
         
         # Format the response
@@ -144,6 +145,7 @@ def answer_chemistry_question(question: str, top_k: int = 1) -> str:
         response += "-" * 80 + "\n"
         response += f"(Retrieved from top {top_k} most relevant section(s))\n"
         
+       
         return response
         
     except Exception as e:

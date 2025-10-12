@@ -12,6 +12,40 @@ from streamlit_molstar import st_molstar  # Import the Mol* viewer package
 # Set the page configuration to wide layout.
 st.set_page_config(page_title="ChatMol Copilot", layout="wide")
 
+# Add MathJax for LaTeX rendering
+st.markdown("""
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
+    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
+    processEscapes: true,
+    processEnvironments: true
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore",
+    processHtmlClass: "tex2jax_process",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      // Auto-process content when DOM changes
+      const observer = new MutationObserver((mutations) => {
+        // Debounce to avoid excessive processing
+        clearTimeout(window.mathjaxTimeout);
+        window.mathjaxTimeout = setTimeout(() => {
+          MathJax.typesetPromise().catch((err) => console.log('MathJax typeset failed: ' + err.message));
+        }, 100);
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+""", unsafe_allow_html=True)
+
 # Custom CSS for the sticky right panel and compact UI
 st.markdown("""
 <style>
@@ -19,6 +53,33 @@ st.markdown("""
     div.block-container {
         padding-top: 1rem !important;
         padding-bottom: 0.5rem !important;
+    }
+    
+    /* Math display styling */
+    .tex2jax_process {
+        line-height: 1.3 !important;
+    }
+    
+    /* Display math ($$...$$) should be centered and have more spacing */
+    .tex2jax_process .MJXc-display,
+    .tex2jax_process mjx-container[display="true"] {
+        margin: 0.5em 0 !important;
+        text-align: center !important;
+        display: block !important;
+    }
+    
+    /* Code blocks within messages */
+    .tex2jax_process pre {
+        background-color: #f5f5f5;
+        padding: 5px;
+        border-radius: 5px;
+        overflow-x: auto;
+        margin: 5px 0;
+    }
+    
+    .tex2jax_process code {
+        font-family: monospace;
+        font-size: 0.9em;
     }
     
     /* Further reduce spacing in all containers */
@@ -188,6 +249,40 @@ def send_mail_to_user(to_email, password):
 def generate_password(length=8):
     """Generate a random alphanumeric password."""
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+def format_text_for_mathjax(text):
+    """
+    Format text for MathJax rendering.
+    
+    MathJax requires paragraph breaks (\n\n) to properly recognize and process
+    math expressions. This function ensures:
+    1. Inline math ($...$) at the start of lines is detected
+    2. Display math ($$...$$) is properly isolated with blank lines
+    3. THE FIRST LINE is treated as starting a new paragraph context
+    
+    CRITICAL: We need to preserve a paragraph break at the start so MathJax
+    scans the first line properly.
+    """
+    if not text.strip():
+        return ""
+    
+    import re
+    
+    # CRITICAL FIX: Prepend double newline to ensure the FIRST line gets paragraph treatment
+    # This creates a "virtual" blank line before the content starts
+    text = '\n\n' + text
+    
+    # Ensure display math blocks ($$...$$) have proper spacing
+    text = re.sub(r'([^\n])\n(\$\$)', r'\1\n\n\2', text)  # Add blank line before $$
+    text = re.sub(r'(\$\$)\n([^\n$])', r'\1\n\n\2', text)  # Add blank line after $$
+    
+    # Convert single newlines to double newlines for paragraph breaks
+    # Use a placeholder to preserve existing double newlines
+    PLACEHOLDER = '\x00DOUBLE_NEWLINE\x00'
+    text = text.replace('\n\n', PLACEHOLDER).replace('\n', '\n\n').replace(PLACEHOLDER, '\n\n')
+    
+    # Return without stripping - we need that leading paragraph break!
+    return text
 
 def handle_signup():
     email = st.session_state.get("email", "").strip()
@@ -388,48 +483,62 @@ if st.session_state.logged_in:
                 
                 for msg in display_messages:
                     if msg["role"] == "user":
+                        # Format content for proper MathJax rendering
+                        content = format_text_for_mathjax(msg['content'].strip())
                         user_html = (
-                            f"""<div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
-          <img src="{USER_AVATAR}" width="30" style="margin-right: 10px;">
-          <div style="background: #e0f7fa; color: #000; padding: 8px; border-radius: 5px; max-width:80%;">
-            {msg['content']}
-          </div>
+                            f"""<div style="display: flex; align-items: flex-start; margin-bottom: 5px;">
+          <img src="{USER_AVATAR}" width="30" style="margin-right: 8px;">
+          <div class="tex2jax_process" style="background: #e0f7fa; color: #000; padding: 5px 8px; border-radius: 5px; max-width:80%; line-height: 1.3;">{content}</div>
         </div>"""
                         )
                         st.markdown(user_html, unsafe_allow_html=True)
                     elif msg["role"] == "assistant":
                         if "```" in msg["content"]:
-                            parts = msg["content"].split("```")
+                            parts = msg["content"].strip().split("```")
                             rendered_message = ""
                             for i, part in enumerate(parts):
                                 if i % 2 == 0:
-                                    rendered_message += part
+                                    # Format text parts for proper MathJax rendering
+                                    part_formatted = format_text_for_mathjax(part)
+                                    rendered_message += part_formatted
                                 else:
-                                    rendered_message += f"\n```python\n{part}\n```\n"
+                                    # For code blocks, use proper HTML escaping
+                                    code_escaped = part.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                                    rendered_message += f'<pre><code class="language-python">{code_escaped}</code></pre>'
                             ai_html = (
-                                f"""<div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
-          <img src="{AI_AVATAR}" width="30" style="margin-right: 10px;">
-          <div style="background: #e8f5e9; color: #000; padding: 8px; border-radius: 5px; max-width:80%;">
-            {rendered_message}
-          </div>
+                                f"""<div style="display: flex; align-items: flex-start; margin-bottom: 5px;">
+          <img src="{AI_AVATAR}" width="30" style="margin-right: 8px;">
+          <div class="tex2jax_process" style="background: #e8f5e9; color: #000; padding: 5px 8px; border-radius: 5px; max-width:80%; line-height: 1.3;">{rendered_message}</div>
         </div>"""
                             )
                             st.markdown(ai_html, unsafe_allow_html=True)
                         else:
+                            # Format content for proper MathJax rendering
+                            content = format_text_for_mathjax(msg['content'].strip())
                             ai_html = (
-                                f"""<div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
-          <img src="{AI_AVATAR}" width="30" style="margin-right: 10px;">
-          <div style="background: #e8f5e9; color: #000; padding: 8px; border-radius: 5px; max-width:80%;">
-            {msg['content']}
-          </div>
+                                f"""<div style="display: flex; align-items: flex-start; margin-bottom: 5px;">
+          <img src="{AI_AVATAR}" width="30" style="margin-right: 8px;">
+          <div class="tex2jax_process" style="background: #e8f5e9; color: #000; padding: 5px 8px; border-radius: 5px; max-width:80%; line-height: 1.3;">{content}</div>
         </div>"""
                             )
                             st.markdown(ai_html, unsafe_allow_html=True)
+                
+                # Trigger MathJax to process the newly rendered content
+                st.markdown("""
+                    <script>
+                    // Wait for DOM to be ready, then process MathJax
+                    setTimeout(function() {
+                        if (window.MathJax && window.MathJax.typesetPromise) {
+                            MathJax.typesetPromise().catch((err) => console.log('MathJax typeset failed: ' + err.message));
+                        }
+                    }, 100);
+                    </script>
+                """, unsafe_allow_html=True)
 
         # --- Display the multi-line message input form with compact styling ---
         with st.form(key="chat_form", clear_on_submit=True):
             # Further reduce height of text area
-            user_message = st.text_area("", height=70, placeholder="Type your message here...", label_visibility="collapsed")
+            user_message = st.text_area("Message", height=70, placeholder="Type your message here...", label_visibility="collapsed")
             
             # Custom styling for a more compact form with reduced spacing
             st.markdown("""
@@ -517,7 +626,7 @@ if st.session_state.logged_in:
                         asyncio.set_event_loop(loop)
                         async def get_ai_response():
                             try:
-                                return await st.session_state.mcp_host.process_query(user_message.strip())
+                                return await st.session_state.mcp_host.process_query(user_message.strip(),st.session_state.chat_messages, user_name=st.session_state.email)
                             except Exception as e:
                                 return f"Error generating AI response: {e}"
                         
@@ -574,7 +683,7 @@ if st.session_state.logged_in:
                 def change_molecule():
                     st.session_state.selected_molecule = st.session_state.mol_selector
                 
-                st.selectbox("", molecule_files, key="mol_selector", 
+                st.selectbox("Select Molecule", molecule_files, key="mol_selector", 
                               label_visibility="collapsed", 
                               index=molecule_files.index(st.session_state.selected_molecule),
                               on_change=change_molecule)
