@@ -1,5 +1,5 @@
-# AI Tutor
-AI powered tutor for higher education based on MCP client/server and multi-agents orchestration. 
+# WeMol_Agent
+WeMol Agent is a generic agent framework based on MCP client/server and multi-agents orchestration using Large Language Models. 
 
 * Both Claude models and OpenAI models are supported. 
 
