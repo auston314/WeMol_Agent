@@ -1,4 +1,4 @@
-# AI Tutor
+# WeMol Agent
 AI powered tutor for higher education based on MCP client/server and multi-agents orchestration. 
 
 * Both Claude models and OpenAI models are supported. 
@@ -8,14 +8,14 @@ AI powered tutor for higher education based on MCP client/server and multi-agent
 ```
 {
   "mcpServers": {
-    "time_date_server": {
-      "command": "<your_full_path_to_python>",
-      "args": [
-        "<your_full_path_to_server_python_script.py>"
-      ]
+    "database_sql_server": {
+       "url": "http://localhost:3001/sse"
     },
-    "gpa_server": {
-       "url": "http://localhost:3000/sse"
+    "genchem_qa_server": {
+       "url": "http://localhost:3002/sse"
+    },
+    "conformation_server": {
+       "url": "http://localhost:3003/sse"
     }
   }
 }
