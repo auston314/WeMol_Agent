@@ -38,12 +38,20 @@ content_tree = None
 llm_client = None
 
 # Initialize the content tree and LLM client
-def initialize_server():
+def initialize_server(model_name: str = "claude-haiku-4-5"):
     """Initialize the content tree from pickle file and create LLM client."""
     global content_tree, llm_client
-    
+    model_list = [("openai","gpt-5"), ("openai","gpt-5-mini"), ("openai", "gpt-4o"), ("openai", "gpt-4o-mini"), ("anthropic", "claude-sonnet-4-5"), ("anthropic", "claude-haiku-4-5")]
     # Path to the pickle file (in the mcp_kb directory)
     pickle_path = os.path.join(os.path.dirname(__file__), '..', 'mcp_kb', 'genchem_question_full.pkl')
+    model_provider_dict = {}
+    for provider, model in model_list:
+        model_provider_dict[model] = provider
+    
+    provider = model_provider_dict.get(model_name, "")
+    if not provider:
+        logger.error(f"❌ Error: Model '{model_name}' is not recognized. Please check the model name.")
+        raise ValueError(f"Model '{model_name}' is not recognized.")
     
     try:
         logger.info(f"Loading content tree from: {pickle_path}")
@@ -53,7 +61,10 @@ def initialize_server():
         
         # Initialize the LLM client (using OpenAI GPT-4o)
         logger.info("Initializing LLM client (OpenAI GPT-4o)...")
-        llm_client = LLMClientAdaptor(provider="openai", model="gpt-4o")
+        #llm_client = LLMClientAdaptor(provider="openai", model="gpt-4o")
+        llm_client = LLMClientAdaptor(provider="anthropic", model="claude-haiku-4-5")
+        # #llm_model = "claude-sonnet-4-5"
+        # llm_model = "claude-haiku-4-5"
         logger.info("✅ LLM client initialized successfully")
         
     except FileNotFoundError:
@@ -70,18 +81,15 @@ initialize_server()
 # Create an MCP server with FastMCP
 mcp = FastMCP("genchem_qa_server")
 
-
-@mcp.tool()
-def answer_chemistry_question(question: str, top_k: int = 1) -> str:
-    """Answer a general chemistry question using the RAG system.
+"""Answer a general chemistry question or find general chemistry related information using the RAG system.
     
-    This tool searches through a comprehensive general chemistry textbook
+    This tool searches through a comprehensive general chemistry content
     that has been pre-processed into a content tree structure with embeddings.
     It uses Retrieval-Augmented Generation (RAG) to find relevant content
     and generate accurate answers.
     
     The system:
-    1. Searches for the most relevant sections in the textbook
+    1. Searches for the most relevant sections in the content
     2. Retrieves content from the top-k most relevant nodes
     3. Generates an answer using GPT-4o based on the retrieved content
     
@@ -99,14 +107,12 @@ def answer_chemistry_question(question: str, top_k: int = 1) -> str:
     - And many more general chemistry topics
     
     Args:
-        question: The chemistry question to answer (e.g., "What is a solution?",
+        question: The chemistry related question or request (e.g., "What is a solution?",
                  "Explain the difference between ionic and covalent bonds",
                  "How do you calculate molarity?")
-        top_k: Number of relevant content sections to retrieve (default: 1, range: 1-5).
-               Higher values provide more context but may include less relevant information.
     
     Returns:
-        A comprehensive answer based on the textbook content, or a message
+        A comprehensive answer based on the content, or a message
         indicating no relevant information was found.
     
     Examples:
@@ -116,10 +122,26 @@ def answer_chemistry_question(question: str, top_k: int = 1) -> str:
         - "How do you balance chemical equations?"
         - "What is electronegativity?"
     """
+@mcp.tool()
+def answer_chemistry_question(question: str) -> str:
+    """Answer any chemistry related question or find any chemistry related information.
+    
+    Args:
+        question: The chemistry related question or request (e.g., "What is a solution?",
+                 "Explain the difference between ionic and covalent bonds",
+                 "How do you calculate molarity?")
+    
+    Returns:
+        A comprehensive answer based on the content, or a message
+        indicating no relevant information was found.
+    
+    """
+    print("Answer chemistry question called with:", question)
     if not question or not question.strip():
         return "❌ Error: Please provide a valid chemistry question."
     
     # Validate top_k parameter
+    top_k = 3  # Default value
     top_k = max(1, min(top_k, 5))  # Constrain between 1 and 5
     
     try:
@@ -130,23 +152,24 @@ def answer_chemistry_question(question: str, top_k: int = 1) -> str:
         answer = content_tree.rag_query(
             user_query=question,
             top_k=top_k,
-            llm_client_adaptor=llm_client
+            llm_client_adaptor=llm_client,
+            debug=True
         )
         
         print("Answer from RAG Query = ", answer)
         logger.info(f"✅ Answer generated successfully")
         
         # Format the response
-        response = f"🧪 General Chemistry Q&A\n"
-        response += "=" * 80 + "\n\n"
-        response += f"Question: {question}\n\n"
-        response += "-" * 80 + "\n\n"
-        response += f"Answer:\n{answer}\n\n"
-        response += "-" * 80 + "\n"
-        response += f"(Retrieved from top {top_k} most relevant section(s))\n"
+        # response = f"🧪 General Chemistry Q&A\n"
+        # response += "=" * 80 + "\n\n"
+        # response += f"Question: {question}\n\n"
+        # response += "-" * 80 + "\n\n"
+        # response += f"Answer:\n{answer}\n\n"
+        # response += "-" * 80 + "\n"
+        # response += f"(Retrieved from top {top_k} most relevant section(s))\n"
         
        
-        return response
+        return "Answer to the question: " + answer
         
     except Exception as e:
         error_msg = f"❌ Error processing question: {str(e)}"
@@ -154,7 +177,7 @@ def answer_chemistry_question(question: str, top_k: int = 1) -> str:
         return error_msg
 
 
-@mcp.tool()
+#@mcp.tool()
 def get_knowledge_base_info() -> str:
     """Get information about the general chemistry knowledge base.
     
@@ -210,7 +233,7 @@ def get_knowledge_base_info() -> str:
         return f"❌ Error retrieving knowledge base info: {str(e)}"
 
 
-@mcp.tool()
+#@mcp.tool()
 def get_example_questions() -> str:
     """Get example questions that can be asked to the system.
     
@@ -274,7 +297,7 @@ def get_example_questions() -> str:
     return examples
 
 
-@mcp.tool()
+#@mcp.tool()
 def search_topics(keyword: str, max_results: int = 10) -> str:
     """Search for topics in the knowledge base that contain a specific keyword.
     
