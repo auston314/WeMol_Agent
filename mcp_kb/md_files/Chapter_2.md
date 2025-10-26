@@ -1,4 +1,4 @@
-## Chapter 2 -Atoms, Molecules, and Ions
+## Chapter 2 - Atoms, Molecules, and Ions
 
 ![Image](Chapter_2_images/img-0.jpeg)
 

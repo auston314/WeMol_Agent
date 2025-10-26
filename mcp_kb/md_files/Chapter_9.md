@@ -1,4 +1,4 @@
-## Chapter 9-Gases
+## Chapter 9 - Gases
 
 ![Image](Chapter_9_images/img-0.jpeg)
 

@@ -1,13 +1,13 @@
 {
   "mcpServers": {
-    "time_date_server": {
-      "command": "/Users/chemxai/GenAI/mcp_servers/.venv/bin/python",
-      "args": [
-        "/Users/chemxai/GenAI/mcp_servers/time_server.py"
-      ]
+    "student_sql_server": {
+       "url": "http://localhost:3001/sse"
     },
-    "gpa_server": {
-       "url": "http://localhost:3000/sse"
+    "genchem_qa_server": {
+       "url": "http://localhost:3002/sse"
+    },
+    "conformation_server": {
+       "url": "http://localhost:3003/sse"
     }
   }
 }

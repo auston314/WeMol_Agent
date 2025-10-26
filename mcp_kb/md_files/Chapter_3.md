@@ -1,4 +1,4 @@
-## Chapter 3 -Composition of Substances and Solutions
+## Chapter 3 - Composition of Substances and Solutions
 
 ![Image](Chapter_3_images/img-0.jpeg)
 
@@ -1172,7 +1172,7 @@ Answer: 9.6 ppm, 9600 ppb
 | **volume percentage** | ratio of solute-to-solution volume expressed as a percentage |
 
 
-#### Key Equations
+### Key Equations
 
 - $\% \mathrm{X}=\frac{\text { mass } \mathrm{X}}{\text { mass compound }} \times 100 \%$
 - $\frac{\text { molecular or molar mass }\left(\text { amu or } \frac{\mathrm{g}}{\mathrm{mol}}\right)}{\text { empirical formula mass }\left(\text { amu or } \frac{\mathrm{g}}{\mathrm{mol}}\right)}=n$ formula units/molecule

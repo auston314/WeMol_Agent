@@ -1125,6 +1125,207 @@ It is impossible to avoid some exposure to ionizing radiation. We are constantly
 
 ### Key Terms 
 
+**alpha ($\alpha$) decay**  
+loss of an alpha particle during radioactive decay
+
+**alpha particle ($\alpha$ or $\ce{^4_2He}$ or $\ce{^4_2\alpha}$)**  
+high-energy helium nucleus; a helium atom that has lost two electrons and contains two protons and two neutrons
+
+**antimatter**  
+particles with the same mass but opposite properties (such as charge) of ordinary particles
+
+**band of stability**  
+(also, belt of stability, zone of stability, or valley of stability) region of graph of number of protons versus number of neutrons containing stable (nonradioactive) nuclides
+
+**becquerel (Bq)**  
+SI unit for rate of radioactive decay; 1 Bq = 1 disintegration/s
+
+**beta ($\beta$) decay**  
+breakdown of a neutron into a proton, which remains in the nucleus, and an electron, which is emitted as a beta particle
+
+**beta particle ($\beta$ or $\ce{^0_{-1}e}$ or $\ce{^0_{-1}\beta}$)**  
+high-energy electron
+
+**binding energy per nucleon**  
+total binding energy for the nucleus divided by the number of nucleons in the nucleus
+
+**chain reaction**  
+repeated fission caused when the neutrons released in fission bombard other atoms
+
+**chemotherapy**  
+similar to internal radiation therapy, but chemical rather than radioactive substances are introduced into the body to kill cancer cells
+
+**containment system**  
+(also, shield) a three-part structure of materials that protects the exterior of a nuclear fission reactor and operating personnel from the high temperatures, pressures, and radiation levels inside the reactor
+
+**control rod**  
+material inserted into the fuel assembly that absorbs neutrons and can be raised or lowered to adjust the rate of a fission reaction
+
+**critical mass**  
+amount of fissionable material that will support a self-sustaining (nuclear fission) chain reaction
+
+**curie (Ci)**  
+larger unit for rate of radioactive decay frequently used in medicine; 1 Ci = $3.7 \times 10^{10}$ disintegrations/s
+
+**daughter nuclide**  
+nuclide produced by the radioactive decay of another nuclide; may be stable or may decay further
+
+**electron capture**  
+combination of a core electron with a proton to yield a neutron within the nucleus
+
+**electron volt (eV)**  
+measurement unit of nuclear binding energies, with 1 eV equaling the amount energy due to the moving an electron across an electric potential difference of 1 volt
+
+**external beam radiation therapy**  
+radiation delivered by a machine outside the body
+
+**fissile (or fissionable)**  
+when a material is capable of sustaining a nuclear fission reaction
+
+**fission**  
+splitting of a heavier nucleus into two or more lighter nuclei, usually accompanied by the conversion of mass into large amounts of energy
+
+**fusion**  
+combination of very light nuclei into heavier nuclei, accompanied by the conversion of mass into large amounts of energy
+
+**fusion reactor**  
+nuclear reactor in which fusion reactions of light nuclei are controlled
+
+**gamma ($\gamma$) emission**  
+decay of an excited-state nuclide accompanied by emission of a gamma ray
+
+**gamma ray ($\gamma$ or $\ce{^0_0\gamma}$)**  
+short wavelength, high-energy electromagnetic radiation that exhibits wave-particle duality
+
+**Geiger counter**  
+instrument that detects and measures radiation via the ionization produced in a Geiger-Müller tube
+
+**gray (Gy)**  
+SI unit for measuring radiation dose; 1 Gy = 1 J absorbed/kg tissue
+
+**half-life ($t_{1/2}$)**  
+time required for half of the atoms in a radioactive sample to decay
+
+**internal radiation therapy**  
+(also, brachytherapy) radiation from a radioactive substance introduced into the body to kill cancer cells
+
+**ionizing radiation**  
+radiation that can cause a molecule to lose an electron and form an ion
+
+**magic number**  
+nuclei with specific numbers of nucleons that are within the band of stability
+
+**mass defect**  
+difference between the mass of an atom and the summed mass of its constituent subatomic particles (or the mass “lost” when nucleons are brought together to form a nucleus)
+
+**mass-energy equivalence equation**  
+Albert Einstein’s relationship showing that mass and energy are equivalent
+
+**millicurie (mCi)**  
+larger unit for rate of radioactive decay frequently used in medicine; 1 Ci = $3.7 \times 10^{10}$ disintegrations/s
+
+**nonionizing radiation**  
+radiation that speeds up the movement of atoms and molecules; it is equivalent to heating a substance, but is not energetic enough to cause the ionization of molecules
+
+**nuclear binding energy**  
+energy lost when an atom’s nucleons are bound together (or the energy needed to break a nucleus into its constituent protons and neutrons)
+
+**nuclear chemistry**  
+study of the structure of atomic nuclei and processes that change nuclear structure
+
+**nuclear fuel**  
+fissionable isotope present in sufficient quantities to provide a self-sustaining chain reaction in a nuclear reactor
+
+**nuclear moderator**  
+substance that slows neutrons to a speed low enough to cause fission
+
+**nuclear reaction**  
+change to a nucleus resulting in changes in the atomic number, mass number, or energy state
+
+**nuclear reactor**  
+environment that produces energy via nuclear fission in which the chain reaction is controlled and sustained without explosion
+
+**nuclear transmutation**  
+conversion of one nuclide into another nuclide
+
+**nucleon**  
+collective term for protons and neutrons in a nucleus
+
+**nuclide**  
+nucleus of a particular isotope
+
+**parent nuclide**  
+unstable nuclide that changes spontaneously into another (daughter) nuclide
+
+**particle accelerator**  
+device that uses electric and magnetic fields to increase the kinetic energy of nuclei used in transmutation reactions
+
+**positron ($\ce{^0_{+1}\beta}$ or $\ce{^0_{+1}e}$)**  
+antiparticle to the electron; it has identical properties to an electron, except for having the opposite (positive) charge
+
+**positron emission**  
+(also, $\beta^+$ decay) conversion of a proton into a neutron, which remains in the nucleus, and a positron, which is emitted
+
+**radiation absorbed dose (rad)**  
+SI unit for measuring radiation dose, frequently used in medical applications; 1 rad = 0.01 Gy
+
+**radiation dosimeter**  
+device that measures ionizing radiation and is used to determine personal radiation exposure
+
+**radiation therapy**  
+use of high-energy radiation to damage the DNA of cancer cells, which kills them or keeps them from dividing
+
+**radioactive decay**  
+spontaneous decay of an unstable nuclide into another nuclide
+
+**radioactive decay series**  
+chains of successive disintegrations (radioactive decays) that ultimately lead to a stable end-product
+
+**radioactive tracer**  
+(also, radioactive label) radioisotope used to track or follow a substance by monitoring its radioactive emissions
+
+**radioactivity**  
+phenomenon exhibited by an unstable nucleon that spontaneously undergoes change into a nucleon that is more stable; an unstable nucleon is said to be radioactive
+
+**radiocarbon dating**  
+highly accurate means of dating objects 30,000–50,000 years old that were derived from once-living matter; achieved by calculating the ratio of $\ce{^{14}_6C}$:$\ce{^{12}_6C}$ in the object vs. the ratio of $\ce{^{14}_6C}$:$\ce{^{12}_6C}$ in the present-day atmosphere
+
+**radioisotope**  
+isotope that is unstable and undergoes conversion into a different, more stable isotope
+
+**radiometric dating**  
+use of radioisotopes and their properties to date the formation of objects such as archeological artifacts, formerly living organisms, or geological formations
+
+**reactor coolant**  
+assembly used to carry the heat produced by fission in a reactor to an external boiler and turbine where it is transformed into electricity
+
+**relative biological effectiveness (RBE)**  
+measure of the relative damage done by radiation
+
+**roentgen equivalent man (rem)**  
+unit for radiation damage, frequently used in medicine; 100 rem = 1 Sv
+
+**scintillation counter**  
+instrument that uses a scintillator—a material that emits light when excited by ionizing radiation—to detect and measure radiation
+
+**sievert (Sv)**  
+SI unit measuring tissue damage caused by radiation; takes into account energy and biological effects of radiation
+
+**strong nuclear force**  
+force of attraction between nucleons that holds a nucleus together
+
+**subcritical mass**  
+amount of fissionable material that cannot sustain a chain reaction; less than a critical mass
+
+**supercritical mass**  
+amount of material in which there is an increasing rate of fission
+
+**transmutation reaction**  
+bombardment of one type of nuclei with other nuclei or neutrons
+
+**transuranium element**  
+element with an atomic number greater than 92; these elements do not occur in nature
+
 
 
 

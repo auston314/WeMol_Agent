@@ -1,0 +1,101 @@
+First Name,Last Name,Gender,Date of Birth,Class,Email,Phone,Major,GPA,Test-I,Test-II,Test-III,Test-IV,Middle Term Exam,Final Exam,Final Score
+Matthew,Scott,Male,2003-07-22,Class 2027,matthew.scott@calstate.edu,555-684-6018,Pharmaceutical Sciences,3.27,70.9,86.5,66.2,82.6,83.6,67.4,B
+Kenneth,Smith,Non-binary,2003-10-06,Class 2029,kenneth.smith@calstate.edu,555-443-5867,Physics,3.00,89.5,76.9,68.1,69.4,93.1,82.3,B+
+Scott,Ward,Female,2004-05-26,Class 2029,scott.ward@calstate.edu,555-127-2985,Biochemistry,2.93,89.1,85.0,70.6,70.0,61.3,89.3,B
+Amy,Perez,Non-binary,2005-05-25,Class 2027,amy.perez@calstate.edu,555-353-7278,Pharmaceutical Sciences,2.53,90.4,85.3,68.3,86.7,65.6,82.1,B
+Nancy,Howard,Male,2003-07-30,Class 2029,nancy.howard@calstate.edu,555-894-5615,Environmental Science,3.45,69.1,96.1,66.1,66.1,97.3,88.0,B+
+Mary,Carter,Female,2006-02-07,Class 2028,mary.carter@calstate.edu,555-153-8996,Biology,3.66,66.4,85.7,69.2,70.4,93.1,67.8,B
+James,King,Female,2004-12-31,Class 2031,james.king@calstate.edu,555-368-8705,Biochemistry,3.95,82.4,71.5,85.4,97.8,71.9,99.4,B+
+Diane,Hernandez,Non-binary,2003-07-14,Class 2031,diane.hernandez@calstate.edu,555-645-6350,Biology,3.16,86.3,93.2,97.5,94.5,67.5,66.1,B
+Katherine,Lee,Male,2004-04-29,Class 2029,katherine.lee@calstate.edu,555-741-1444,Chemical Engineering,2.60,97.4,98.5,73.4,87.2,99.4,95.5,A+
+Sarah,Stewart,Male,2006-12-05,Class 2031,sarah.stewart@calstate.edu,555-499-1472,Biology,3.10,68.3,73.5,81.4,79.5,64.0,96.3,B+
+Steven,Baker,Male,2005-04-27,Class 2027,steven.baker@calstate.edu,555-217-6794,Biochemistry,3.53,76.7,87.8,94.8,70.9,74.9,81.7,B
+Jason,Torres,Female,2004-05-26,Class 2027,jason.torres@calstate.edu,555-810-6348,Biology,2.50,72.6,66.5,95.7,87.2,62.7,68.5,C
+Christopher,Thomas,Male,2005-03-29,Class 2029,christopher.thomas@calstate.edu,555-539-1951,Biochemistry,3.55,71.6,87.5,83.8,75.3,75.9,94.7,B+
+Benjamin,Williams,Male,2004-05-18,Class 2028,benjamin.williams@calstate.edu,555-391-5748,Pharmaceutical Sciences,2.55,85.3,80.1,94.4,84.4,90.8,76.1,B+
+Raymond,Turner,Female,2004-11-30,Class 2031,raymond.turner@calstate.edu,555-721-1201,Chemistry,3.23,93.6,91.9,73.7,80.6,84.5,75.0,B
+William,Ramirez,Female,2004-11-10,Class 2030,william.ramirez@calstate.edu,555-725-4755,Chemical Engineering,2.66,71.4,74.4,82.1,79.5,91.8,77.6,B+
+Patricia,Nelson,Non-binary,2004-05-03,Class 2030,patricia.nelson@calstate.edu,555-166-4513,Biology,3.73,65.9,73.0,66.0,90.4,75.6,71.9,B
+Samantha,Phillips,Female,2006-07-29,Class 2031,samantha.phillips@calstate.edu,555-917-5779,Chemistry,3.30,76.3,71.5,99.7,89.5,61.8,81.8,B
+James,Hill,Non-binary,2003-08-15,Class 2027,james.hill@calstate.edu,555-768-9918,Biochemistry,2.54,97.4,72.9,86.0,96.1,87.5,82.1,B+
+Gregory,Nelson,Male,2005-10-03,Class 2028,gregory.nelson@calstate.edu,555-129-5245,Pharmaceutical Sciences,3.00,85.3,93.9,65.8,95.5,93.4,80.3,B+
+Kenneth,Lewis,Non-binary,2006-04-29,Class 2031,kenneth.lewis@calstate.edu,555-162-7236,Chemistry,2.61,70.0,72.4,70.9,66.9,85.4,94.4,B+
+Shirley,Sanchez,Female,2006-10-23,Class 2027,shirley.sanchez@calstate.edu,555-395-2072,Chemical Engineering,3.38,91.2,92.5,80.6,67.7,84.1,69.3,B
+Deborah,Price,Non-binary,2003-12-24,Class 2027,deborah.price@calstate.edu,555-609-1495,Environmental Science,3.30,89.0,96.8,89.2,65.8,96.9,77.7,B+
+Jack,Hughes,Male,2005-07-25,Class 2029,jack.hughes@calstate.edu,555-848-2568,Pharmaceutical Sciences,3.97,70.0,93.8,81.0,74.9,95.7,63.0,B
+Paul,Thomas,Female,2005-12-14,Class 2029,paul.thomas@calstate.edu,555-382-1381,Physics,3.39,80.3,79.8,77.2,83.5,81.4,69.8,B
+Daniel,Ramos,Non-binary,2003-08-22,Class 2029,daniel.ramos@calstate.edu,555-646-9598,Chemistry,3.25,83.7,71.2,86.4,94.5,91.3,61.5,B
+Timothy,Wilson,Non-binary,2005-12-16,Class 2027,timothy.wilson@calstate.edu,555-877-9664,Chemistry,3.50,74.9,98.4,95.4,98.3,96.9,87.9,A
+Anthony,Parker,Male,2004-06-20,Class 2031,anthony.parker@calstate.edu,555-857-8589,Chemistry,3.09,92.0,87.9,75.5,77.8,99.6,92.3,A
+Rachel,Peterson,Non-binary,2004-06-26,Class 2031,rachel.peterson@calstate.edu,555-860-9788,Environmental Science,3.45,84.5,82.3,72.8,99.3,92.4,67.6,B
+David,Jones,Non-binary,2006-02-22,Class 2027,david.jones@calstate.edu,555-300-9352,Biochemistry,3.85,80.5,80.7,91.2,95.5,87.5,80.2,B+
+Jerry,Cox,Non-binary,2004-07-02,Class 2031,jerry.cox@calstate.edu,555-987-5990,Biology,3.44,74.4,92.7,88.2,71.7,66.0,61.3,C
+Aaron,Ramos,Female,2006-10-11,Class 2027,aaron.ramos@calstate.edu,555-255-3929,Chemistry,2.91,97.1,99.5,74.2,85.3,98.2,64.7,B
+Debra,Peterson,Male,2003-07-05,Class 2029,debra.peterson@calstate.edu,555-284-5348,Pharmaceutical Sciences,2.97,86.1,91.3,98.1,81.6,86.0,75.4,B+
+Steven,Torres,Male,2004-08-17,Class 2031,steven.torres@calstate.edu,555-296-3056,Biology,3.86,74.2,95.6,68.4,98.5,88.9,82.3,B+
+Jason,Morales,Non-binary,2006-12-31,Class 2027,jason.morales@calstate.edu,555-836-9956,Chemistry,3.96,69.6,75.0,96.0,77.5,67.9,77.5,B
+Jonathan,Scott,Non-binary,2003-12-28,Class 2029,jonathan.scott@calstate.edu,555-937-9914,Chemistry,3.18,73.1,96.4,90.7,75.6,75.2,80.0,B
+Carol,Roberts,Male,2006-02-28,Class 2031,carol.roberts@calstate.edu,555-785-2780,Pharmaceutical Sciences,3.29,98.6,67.0,72.3,72.6,66.3,99.2,B+
+Patrick,Stewart,Female,2004-09-11,Class 2027,patrick.stewart@calstate.edu,555-482-9385,Chemistry,3.73,81.9,84.6,86.5,92.2,87.2,99.9,A
+Linda,Campbell,Female,2003-05-21,Class 2028,linda.campbell@calstate.edu,555-888-2304,Physics,3.51,82.7,76.1,70.9,84.7,96.0,89.6,B+
+David,Cooper,Non-binary,2005-10-17,Class 2029,david.cooper@calstate.edu,555-204-4631,Biochemistry,2.71,78.5,73.2,82.1,75.0,69.8,82.4,B
+Cynthia,Morales,Female,2004-12-29,Class 2029,cynthia.morales@calstate.edu,555-764-8806,Pharmaceutical Sciences,2.75,66.6,65.7,77.8,80.9,78.1,86.3,B+
+Sarah,Edwards,Female,2006-01-11,Class 2028,sarah.edwards@calstate.edu,555-781-4984,Chemical Engineering,2.88,93.5,93.7,98.7,89.9,79.8,86.0,B+
+Scott,Jackson,Female,2003-02-02,Class 2030,scott.jackson@calstate.edu,555-178-1916,Biochemistry,3.23,76.0,67.3,68.5,79.8,89.2,92.8,B+
+Lisa,Smith,Female,2006-05-27,Class 2029,lisa.smith@calstate.edu,555-412-7968,Chemistry,2.95,69.2,95.9,79.1,75.4,69.3,96.7,B+
+Christine,Price,Male,2006-03-24,Class 2027,christine.price@calstate.edu,555-841-6461,Pharmaceutical Sciences,3.35,66.5,88.1,85.0,85.6,89.7,66.2,B
+Debra,Martinez,Female,2004-05-09,Class 2030,debra.martinez@calstate.edu,555-890-8776,Pharmaceutical Sciences,3.28,92.0,71.8,98.5,90.0,98.0,77.8,B+
+Richard,Martin,Female,2005-04-09,Class 2028,richard.martin@calstate.edu,555-316-7503,Chemistry,3.34,94.4,81.0,85.8,83.8,71.9,80.4,B
+Kevin,Myers,Non-binary,2004-04-04,Class 2028,kevin.myers@calstate.edu,555-535-2250,Chemical Engineering,3.49,92.3,74.1,73.5,72.5,60.4,88.4,B
+Joshua,Patel,Male,2006-11-14,Class 2028,joshua.patel@calstate.edu,555-805-4065,Environmental Science,2.71,67.7,83.4,70.6,72.1,71.4,66.4,C
+George,Ramirez,Female,2003-10-29,Class 2030,george.ramirez@calstate.edu,555-313-6276,Pharmaceutical Sciences,2.97,83.9,77.8,86.4,81.5,68.4,89.2,B+
+Michelle,Thomas,Non-binary,2004-09-20,Class 2027,michelle.thomas@calstate.edu,555-704-2293,Chemistry,2.55,74.8,96.2,80.5,83.3,68.4,61.6,C
+Pamela,Taylor,Male,2003-08-24,Class 2029,pamela.taylor@calstate.edu,555-209-4884,Physics,3.38,75.4,76.0,71.3,98.4,87.8,87.1,B+
+Paul,Watson,Male,2005-04-19,Class 2031,paul.watson@calstate.edu,555-257-4854,Chemistry,2.77,96.7,87.9,82.4,99.4,88.2,94.2,A
+William,Nelson,Non-binary,2006-02-17,Class 2027,william.nelson@calstate.edu,555-210-9060,Physics,2.96,66.8,82.1,76.3,82.5,97.7,79.1,B+
+Betty,Clark,Female,2005-02-02,Class 2030,betty.clark@calstate.edu,555-942-7256,Physics,2.57,94.8,77.1,86.9,76.2,88.5,96.0,A
+Joshua,Phillips,Male,2005-10-01,Class 2030,joshua.phillips@calstate.edu,555-727-9168,Environmental Science,3.22,77.6,82.8,99.5,66.0,81.6,63.8,B
+Samantha,Watson,Female,2004-12-15,Class 2028,samantha.watson@calstate.edu,555-278-1015,Materials Science,3.93,92.3,88.8,95.7,96.0,91.9,80.3,B+
+Dorothy,Bennett,Female,2003-01-29,Class 2029,dorothy.bennett@calstate.edu,555-380-3046,Physics,3.70,78.0,84.1,72.8,65.3,73.4,90.8,B+
+Jerry,Jackson,Female,2005-01-15,Class 2027,jerry.jackson@calstate.edu,555-823-2041,Pharmaceutical Sciences,3.97,95.2,82.8,69.9,85.6,65.4,85.4,B
+Samantha,White,Male,2005-01-17,Class 2027,samantha.white@calstate.edu,555-557-3180,Chemistry,3.72,93.4,75.0,65.8,82.3,87.4,71.5,B
+Mary,Robinson,Female,2005-06-26,Class 2029,mary.robinson@calstate.edu,555-866-7543,Biochemistry,2.82,82.7,84.6,97.1,92.7,65.4,64.5,C
+Richard,Torres,Female,2004-07-28,Class 2031,richard.torres@calstate.edu,555-998-9983,Biochemistry,2.66,93.8,88.3,75.5,92.8,92.0,62.5,B
+Mark,Nguyen,Non-binary,2004-10-04,Class 2031,mark.nguyen@calstate.edu,555-327-1279,Materials Science,3.65,67.2,96.8,96.6,68.2,79.3,96.6,B+
+Melissa,Martinez,Male,2003-10-30,Class 2028,melissa.martinez@calstate.edu,555-868-5316,Biochemistry,2.68,93.6,97.7,67.8,98.7,92.6,90.9,A
+Debra,Gomez,Non-binary,2004-02-06,Class 2031,debra.gomez@calstate.edu,555-281-9202,Physics,3.46,92.7,82.4,99.5,88.3,95.1,66.6,B
+Jerry,Evans,Non-binary,2004-06-24,Class 2029,jerry.evans@calstate.edu,555-120-8862,Physics,3.50,90.6,69.8,84.8,80.1,89.5,64.5,B
+Brian,James,Male,2004-03-14,Class 2031,brian.james@calstate.edu,555-382-2886,Chemical Engineering,2.89,77.1,68.0,84.8,90.7,85.4,71.5,B
+Patricia,Clark,Male,2006-10-21,Class 2028,patricia.clark@calstate.edu,555-536-7549,Biology,3.35,70.3,87.6,78.8,72.2,96.9,67.3,B
+Alexander,Young,Non-binary,2003-01-23,Class 2027,alexander.young@calstate.edu,555-280-1559,Materials Science,3.99,90.4,83.8,74.1,81.9,83.4,98.2,A
+Tyler,Patel,Female,2003-08-13,Class 2028,tyler.patel@calstate.edu,555-209-8147,Materials Science,2.96,78.3,84.7,86.8,95.5,89.2,78.7,B+
+Anna,Sanders,Male,2006-08-29,Class 2028,anna.sanders@calstate.edu,555-430-7350,Chemical Engineering,2.57,66.7,94.0,68.2,69.9,65.7,69.6,C
+Joseph,Mendoza,Male,2006-03-26,Class 2028,joseph.mendoza@calstate.edu,555-719-2922,Chemistry,3.89,94.3,91.0,94.5,79.3,66.1,95.6,B+
+Angela,Cox,Female,2003-11-06,Class 2031,angela.cox@calstate.edu,555-172-6249,Physics,3.04,88.4,77.5,69.5,85.0,90.3,78.2,B+
+Gregory,Sanders,Non-binary,2005-02-28,Class 2029,gregory.sanders@calstate.edu,555-217-5159,Biochemistry,3.68,98.3,66.9,89.5,67.5,79.8,93.3,B+
+Jeffrey,Gutierrez,Female,2003-05-21,Class 2028,jeffrey.gutierrez@calstate.edu,555-623-1806,Pharmaceutical Sciences,3.06,87.0,85.6,84.1,75.6,65.6,83.8,B
+Charles,Stewart,Non-binary,2004-01-06,Class 2029,charles.stewart@calstate.edu,555-765-3735,Chemical Engineering,3.19,84.7,82.9,97.4,85.2,84.9,79.7,B+
+Mary,Castillo,Female,2004-12-20,Class 2027,mary.castillo@calstate.edu,555-182-7204,Biology,2.98,66.9,73.0,79.6,73.3,73.2,72.5,B
+Gary,Davis,Male,2003-09-03,Class 2030,gary.davis@calstate.edu,555-744-3179,Chemistry,2.60,66.3,94.8,82.8,86.8,72.4,89.3,B+
+Jennifer,Cox,Non-binary,2004-02-04,Class 2027,jennifer.cox@calstate.edu,555-212-4049,Biochemistry,2.77,67.8,84.5,84.4,98.0,87.2,96.1,A
+Donald,Morris,Female,2006-04-26,Class 2028,donald.morris@calstate.edu,555-813-1798,Biology,3.45,82.2,81.9,73.0,66.5,61.1,94.1,B+
+Mary,Walker,Male,2005-07-10,Class 2029,mary.walker@calstate.edu,555-740-9955,Physics,3.26,69.4,67.9,73.9,72.4,90.1,73.3,B
+Carolyn,Garcia,Female,2003-05-02,Class 2031,carolyn.garcia@calstate.edu,555-300-2435,Materials Science,3.16,89.9,88.1,76.0,80.0,70.6,80.0,B
+Sharon,Morris,Male,2006-09-09,Class 2028,sharon.morris@calstate.edu,555-575-9133,Pharmaceutical Sciences,3.98,95.0,82.4,72.1,75.4,85.1,88.7,B+
+Linda,Sanchez,Female,2003-03-29,Class 2030,linda.sanchez@calstate.edu,555-649-4893,Chemical Engineering,3.14,84.8,81.1,70.7,74.2,96.7,62.3,B
+Emma,Chavez,Non-binary,2004-10-10,Class 2027,emma.chavez@calstate.edu,555-663-9773,Chemical Engineering,3.32,69.8,74.6,91.1,80.3,73.1,69.4,B
+Tyler,Williams,Male,2005-08-29,Class 2029,tyler.williams@calstate.edu,555-669-5724,Biology,4.00,68.9,78.3,74.8,94.6,89.7,99.5,A
+Gary,Smith,Female,2005-07-09,Class 2031,gary.smith@calstate.edu,555-129-1934,Environmental Science,3.54,90.5,68.8,82.2,91.8,88.4,71.3,B
+Stephanie,Lee,Male,2003-03-03,Class 2030,stephanie.lee@calstate.edu,555-250-8540,Materials Science,3.38,85.2,80.5,66.0,75.7,90.1,62.0,B
+Samantha,Nelson,Female,2004-01-19,Class 2031,samantha.nelson@calstate.edu,555-731-6833,Environmental Science,2.54,92.1,97.6,68.9,70.2,89.2,87.4,B+
+Thomas,Wood,Male,2006-04-10,Class 2030,thomas.wood@calstate.edu,555-613-2694,Materials Science,3.56,99.2,97.5,76.6,66.3,78.0,77.9,B
+Amy,Jones,Female,2003-06-12,Class 2031,amy.jones@calstate.edu,555-888-5444,Materials Science,3.31,72.0,96.9,90.9,89.3,92.9,75.9,B+
+Joshua,Mitchell,Female,2006-05-30,Class 2028,joshua.mitchell@calstate.edu,555-377-4992,Chemical Engineering,3.01,70.8,86.9,81.6,82.3,91.3,70.5,B
+Emma,Walker,Female,2006-12-10,Class 2027,emma.walker@calstate.edu,555-943-4036,Physics,2.93,69.3,84.5,72.1,91.6,71.9,69.7,B
+Amy,Wright,Female,2005-12-11,Class 2030,amy.wright@calstate.edu,555-665-9647,Pharmaceutical Sciences,2.71,91.3,95.7,75.9,77.3,88.1,83.6,B+
+Frank,Martinez,Non-binary,2006-09-19,Class 2031,frank.martinez@calstate.edu,555-732-6716,Environmental Science,3.05,80.6,72.3,83.2,78.9,89.0,60.9,B
+Christopher,Wilson,Male,2005-03-08,Class 2030,christopher.wilson@calstate.edu,555-726-2130,Biochemistry,3.46,78.8,75.9,71.8,81.0,99.1,77.5,B+
+Katherine,Gomez,Female,2003-10-09,Class 2027,katherine.gomez@calstate.edu,555-981-6815,Biology,3.75,95.5,67.9,95.2,76.6,74.3,76.5,B
+Mark,Mitchell,Non-binary,2006-02-20,Class 2031,mark.mitchell@calstate.edu,555-552-1042,Chemical Engineering,2.72,93.9,97.8,95.2,80.8,80.0,77.5,B+
+Frank,Evans,Male,2004-02-14,Class 2029,frank.evans@calstate.edu,555-313-9040,Chemistry,3.98,83.9,69.0,95.5,69.9,86.2,88.5,B+
+Linda,Mitchell,Male,2003-11-30,Class 2027,linda.mitchell@calstate.edu,555-302-6364,Materials Science,3.22,65.8,70.8,82.9,70.2,81.0,82.1,B
