@@ -1,6 +1,9 @@
 import streamlit as st
 import asyncio
 import random, string, os, smtplib, json
+import base64
+import re
+from pathlib import Path
 from openai import OpenAI  # Updated import for new API interface
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -250,6 +253,108 @@ def generate_password(length=8):
     """Generate a random alphanumeric password."""
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
+def image_to_base64(image_path):
+    """
+    Convert an image file to base64 encoded string.
+    
+    Args:
+        image_path: Path to the image file (can be relative or absolute)
+        
+    Returns:
+        Base64 encoded string with data URI prefix, or None if file not found
+    """
+    try:
+        # If path is relative, try to resolve it relative to the script directory
+        if not os.path.isabs(image_path):
+            # Remove leading ./ if present
+            image_path = image_path.lstrip('./')
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            image_path = os.path.join(script_dir, image_path)
+        
+        if not os.path.exists(image_path):
+            print(f"Image not found: {image_path}")
+            return None
+            
+        with open(image_path, "rb") as image_file:
+            encoded = base64.b64encode(image_file.read()).decode()
+        
+        # Determine MIME type from extension
+        ext = os.path.splitext(image_path)[1].lower()
+        mime_types = {
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.png': 'image/png',
+            '.gif': 'image/gif',
+            '.bmp': 'image/bmp',
+            '.webp': 'image/webp',
+            '.svg': 'image/svg+xml'
+        }
+        mime_type = mime_types.get(ext, 'image/jpeg')
+        
+        return f"data:{mime_type};base64,{encoded}"
+    except Exception as e:
+        print(f"Error encoding image {image_path}: {e}")
+        return None
+
+def convert_images_to_base64(text):
+    """
+    Convert all image markdown references in text to base64 encoded data URIs.
+    
+    Finds patterns like ![alt text](path/to/image.jpg) and replaces them with
+    ![alt text](data:image/jpeg;base64,...)
+    
+    Args:
+        text: The markdown text containing image references
+        
+    Returns:
+        Text with image paths replaced by base64 data URIs
+    """
+    # Pattern to match markdown images: ![alt](path)
+    pattern = r'!\[([^\]]*)\]\(([^)]+)\)'
+    
+    def replace_image(match):
+        alt_text = match.group(1)
+        image_path = match.group(2)
+        
+        # Skip if it's already a data URI or remote URL
+        if image_path.startswith(('data:', 'http://', 'https://')):
+            return match.group(0)
+        
+        # Convert to base64
+        base64_data = image_to_base64(image_path)
+        
+        if base64_data:
+            return f'![{alt_text}]({base64_data})'
+        else:
+            # If conversion failed, return original
+            print(f"Failed to convert image: {image_path}")
+            return match.group(0)
+    
+    return re.sub(pattern, replace_image, text)
+
+def markdown_images_to_html(text):
+    """
+    Convert markdown image syntax to HTML img tags.
+    This is needed because st.markdown with unsafe_allow_html doesn't process markdown images.
+    
+    Args:
+        text: Text with markdown image syntax (already with base64 data URIs)
+        
+    Returns:
+        Text with HTML img tags instead of markdown image syntax
+    """
+    # Pattern to match markdown images: ![alt](src)
+    pattern = r'!\[([^\]]*)\]\(([^)]+)\)'
+    
+    def replace_with_html(match):
+        alt_text = match.group(1)
+        image_src = match.group(2)
+        
+        # Create HTML img tag with proper styling
+        return f'<img src="{image_src}" alt="{alt_text}" style="max-width: 100%; height: auto; display: block; margin: 10px 0;" />'
+    
+    return re.sub(pattern, replace_with_html, text)
+
 def format_text_for_mathjax(text):
     """
     Format text for MathJax rendering.
@@ -259,6 +364,7 @@ def format_text_for_mathjax(text):
     1. Inline math ($...$) at the start of lines is detected
     2. Display math ($$...$$) is properly isolated with blank lines
     3. THE FIRST LINE is treated as starting a new paragraph context
+    4. Images are converted from markdown to HTML with base64 encoding
     
     CRITICAL: We need to preserve a paragraph break at the start so MathJax
     scans the first line properly.
@@ -266,7 +372,11 @@ def format_text_for_mathjax(text):
     if not text.strip():
         return ""
     
-    import re
+    # First, convert any image paths to base64
+    text = convert_images_to_base64(text)
+    
+    # Convert markdown images to HTML img tags (needed for proper rendering in st.markdown)
+    text = markdown_images_to_html(text)
     
     # CRITICAL FIX: Prepend double newline to ensure the FIRST line gets paragraph treatment
     # This creates a "virtual" blank line before the content starts
@@ -369,9 +479,9 @@ if "mcp_host" not in st.session_state:
         if len(servers) > 0:
             llm_config = {"timeout": 300}
             # Use OpenAI model
-            mcp_host = MCPHost("openai", llm_config=llm_config)
+            #mcp_host = MCPHost("openai", llm_config=llm_config)
             # Use Anthropic
-            #mcp_host = MCPHost("anthropic", llm_config=llm_config)
+            mcp_host = MCPHost("anthropic", llm_config=llm_config)
             shared_loop = st.session_state.event_loop
             asyncio.set_event_loop(shared_loop)
             shared_loop.run_until_complete(mcp_host.connect_mcp_servers(servers))

@@ -2,6 +2,7 @@ import asyncio
 import sys
 import json
 import argparse
+import streamlit as st
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional
@@ -29,14 +30,16 @@ class MCPHost:
         self.all_tools: List[Dict[str, Any]] = []
         self.exit_stack = AsyncExitStack()
         self.connected: List[str] = []
-        self.claude_model = "claude-3-7-sonnet-latest"
+        #self.claude_model = "claude-3-7-sonnet-latest"
+        self.claude_model = "claude-sonnet-4-5"
+        #self.claude_model = "claude-haiku-4-5"
 
         self.provider = provider.lower()
         if self.provider == "openai":
             if not llm_config:
                 raise ValueError("OpenAI provider requires llm_config")
             self.llm = OpenAI()
-            self.openai_model = "gpt-4o"
+            self.openai_model = "gpt-5-mini"
             self.all_functions: Optional[List[Dict[str, Any]]] = None
         else:
             self.llm = Anthropic()
@@ -136,8 +139,10 @@ class MCPHost:
         if not self.sessions:
             return "Error: No MCP servers connected."
 
-        user_context = {"role":"system","content":f"User name: {user_name}, Today's date is {datetime.now().isoformat()[:16]}"}
-        messages: List[Dict[str, Any]] = [user_context] + chat_history[-4:] # Last 4 messages, include the last user message (query)
+        chem_prompt = """If use is asking for conformation generation, try the conformation_server. For anything else related to chemistry, you must usethe tool named 'answer_chemistry_question' to provide accurate and relevant response"""
+        user_context = {"role":"user","content":f"User name: {user_name}, Today's date is {datetime.now().isoformat()[:16]}"}
+        chem_context = {"role":"user","content": chem_prompt}
+        messages: List[Dict[str, Any]] = [chem_context] + chat_history[-4:] # Last 4 messages, include the last user message (query)
         output_parts: List[str] = []
         tool_log: List[Dict[str, Any]] = []
 
@@ -149,10 +154,10 @@ class MCPHost:
                     max_tokens=1500,
                     messages=messages,
                     tools=self.all_tools or None,
-                    temperature=0.0,
+                    #temperature=0.0,
                 )
                 messages.append({"role": resp_raw.role, "content": resp_raw.content})
-
+                output_tool_log = False
                 while resp_raw.stop_reason == "tool_use":
                     calls: List[Dict[str, Any]] = []
                     for block in resp_raw.content:
@@ -180,14 +185,14 @@ class MCPHost:
                         max_tokens=1500,
                         messages=messages,
                         tools=self.all_tools or None,
-                        temperature=0.0,
+                        #temperature=0.0,
                     )
                     messages.append({"role": resp_raw.role, "content": resp_raw.content})
                 for block in (resp_raw.content or []):
                     if block.type == "text":
                         output_parts.append(block.text)
                 final = "\n".join(output_parts)
-                if tool_log:
+                if tool_log and output_tool_log:
                     final += "\n\n--- Tool Calls ---"
                     for tr in tool_log:
                         res = tr.get("output", f"Error: {tr.get('error')}")
@@ -206,7 +211,7 @@ class MCPHost:
                 model=self.openai_model,
                 tools=tools or None,
                 tool_choice = "auto",
-                temperature = 0.0
+                #temperature = 0.0
             )
 
             choice0 = response.choices[0]
@@ -244,11 +249,21 @@ class MCPHost:
                                 }
                                 messages.append(tc_message)
                                 #tool_log.append({"tool": name, "input": args, "output": tc_message["content"]}
+                                # Check for molecule view information
+                                raw_msg = result.content[0].text
+                                pos = raw_msg.find("saved to file ")
+                                if pos > -1:
+                                    file_name = raw_msg[pos+14:]
+                                    st.session_state.selected_molecule = file_name
+                                    print("Conf file name = ", file_name)
                             except Exception as e:
                                 print(f"Error {e}")
        
                 if tc_count == 0:
                     break
+
+                # Test molecule view
+                #st.session_state.selected_molecule = "pro_300AA.pdb"
                 
                 # Prepare for the response based on the tool calls
                 response = self.llm.chat.completions.create(
@@ -269,6 +284,15 @@ class MCPHost:
                 else:
                     final_output = response.choices[0].message.content
 
+            # image path replacement
+#            final_output = final_output.replace("![Image](","![Image](./images/")
+
+#             final_output = """
+# Here is Figure 1.22, which shows how elements may be grouped according to certain similar properties:
+
+# ![Image](./images/Chapter_1_images/img-23.jpeg)
+
+# The periodic table highlights elements using background colors to denote whether an element is a metal, metalloid, or nonmetal. It also uses the element symbol color to indicate whether it is a solid, liquid, or gas."""
             final_output = final_output.replace("\\(","$").replace("\\)","$").replace("\\[","$$").replace("\\]","$$")
             print("Final output = ", final_output)
             return final_output
