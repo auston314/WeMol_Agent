@@ -5,6 +5,9 @@
     },
     "genchem_qa_server": {
        "url": "http://localhost:3002/sse"
+    },
+    "conformation_server": {
+       "url": "http://localhost:3003/sse"
     }
   }
 }
